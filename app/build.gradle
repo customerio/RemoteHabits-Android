@@ -61,6 +61,24 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
+    // Retrofit
+    def retrofitVersion = '2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+
+    // OkHttp
+    def okhttpVersion = '4.8.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+
+    // Moshi
+    def moshiVersion = '1.9.3'
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+    implementation "com.squareup.moshi:moshi-adapters:$moshiVersion"
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
