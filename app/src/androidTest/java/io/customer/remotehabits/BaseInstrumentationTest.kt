@@ -4,9 +4,14 @@ import android.app.Instrumentation
 import androidx.test.platform.app.InstrumentationRegistry
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltTestApplication
+import io.customer.remotehabits.util.TestSetupUtil
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
 import org.junit.rules.RuleChain
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
+import javax.inject.Inject
 
 /**
  * Base class for running Instrumentation tests on JVM or Android devices.
@@ -25,28 +30,18 @@ abstract class BaseInstrumentationTest {
     protected val instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
     protected val context = instrumentation.targetContext
     protected val application: HiltTestApplication = instrumentation.targetContext.applicationContext as HiltTestApplication
+    @Inject lateinit var testSetupUtil: TestSetupUtil
 
     /**
-     * Allow Hilt to construct objects in your test classes, easily. To do this, in your test class:
+     * Allow Hilt to construct objects in your test classes. To do this, in your test class:
      * 1. Add dependencies you wish to inject: `@Inject lateinit var mockWebServer: MockWebServer`
      * 2. Add annotations to the top of your test class:
      * ```
-     * @RunWith(AndroidJUnit4::class)
      * @HiltAndroidTest
-     * @UninstallModules(DatabaseModule::class, NetworkModule::class) // uninstall modules if you want to use the test modules instead.
      * class FooTest: BaseInstrumentationTest() {
      * ```
-     * 3. Use the test rule:
-     * ```
-     * @Before
-     * override fun setup() {
-     *   super.setup()
-     *
-     *   diRule.inject()
-     * }
-     * ```
      */
-    protected val diRule = HiltAndroidRule(provideTestClass())
+    @get:Rule var diRule = HiltAndroidRule(provideTestClass())
 
     /**
      * Hilt requires that test rules run in a specific order. https://developer.android.com/training/dependency-injection/hilt-testing#multiple-testrules
@@ -77,4 +72,15 @@ abstract class BaseInstrumentationTest {
      * ```
      */
     protected val mockitoTestRule: MockitoRule = MockitoJUnit.rule()
+
+    @Before
+    open fun setup() {
+        diRule.inject()
+        testSetupUtil.setup()
+    }
+
+    @After
+    open fun teardown() {
+        testSetupUtil.teardown()
+    }
 }

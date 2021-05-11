@@ -86,11 +86,11 @@ dependencies {
     def retrofitVersion = '2.9.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
-    // OkHttp
-    def okhttpVersion = '4.8.0'
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    // OkHttp Note: adding okhttp to use newer v4 API instead of v3 with Retrofit
+    def okhttpVersion = "4.9.0"
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:$okhttpVersion"))
+    implementation("com.squareup.okhttp3:okhttp")
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
 

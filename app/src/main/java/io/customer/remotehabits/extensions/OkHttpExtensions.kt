@@ -6,9 +6,10 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
 
+// We can only call response.body().string() *once* from Okhttp because of it trying to be conservative to memory. So, we must create a copy of the body. https://github.com/square/okhttp/issues/1240#issuecomment-330813274
 fun Response.getBodyCopy(): String? {
     return if (body != null) {
-        val responseBodyCopy = peekBody(java.lang.Long.MAX_VALUE) // We can only call response.body().string() *once* from Okhttp because of it trying to be conservative to memory. So, we must create a copy of the body. https://github.com/square/okhttp/issues/1240#issuecomment-330813274
+        val responseBodyCopy = peekBody(java.lang.Long.MAX_VALUE)
         val responseBody = responseBodyCopy.string()
 
         responseBody
