@@ -1,7 +1,8 @@
-package io.customer.remotehabits
+package io.customer.remotehabits.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import io.customer.remotehabits.R
 import io.customer.sdk.ExampleSdkFile
 
 class MainActivity : AppCompatActivity() {

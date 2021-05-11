@@ -9,5 +9,6 @@ object Env {
 
     val appName = "Remote Habits"
     val isDevelopment = true
+    val githubApiEndpoint = "https://api.github.com/"
 
 }
