@@ -5,10 +5,6 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
-hilt {
-    enableTransformForLocalTests = true // to get unit tests (robolectric) working: https://developer.android.com/training/dependency-injection/hilt-testing
-}
-
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -20,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "io.customer.remotehabits.AndroidTestTestRunner"
     }
 
     buildTypes {
@@ -46,14 +42,21 @@ android {
             includeAndroidResources = true
         }
     }
+    sourceSets {
+        // Put code into below directory that you want shared between unit and integration tests.
+        String sharedTestDir = 'src/sharedTest/java'
+        test.java.srcDirs += sharedTestDir
+        androidTest.java.srcDirs += sharedTestDir
+    }
 }
 
 dependencies {
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2"
 
+    // AndroidX
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
@@ -71,7 +74,13 @@ dependencies {
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    // Hilt testing: Robolectric (note: if using jetpack hilt integrations, add those as test dependencies, too)
+    testImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+    // Hilt testing: Android instrumentation tests (note: if using jetpack hilt integrations, add those as test dependencies, too)
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // Retrofit
     def retrofitVersion = '2.9.0'
@@ -103,25 +112,17 @@ dependencies {
 
     // Android Testing Support Library's runner and rules
     def androidTestLibVersion = "1.3.0"
-    androidTestImplementation "androidx.test:core-ktx:$androidTestLibVersion"
-    androidTestImplementation "androidx.test:runner:$androidTestLibVersion"
-    androidTestImplementation "androidx.test:rules:$androidTestLibVersion"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     testImplementation "androidx.test:core-ktx:$androidTestLibVersion"
     testImplementation "androidx.test:runner:$androidTestLibVersion"
     testImplementation "androidx.test:rules:$androidTestLibVersion"
     testImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation "androidx.test:core-ktx:$androidTestLibVersion"
+    androidTestImplementation "androidx.test:runner:$androidTestLibVersion"
+    androidTestImplementation "androidx.test:rules:$androidTestLibVersion"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
 
     // Espresso UI Testing
     def espressoVersion = '3.3.0'
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
-    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
     testImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    testImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
-    testImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
-    testImplementation "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
-    testImplementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
 }
