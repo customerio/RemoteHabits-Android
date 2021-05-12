@@ -8,7 +8,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.customer.remotehabits.Env
-import io.customer.remotehabits.service.api.GitHubApiHostname
+import io.customer.remotehabits.service.Dispatchers
+import io.customer.remotehabits.service.api.PokeApiHostname
 import io.customer.remotehabits.ui.MainApplication
 
 @Module
@@ -16,5 +17,8 @@ import io.customer.remotehabits.ui.MainApplication
 object NetworkModule {
 
     @Provides
-    fun provideGitHubHostname(): GitHubApiHostname = GitHubApiHostname(Env.githubApiEndpoint)
+    fun providePokeApiHostname(): PokeApiHostname = PokeApiHostname(Env.pokeApiEndpoint)
+
+    @Provides
+    fun provideDispatchers(): Dispatchers = Dispatchers(kotlinx.coroutines.Dispatchers.IO)
 }

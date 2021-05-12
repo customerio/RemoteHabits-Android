@@ -9,5 +9,4 @@ interface ApiHostname {
     val hostname: String
 }
 
-// example of a ApiHostname that's meant to work with the GitHub API.
-data class GitHubApiHostname(override val hostname: String) : ApiHostname
+data class PokeApiHostname(override val hostname: String) : ApiHostname

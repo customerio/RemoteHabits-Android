@@ -29,11 +29,11 @@ class LogcatLogger : Logger {
     }
 
     override fun httpRequestEvent(method: String, url: String, reqBody: String?) {
-        Log.d(TAG, "Http request-- method: $method, url: $url, req body: ${reqBody ?: "(none)"}", null)
+        Log.d(TAG, "Http ------>>> $method $url, req body: ${reqBody ?: "(none)"}", null)
     }
 
     override fun httpSuccessEvent(method: String, url: String, code: Int, reqHeaders: String?, resHeaders: String?, resBody: String?) {
-        Log.d(TAG, "Http response success-- method: $method, url: $url, code: $code, res body: ${resBody ?: "(none)"}", null)
+        Log.d(TAG, "Http <<<------ $method $url, code: $code, res body: ${resBody ?: "(none)"}", null)
     }
 
     override fun httpFailEvent(method: String, url: String, code: Int, reqHeaders: String?, resHeaders: String?, resBody: String?) {

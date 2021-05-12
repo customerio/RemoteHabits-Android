@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import io.customer.remotehabits.mock.MockWebServer
-import io.customer.remotehabits.service.api.GitHubApiHostname
+import io.customer.remotehabits.service.api.PokeApiHostname
 import org.mockito.Mockito
 import javax.inject.Singleton
 
@@ -23,6 +23,6 @@ object TestNetworkModule {
 
     @Provides
     @Singleton
-    fun provideGitHubHostname(mockWebServer: MockWebServer): GitHubApiHostname = GitHubApiHostname(mockWebServer.url)
+    fun providePokeHostname(mockWebServer: MockWebServer): PokeApiHostname = PokeApiHostname(mockWebServer.url)
 
 }

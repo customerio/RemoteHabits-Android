@@ -7,8 +7,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.customer.remotehabits.Env
-import io.customer.remotehabits.service.api.GitHubApiHostname
-import io.customer.remotehabits.service.api.GitHubService
+import io.customer.remotehabits.service.api.PokeApiHostname
+import io.customer.remotehabits.service.api.PokeApiService
 import io.customer.remotehabits.service.api.interceptor.DefaultErrorHandlerInterceptor
 import io.customer.remotehabits.service.api.interceptor.HttpLoggerInterceptor
 import io.customer.remotehabits.service.json.JsonAdapter
@@ -43,11 +43,11 @@ object DependencyModule {
         .build()
 
     @Provides
-    fun provideGitHubService(client: OkHttpClient, hostname: GitHubApiHostname): GitHubService = Retrofit.Builder()
+    fun providePokeService(client: OkHttpClient, hostname: PokeApiHostname): PokeApiService = Retrofit.Builder()
         .client(client)
         .baseUrl(hostname.hostname)
         .addConverterFactory(MoshiConverterFactory.create(JsonAdapter.moshi))
         .build()
-        .create(GitHubService::class.java)
+        .create(PokeApiService::class.java)
 
 }
