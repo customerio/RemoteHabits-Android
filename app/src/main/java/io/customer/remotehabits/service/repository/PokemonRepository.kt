@@ -12,10 +12,8 @@ class PokemonRepository @Inject constructor(
     private val dispatchers: Dispatchers
 ) {
 
-    suspend fun getPokemon(name: String): ApiResult<PokemonVo> {
-        return withContext(dispatchers.io) {
-            api.getPokemon(name)
-        }
+    suspend fun getPokemon(name: String): ApiResult<PokemonVo> = withContext(dispatchers.io) {
+        api.getPokemon(name)
     }
 
 }

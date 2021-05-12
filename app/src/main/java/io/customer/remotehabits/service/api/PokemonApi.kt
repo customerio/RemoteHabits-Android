@@ -5,8 +5,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.customer.remotehabits.service.error.network.ApiDownException
 import io.customer.remotehabits.service.logger.Logger
 import io.customer.remotehabits.service.vo.PokemonVo
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 import io.customer.remotehabits.R
 
@@ -25,9 +23,9 @@ class PokemonApi @Inject constructor(
     private val service: PokeApiService,
 ) : Api(context, logger) {
 
-    fun getPokemon(name: String): ApiResult<PokemonVo> {
-        return requestTry({
-            service.getPokemon(name).execute()
+    suspend fun getPokemon(name: String): ApiResult<PokemonVo> {
+        return request({
+            service.getPokemon(name)
         })
     }
 

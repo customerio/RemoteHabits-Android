@@ -7,6 +7,8 @@ import io.customer.remotehabits.service.error.network.BadNetworkConnectionExcept
 import io.customer.remotehabits.service.error.network.NoInternetConnectionException
 import io.customer.remotehabits.service.error.network.UnhandledHttpResponseException
 import io.customer.remotehabits.service.logger.Logger
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.io.IOException
 
@@ -35,7 +37,7 @@ abstract class Api constructor(
      * @param extraErrorHandling If an endpoint returns back a status code > 300, this function has the opportunity to handle it, first. A good example is if an endpoint returns a 404. Some APIs use this for security reasons to determine that you are not authenticated to access a resource while most of the time a 404 indicates that a typo more then likely occurred. This function is called before API subclass has the opportunity to handle the server response.
      * @param extraSuccessHandling Gives the endpoint an opportunity to handle a successful result.
      */
-    fun <HttpResponse> requestTry(call: () -> Response<HttpResponse>, extraErrorHandling: ((ProcessedResponse<String>) -> Throwable?)? = null, extraSuccessHandling: ((ProcessedResponse<HttpResponse>) -> HttpResponse?)? = null): ApiResult<HttpResponse> {
+    suspend fun <HttpResponse> request(call: suspend () -> Response<HttpResponse>, extraErrorHandling: ((ProcessedResponse<String>) -> Throwable?)? = null, extraSuccessHandling: ((ProcessedResponse<HttpResponse>) -> HttpResponse?)? = null): ApiResult<HttpResponse> {
         return try {
             val response = call()
 
@@ -87,10 +89,12 @@ abstract class Api constructor(
 
         /**
          * A response came back from the server but we were not expecting it. More then likely, the developer forgot a case in [processFailedStatusCodes] but could be another reason.
+         *
+         * Make sure the error that we log is useful to the developer so they can fix it (include debug info about the HTTP method). Then, return human readable error back to user. 
          */
-        val unhandledHttpResponseError = UnhandledHttpResponseException(context.getString(R.string.developer_error_message))
+        val unhandledHttpResponseError = UnhandledHttpResponseException(processedResponse)
         logger.errorOccurred(unhandledHttpResponseError)
-        return ApiResult.failure(unhandledHttpResponseError)
+        return ApiResult.failure(DeveloperError(unhandledHttpResponseError, context.getString(R.string.developer_error_message)))
     }
 
     /**
