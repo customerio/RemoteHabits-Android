@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class PokemonVo(
     val name: String,
-    val species: PokemonSpeciesVo
+    val sprites: PokemonSpritesVo
 )

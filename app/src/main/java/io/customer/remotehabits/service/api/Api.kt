@@ -90,7 +90,7 @@ abstract class Api constructor(
         /**
          * A response came back from the server but we were not expecting it. More then likely, the developer forgot a case in [processFailedStatusCodes] but could be another reason.
          *
-         * Make sure the error that we log is useful to the developer so they can fix it (include debug info about the HTTP method). Then, return human readable error back to user. 
+         * Make sure the error that we log is useful to the developer so they can fix it (include debug info about the HTTP method). Then, return human readable error back to user.
          */
         val unhandledHttpResponseError = UnhandledHttpResponseException(processedResponse)
         logger.errorOccurred(unhandledHttpResponseError)

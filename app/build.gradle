@@ -18,8 +18,15 @@ android {
 
         testInstrumentationRunner "io.customer.remotehabits.AndroidTestTestRunner"
     }
+    buildFeatures {
+        viewBinding true
+    }
 
     buildTypes {
+        debug {
+            defaultConfig.minSdkVersion 23 // makes compiling faster and allows us to not require multidex support for older SDKs
+            defaultConfig.multiDexEnabled true // required for getting instrumentation tests to build
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -31,6 +38,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    packagingOptions {
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
     }
 
     testOptions {
@@ -52,9 +63,15 @@ android {
 
 dependencies {
     // kotlin
+    def coroutineVersion = "1.4.2"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion") {
+        // conflicts with mockito due to direct inclusion of byte buddy
+        // see: https://github.com/Kotlin/kotlinx.coroutines/issues/2023#issuecomment-665150312
+        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+    }
 
     // AndroidX
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -87,6 +104,9 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
 
+    // Coil for loading remote images
+    implementation 'io.coil-kt:coil:1.2.1'
+
     // OkHttp Note: adding okhttp to use newer v4 API instead of v3 with Retrofit
     def okhttpVersion = "4.9.0"
     implementation(platform("com.squareup.okhttp3:okhttp-bom:$okhttpVersion"))
@@ -100,14 +120,33 @@ dependencies {
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
     implementation "com.squareup.moshi:moshi-adapters:$moshiVersion"
 
-    // Assert, mocking tools
+    // JUnit
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-inline:2.27.0'
-    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
-    testImplementation 'org.assertj:assertj-core:3.18.1'
-    androidTestImplementation 'org.mockito:mockito-inline:2.27.0'
-    androidTestImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
-    androidTestImplementation 'org.assertj:assertj-core:3.18.1'
+    testImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+
+    // Truth
+    testImplementation "com.google.truth:truth:1.0.1"
+    androidTestImplementation "com.google.truth:truth:1.0.1"
+    androidTestImplementation 'androidx.test.ext:truth:1.3.0'
+    testImplementation 'androidx.test.ext:truth:1.3.0'
+
+    // Mockito
+    def mockitoVersion = '3.3.3'
+    def mockitoKotlinVersion = '2.2.0'
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion" // you can mock final classes in JVM tests but not Android
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion", {
+        exclude group: 'org.jetbrains.kotlin'
+        exclude group: 'org.mockito'
+    }
+    androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion", {
+        exclude group: 'org.jetbrains.kotlin'
+        exclude group: 'org.mockito'
+    }
+
+    // Robolectric
     testImplementation 'org.robolectric:robolectric:4.5.1'
 
     // Android Testing Support Library's runner and rules
@@ -115,11 +154,9 @@ dependencies {
     testImplementation "androidx.test:core-ktx:$androidTestLibVersion"
     testImplementation "androidx.test:runner:$androidTestLibVersion"
     testImplementation "androidx.test:rules:$androidTestLibVersion"
-    testImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation "androidx.test:core-ktx:$androidTestLibVersion"
     androidTestImplementation "androidx.test:runner:$androidTestLibVersion"
     androidTestImplementation "androidx.test:rules:$androidTestLibVersion"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
 
     // Espresso UI Testing
     def espressoVersion = '3.3.0'

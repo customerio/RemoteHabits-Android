@@ -1,30 +1,29 @@
 package io.customer.remotehabits.di
 
-import android.app.Application
-import android.content.Context
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.customer.remotehabits.Env
+import dagger.hilt.testing.TestInstallIn
+import io.customer.remotehabits.MockWebServer
 import io.customer.remotehabits.service.DispatcherProvider
 import io.customer.remotehabits.service.ImplementationDispatcherProvider
 import io.customer.remotehabits.service.api.PokeApiHostname
 import io.customer.remotehabits.service.api.PokeApiService
-import io.customer.remotehabits.service.json.JsonAdapter
-import io.customer.remotehabits.ui.MainApplication
-import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
+import org.mockito.Mockito
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-object NetworkModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [NetworkModule::class]
+)
+object AndroidTestNetworkModule {
 
     @Provides
-    fun providePokeApiHostname(): PokeApiHostname = PokeApiHostname(Env.pokeApiEndpoint)
+    @Singleton
+    fun providePokeHostname(): PokeApiHostname = PokeApiHostname(MockWebServer.url)
 
     @Provides
     fun provideDispatcherProvider(): DispatcherProvider = ImplementationDispatcherProvider()

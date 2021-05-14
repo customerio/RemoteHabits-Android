@@ -19,7 +19,7 @@ import io.customer.remotehabits.R
  */
 class PokemonApi @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val logger: Logger,
+    logger: Logger,
     private val service: PokeApiService,
 ) : Api(context, logger) {
 
