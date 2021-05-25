@@ -6,12 +6,9 @@ import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import io.customer.remotehabits.MockWebServer
 import io.customer.remotehabits.service.DispatcherProvider
-import io.customer.remotehabits.service.ImplementationDispatcherProvider
 import io.customer.remotehabits.service.api.PokeApiHostname
 import io.customer.remotehabits.service.api.PokeApiService
-import okhttp3.OkHttpClient
 import org.mockito.Mockito
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -19,16 +16,14 @@ import javax.inject.Singleton
     components = [SingletonComponent::class],
     replaces = [NetworkModule::class]
 )
-object AndroidTestNetworkModule {
+object TestNetworkModule {
 
     @Provides
     @Singleton
-    fun providePokeHostname(): PokeApiHostname = PokeApiHostname(MockWebServer.url)
+    fun provideDispatcherProvider(): DispatcherProvider = Mockito.mock(DispatcherProvider::class.java)
 
     @Provides
-    fun provideDispatcherProvider(): DispatcherProvider = ImplementationDispatcherProvider()
-
-    @Provides
-    fun providePokeService(retrofit: Retrofit): PokeApiService = retrofit.create(PokeApiService::class.java)
+    @Singleton
+    fun providePokemonService(): PokeApiService = Mockito.mock(PokeApiService::class.java)
 
 }
