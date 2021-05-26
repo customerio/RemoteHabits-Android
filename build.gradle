@@ -16,6 +16,17 @@ buildscript {
     }
 }
 
+subprojects {
+    // Load `secrets.properties` file, if it exists.
+    if (file("$project.rootDir/secrets.properties").exists()) {
+        def localProperties = new Properties()
+        localProperties.load(new FileInputStream("$project.rootDir/secrets.properties"))
+        localProperties.each { prop ->
+            project.ext.set(prop.key, prop.value)
+        }
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -24,8 +35,8 @@ allprojects {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/customerio/customerio-android")
             credentials {
-                username = project.findProperty("githubRepo.username") ?: System.getenv("GITHUB_REPO_USERNAME")
-                password = project.findProperty("githubRepo.token") ?: System.getenv("GITHUB_REPO_TOKEN")
+                username = project.ext.find("githubRepo.username") ?: System.getenv("GITHUB_REPO_USERNAME")
+                password = project.ext.find("githubRepo.token") ?: System.getenv("GITHUB_REPO_TOKEN")
             }
         }
     }
