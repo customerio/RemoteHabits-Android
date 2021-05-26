@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.customer.remotehabits.BaseTest
+import io.customer.remotehabits.R
 import io.customer.remotehabits.rule.runBlockingTest
 import io.customer.remotehabits.service.repository.PokemonRepository
 import io.customer.remotehabits.service.vo.PokemonSpritesVo
@@ -39,12 +40,12 @@ class PokemonViewModelIntegrationTest: BaseTest() {
 
     @Test
     fun viewmodel_test() = mainCoroutineRule.runBlockingTest {
-        whenever(pokemonApiService.getPokemon(any())).thenReturn(Response.success(200, PokemonVo("ditto", PokemonSpritesVo(Uri.parse(""), Uri.parse("")))))
+        whenever(pokemonApiService.getPokemon(any())).thenReturn(Response.success(200, PokemonVo(context.getString(R.string.app_name), PokemonSpritesVo(Uri.parse(""), Uri.parse("")))))
 
         testCoroutine { done ->
-            viewModel.getPokemon("name") { actual ->
+            viewModel.getPokemon("Remote Habits") { actual ->
                 assertThat(actual.isSuccess).isTrue()
-                assertThat(actual.bodyOrThrow().name).isEqualTo("ditto")
+                assertThat(actual.bodyOrThrow().name).isEqualTo("Remote Habits")
 
                 done()
             }
