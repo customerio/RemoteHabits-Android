@@ -1,5 +1,6 @@
 package io.customer.remotehabits
 
+import io.customer.remotehabits.idlingresource.OkHttpIdlingResource
 import io.customer.remotehabits.service.json.JsonAdapter
 import io.customer.remotehabits.util.ThreadUtil
 import okhttp3.mockwebserver.*
@@ -13,9 +14,7 @@ import okhttp3.mockwebserver.MockWebServer
  * 2. I have tested the UI of Android apps before with by mocking ViewModel dependencies in the UI classes and I got false positives in my tests. My mocks did not behave like my app code did at runtime with threads so with my test suite all passing, my app still crashed almost immediately at runtime. Using something like this makes the app threading perform as the app will.
  * 3. The web server runs on a separate thread sending back responses to your app. We can leverage the Espresso idling resources to wait for OkHttp networking to idle before we go to UI tests code.
  *
- * Note: I have not yet been able to get the web server to work well for integration tests. This is because of the web server running on a separate thread and our test functions expecting to run in a synchronous way. The test function always finishes before the web server has time to return a response to the caller. Most of the time, it's still better to use mocking of classes for unit/integration tests anyway with no need to use this. However, if there is a scenario where it makes sense, there may be a way to make the test function wait for networking to finish with a OkHttp custom Dispatcher: https://github.com/JakeWharton/okhttp-idling-resource/blob/050a41ef358dda4c61c1c4ed17ec22948f81bedd/src/main/java/com/jakewharton/espresso/OkHttp3IdlingResource.java
- *
- * Note: Android instrumentation Espresso UI tests seem to be working well with the mock web server. The tests get a response back from the mock web server and then continue the test function. Race conditions do not seem to happen. In the future if we see this becoming a problem, we can try an OkHttp custom Dispatcher + Espresso Idling Resource to try and get Espresso to wait for all OkHttp calls to be done before continuing. https://github.com/JakeWharton/okhttp-idling-resource/blob/050a41ef358dda4c61c1c4ed17ec22948f81bedd/src/main/java/com/jakewharton/espresso/OkHttp3IdlingResource.java
+ * Note: I have not yet been able to get the web server to work well for integration tests. This is because of the web server running on a separate thread and our test functions expecting to run in a synchronous way using 1 thread for all code execution. The test function always finishes before the web server has time to return a response to the caller. Most of the time, it's still better to use mocking of classes for unit/integration tests anyway with no need to use this. However, if there is a scenario where it makes sense, there may be a way to make the test function wait for networking to finish with a OkHttp custom Dispatcher like the [OkHttpIdlingResource] does.
  */
 class MockWebServer(private val mockWebServer: MockWebServer) {
 

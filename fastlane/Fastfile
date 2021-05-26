@@ -1,0 +1,43 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+  lane :instrumentation_tests do |values|
+    build_android_app(
+      task: 'assemble',
+      build_type: 'Debug'
+    )
+    build_android_app(
+      task: 'assemble',
+      build_type: 'AndroidTest'
+    )
+
+    # https://github.com/pink-room/fastlane-plugin-run_tests_firebase_testlab
+    run_tests_firebase_testlab(
+      project_id: ENV["FIREBASE_PROJECT_ID"],
+      gcloud_service_key_file: './firebase_service_account.json',
+      download_results_from_firebase: true,
+      output_dir: "test-results",
+      # run `gcloud beta firebase test android models list` to get list of devices to test on 
+      devices: [
+        # Pixel 4 physical
+        { model: "flame", version: "30" }
+      ]
+    )
+  end 
+end
