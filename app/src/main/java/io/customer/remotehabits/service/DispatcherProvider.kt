@@ -11,9 +11,8 @@ interface DispatcherProvider {
 /**
  * Way to differentiate Dispatchers (IO vs Main, for example). There needs to be a way to differentiate for dependency injection.
  */
-class ImplementationDispatcherProvider: DispatcherProvider {
+class ImplementationDispatcherProvider : DispatcherProvider {
 
     override fun io(): CoroutineDispatcher = Dispatchers.IO
     override fun main(): CoroutineDispatcher = Dispatchers.Main
-
 }

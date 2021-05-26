@@ -18,5 +18,4 @@ object NetworkModule {
 
     @Provides
     fun providePokeService(retrofit: Retrofit): PokeApiService = retrofit.create(PokeApiService::class.java)
-
 }

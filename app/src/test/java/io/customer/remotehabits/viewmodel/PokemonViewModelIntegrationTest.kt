@@ -12,16 +12,16 @@ import io.customer.remotehabits.rule.runBlockingTest
 import io.customer.remotehabits.service.repository.PokemonRepository
 import io.customer.remotehabits.service.vo.PokemonSpritesVo
 import io.customer.remotehabits.service.vo.PokemonVo
+import javax.inject.Inject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import retrofit2.Response
-import javax.inject.Inject
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-class PokemonViewModelIntegrationTest: BaseTest() {
+class PokemonViewModelIntegrationTest : BaseTest() {
 
     override fun provideTestClass(): Any = this
 
@@ -61,5 +61,4 @@ class PokemonViewModelIntegrationTest: BaseTest() {
         assertThat(actual.isSuccess).isTrue()
         assertThat(actual.bodyOrThrow().name).isEqualTo("ditto")
     }
-
 }

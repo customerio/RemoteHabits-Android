@@ -16,5 +16,4 @@ object HostnameModule {
 
     @Provides
     fun providePokeApiHostname(): PokeApiHostname = PokeApiHostname(Env.pokeApiEndpoint)
-
 }

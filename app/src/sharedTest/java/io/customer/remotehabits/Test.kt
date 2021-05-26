@@ -1,6 +1,5 @@
 package io.customer.remotehabits
 
-import android.R.attr.path
 import android.app.Instrumentation
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.platform.app.InstrumentationRegistry
@@ -8,12 +7,11 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltTestApplication
 import io.customer.remotehabits.rule.MainCoroutineRule
 import io.customer.remotehabits.service.json.JsonAdapter
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import org.junit.After
 import org.junit.Before
 import org.junit.rules.RuleChain
-import java.io.BufferedReader
-import java.io.InputStreamReader
-
 
 /**
  * Contains code that *all* types of tests (JVM and Android instrumentation) contain.
@@ -101,9 +99,9 @@ abstract class Test {
         return sb.toString()
     }
 
-    data class JsonTestAsset<T: Any>(val json: String, val obj: T)
+    data class JsonTestAsset<T : Any>(val json: String, val obj: T)
 
-    protected inline fun <reified T: Any> getJsonAsset(asset: TestAssetFiles): JsonTestAsset<T> {
+    protected inline fun <reified T : Any> getJsonAsset(asset: TestAssetFiles): JsonTestAsset<T> {
         val fileContents = getAssetContents(asset)
         val data: T = JsonAdapter.fromJson(fileContents)
 

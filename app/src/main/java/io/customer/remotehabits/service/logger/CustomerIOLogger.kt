@@ -1,8 +1,6 @@
 package io.customer.remotehabits.service.logger
 
 import android.os.Bundle
-import android.util.Log
-import io.customer.remotehabits.Env
 import java.util.*
 
 class CustomerIOLogger : Logger {

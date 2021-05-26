@@ -4,8 +4,8 @@ import io.customer.remotehabits.service.DispatcherProvider
 import io.customer.remotehabits.service.api.ApiResult
 import io.customer.remotehabits.service.api.PokemonApi
 import io.customer.remotehabits.service.vo.PokemonVo
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlinx.coroutines.withContext
 
 class PokemonRepository @Inject constructor(
     private val api: PokemonApi,
@@ -15,5 +15,4 @@ class PokemonRepository @Inject constructor(
     suspend fun getPokemon(name: String): ApiResult<PokemonVo> = withContext(dispatcherProvider.io()) {
         api.getPokemon(name)
     }
-
 }

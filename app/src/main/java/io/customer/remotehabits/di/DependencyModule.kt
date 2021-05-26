@@ -8,7 +8,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.customer.remotehabits.Env
 import io.customer.remotehabits.service.api.PokeApiHostname
-import io.customer.remotehabits.service.api.PokeApiService
 import io.customer.remotehabits.service.api.interceptor.DefaultErrorHandlerInterceptor
 import io.customer.remotehabits.service.api.interceptor.HttpLoggerInterceptor
 import io.customer.remotehabits.service.json.JsonAdapter
@@ -17,12 +16,9 @@ import io.customer.remotehabits.service.logger.CustomerIOLogger
 import io.customer.remotehabits.service.logger.LogcatLogger
 import io.customer.remotehabits.service.logger.Logger
 import io.customer.remotehabits.service.util.ConnectivityUtil
-import kotlinx.coroutines.Dispatchers
-import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.concurrent.ExecutorService
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -51,5 +47,4 @@ object DependencyModule {
         .baseUrl(hostname.hostname)
         .addConverterFactory(MoshiConverterFactory.create(JsonAdapter.moshi))
         .build()
-
 }

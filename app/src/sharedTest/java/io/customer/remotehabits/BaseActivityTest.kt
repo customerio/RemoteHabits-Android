@@ -1,29 +1,21 @@
 package io.customer.remotehabits
 
-import android.app.Activity
-import android.app.Instrumentation
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.FragmentActivity
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.platform.app.InstrumentationRegistry
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltTestApplication
 import io.customer.remotehabits.idlingresource.OkHttpIdlingResource
-import io.customer.remotehabits.rule.MainCoroutineRule
 import io.customer.remotehabits.util.EspressoTestUtil
+import javax.inject.Inject
 import okhttp3.OkHttpClient
 import org.junit.After
 import org.junit.Before
 import org.junit.rules.RuleChain
 import org.mockito.MockitoAnnotations
-import javax.inject.Inject
 
 /**
  * Base class for Espresso UI tests testing an Activity class.
  */
-abstract class BaseActivityTest<Act : FragmentActivity>: Test() {
+abstract class BaseActivityTest<Act : FragmentActivity> : Test() {
 
     protected lateinit var activityScenario: ActivityScenario<Act>
     abstract fun provideActivityClass(): Class<Act>

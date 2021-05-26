@@ -10,5 +10,4 @@ object Env {
     val appName = "Remote Habits"
     val isDevelopment = true
     val pokeApiEndpoint = "https://pokeapi.co/api/v2/"
-
 }

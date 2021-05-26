@@ -12,11 +12,10 @@ interface RandomUtil {
     fun randomInt(min: Int, max: Int): Int
 }
 
-class AppRandomUtil: RandomUtil {
+class AppRandomUtil : RandomUtil {
 
     override fun randomString() = String.random
     override fun randomString(length: Int) = String.random(length)
     override fun randomInt() = Int.random
     override fun randomInt(min: Int, max: Int) = Int.random(min, max)
-
 }
