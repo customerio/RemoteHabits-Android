@@ -67,9 +67,7 @@ abstract class Api constructor(
     private fun <HttpResponse> processSuccessful(response: Response<HttpResponse>, extraSuccessHandling: ((ProcessedResponse<HttpResponse>) -> HttpResponse?)?): ApiResult<HttpResponse> {
         val processedResponse = ProcessedResponse(response.raw().request.url.toString(), response.raw().request.method, response.code(), response.body())
 
-        extraSuccessHandling?.let { extraSuccessHandling ->
-            extraSuccessHandling(processedResponse)?.let { return ApiResult.success(processedResponse.statusCode, it) }
-        }
+        extraSuccessHandling?.invoke(processedResponse)?.let { return ApiResult.success(processedResponse.statusCode, it) }
 
         return ApiResult.success(processedResponse.statusCode, processedResponse.body!!)
     }
@@ -79,9 +77,7 @@ abstract class Api constructor(
      */
     private fun <HttpResponse> processFailure(response: Response<HttpResponse>, extraErrorHandling: ((ProcessedResponse<String>) -> Throwable?)?): ApiResult<HttpResponse> {
         val processedResponse = ProcessedResponse(response.raw().request.url.toString(), response.raw().request.method, response.code(), response.errorBody()!!.string())
-        extraErrorHandling?.let { extraErrorHandling ->
-            extraErrorHandling(processedResponse)?.let { return ApiResult.failure(it) }
-        }
+        extraErrorHandling?.invoke(processedResponse)?.let { return ApiResult.failure(it) }
 
         processFailedStatusCodes<HttpResponse>(processedResponse)?.let { return it }
 
