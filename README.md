@@ -17,6 +17,15 @@ githubRepo.token="<github-token>"
 
 2. Build the app in Android Studio.
 
+3. Setup git hooks to lint your code for you:
+
+```
+$ ./hooks/autohook.sh install
+[Autohook] Scripts installed into .git/hooks
+```
+
+4. Install `ktlint` Kotlin linting CLI tool. The easiest way is `brew install ktlint` but if you are not on a Mac, [find another way to install](https://ktlint.github.io/#getting-started) on your machine. 
+
 # Deployment
 
 Here are instructions for CI setup. 

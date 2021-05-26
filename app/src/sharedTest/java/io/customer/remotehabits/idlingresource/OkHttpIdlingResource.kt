@@ -5,7 +5,7 @@ import androidx.test.espresso.IdlingResource.ResourceCallback
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 
-class OkHttpIdlingResource private constructor(private val name: String, private val dispatcher: Dispatcher): IdlingResource {
+class OkHttpIdlingResource private constructor(private val name: String, private val dispatcher: Dispatcher) : IdlingResource {
 
     companion object {
         fun create(name: String, client: OkHttpClient): OkHttpIdlingResource = OkHttpIdlingResource(name, client.dispatcher)

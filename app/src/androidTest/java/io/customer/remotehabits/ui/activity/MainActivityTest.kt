@@ -11,13 +11,12 @@ import io.customer.remotehabits.BaseActivityTest
 import io.customer.remotehabits.R
 import io.customer.remotehabits.service.util.RandomUtil
 import io.customer.remotehabits.service.vo.PokemonVo
-import org.junit.Before
+import javax.inject.Inject
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
 
 @HiltAndroidTest
-class MainActivityTest: BaseActivityTest<MainActivity>() {
+class MainActivityTest : BaseActivityTest<MainActivity>() {
 
     override fun provideTestClass(): Any = this
     override fun provideActivityClass(): Class<MainActivity> = MainActivity::class.java
@@ -51,5 +50,4 @@ class MainActivityTest: BaseActivityTest<MainActivity>() {
         onView(withId(R.id.pokemon_textview))
             .check(matches(withText("You caught a Pokemon!\n?@&* YOU CAUGHT A RARE SHINY?!\n${expectedPokemon.obj.name}")))
     }
-
 }

@@ -4,12 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import io.customer.remotehabits.MockWebServer
 import io.customer.remotehabits.service.DispatcherProvider
-import io.customer.remotehabits.service.api.PokeApiHostname
 import io.customer.remotehabits.service.api.PokeApiService
-import org.mockito.Mockito
 import javax.inject.Singleton
+import org.mockito.Mockito
 
 @Module
 @TestInstallIn(
@@ -25,5 +23,4 @@ object TestNetworkModule {
     @Provides
     @Singleton
     fun providePokemonService(): PokeApiService = Mockito.mock(PokeApiService::class.java)
-
 }

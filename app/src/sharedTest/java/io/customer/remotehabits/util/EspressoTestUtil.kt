@@ -9,9 +9,6 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.matcher.ViewMatchers.*
 
 /*
@@ -51,7 +48,8 @@ object EspressoTestUtil {
                         traverseViews(v)
                     }
                 },
-                true)
+                true
+            )
     }
 
     private fun traverseViews(view: View?) {

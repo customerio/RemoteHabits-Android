@@ -16,5 +16,4 @@ object AndroidModule {
     fun provideConnectivityManager(application: Application): ConnectivityManager {
         return application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
-
 }

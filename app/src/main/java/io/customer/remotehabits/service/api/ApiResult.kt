@@ -16,5 +16,4 @@ data class ApiResult<T>(
 
     fun bodyOrThrow(): T = body!!
     fun failureOrThrow(): Throwable = failureError!!
-
 }

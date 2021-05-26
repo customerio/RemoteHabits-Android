@@ -1,7 +1,5 @@
 package io.customer.remotehabits.extensions
 
-import android.net.Uri
-
 fun String.Companion.random(length: Int): String {
     val possibleChars = ('a'..'z').toList().toTypedArray()
     return (1..length).map { possibleChars.random() }.joinToString("")

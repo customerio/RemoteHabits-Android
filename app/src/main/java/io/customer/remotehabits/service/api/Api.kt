@@ -7,10 +7,8 @@ import io.customer.remotehabits.service.error.network.BadNetworkConnectionExcept
 import io.customer.remotehabits.service.error.network.NoInternetConnectionException
 import io.customer.remotehabits.service.error.network.UnhandledHttpResponseException
 import io.customer.remotehabits.service.logger.Logger
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import retrofit2.Response
 import java.io.IOException
+import retrofit2.Response
 
 /**
  * Class that encapsulates http requests while also handling problems that can occur for each.
@@ -69,9 +67,7 @@ abstract class Api constructor(
     private fun <HttpResponse> processSuccessful(response: Response<HttpResponse>, extraSuccessHandling: ((ProcessedResponse<HttpResponse>) -> HttpResponse?)?): ApiResult<HttpResponse> {
         val processedResponse = ProcessedResponse(response.raw().request.url.toString(), response.raw().request.method, response.code(), response.body())
 
-        extraSuccessHandling?.let { extraSuccessHandling ->
-            extraSuccessHandling(processedResponse)?.let { return ApiResult.success(processedResponse.statusCode, it) }
-        }
+        extraSuccessHandling?.invoke(processedResponse)?.let { return ApiResult.success(processedResponse.statusCode, it) }
 
         return ApiResult.success(processedResponse.statusCode, processedResponse.body!!)
     }
@@ -81,9 +77,7 @@ abstract class Api constructor(
      */
     private fun <HttpResponse> processFailure(response: Response<HttpResponse>, extraErrorHandling: ((ProcessedResponse<String>) -> Throwable?)?): ApiResult<HttpResponse> {
         val processedResponse = ProcessedResponse(response.raw().request.url.toString(), response.raw().request.method, response.code(), response.errorBody()!!.string())
-        extraErrorHandling?.let { extraErrorHandling ->
-            extraErrorHandling(processedResponse)?.let { return ApiResult.failure(it) }
-        }
+        extraErrorHandling?.invoke(processedResponse)?.let { return ApiResult.failure(it) }
 
         processFailedStatusCodes<HttpResponse>(processedResponse)?.let { return it }
 
@@ -103,5 +97,4 @@ abstract class Api constructor(
      * It's up to you to determine if the response was successful or not. That's why you must return an [ApiResult]. If the response is something you are unaware of, return null from the function. If you do this, the app will consider this a developer error as it's a HTTP response that you have not yet handled. An error will be logged to notify team.
      */
     abstract fun <T> processFailedStatusCodes(response: ProcessedResponse<String>): ApiResult<T>?
-
 }

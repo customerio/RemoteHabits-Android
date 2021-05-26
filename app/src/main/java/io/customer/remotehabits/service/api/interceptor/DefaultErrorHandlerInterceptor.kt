@@ -5,9 +5,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.customer.remotehabits.R
 import io.customer.remotehabits.service.error.network.NoInternetConnectionException
 import io.customer.remotehabits.service.util.ConnectivityUtil
+import javax.inject.Inject
 import okhttp3.Interceptor
 import okhttp3.Response
-import javax.inject.Inject
 
 class DefaultErrorHandlerInterceptor @Inject constructor(
     @ApplicationContext private val context: Context,

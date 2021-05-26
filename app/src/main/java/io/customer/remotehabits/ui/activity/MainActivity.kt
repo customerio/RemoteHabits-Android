@@ -1,16 +1,13 @@
 package io.customer.remotehabits.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import io.customer.remotehabits.R
 import io.customer.remotehabits.databinding.ActivityMainBinding
-import io.customer.remotehabits.extensions.random
 import io.customer.remotehabits.service.logger.LogcatLogger
-import io.customer.remotehabits.service.logger.Logger
 import io.customer.remotehabits.service.util.RandomUtil
 import io.customer.remotehabits.viewmodel.PokemonViewModel
 import io.customer.sdk.ExampleSdkFile
@@ -58,8 +55,7 @@ class MainActivity : AppCompatActivity() {
                     binding.pokemonImage.load(pokemon.sprites.front_default)
                     binding.pokemonTextview.text = "You caught a Pokemon!\n${pokemon.name}"
                 }
-            }
-            else {
+            } else {
                 AlertDialog.Builder(this).apply {
                     setMessage(apiResult.failureOrThrow().message)
                     show()
@@ -67,5 +63,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }

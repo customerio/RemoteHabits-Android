@@ -3,16 +3,15 @@ package io.customer.remotehabits
 import com.nhaarman.mockitokotlin2.whenever
 import io.customer.remotehabits.service.DispatcherProvider
 import io.customer.remotehabits.service.api.PokeApiService
+import javax.inject.Inject
 import org.junit.After
 import org.junit.Before
-import org.junit.rules.RuleChain
 import org.mockito.MockitoAnnotations
-import javax.inject.Inject
 
 /**
  * Base class for running unit/integration tests on JVM or Android device. This is for non-UI related tests.
  */
-abstract class BaseTest: Test() {
+abstract class BaseTest : Test() {
 
     private var testFunctionRunningCoroutine = false
     private var testFunctionDoneRunningCoroutine = false

@@ -2,11 +2,11 @@ package io.customer.remotehabits.service.api
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.customer.remotehabits.R
 import io.customer.remotehabits.service.error.network.ApiDownException
 import io.customer.remotehabits.service.logger.Logger
 import io.customer.remotehabits.service.vo.PokemonVo
 import javax.inject.Inject
-import io.customer.remotehabits.R
 
 /**
  * Class that encapsulates http requests while also handling problems that can occur for each.
@@ -35,5 +35,4 @@ class PokemonApi @Inject constructor(
             else -> null
         }
     }
-
 }
