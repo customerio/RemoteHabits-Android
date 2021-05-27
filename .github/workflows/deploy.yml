@@ -1,0 +1,59 @@
+# Deploy the app to stable. Not builds for development/QA
+name: Deploy non-development builds 
+on:
+  push:
+    branches: [main, beta, alpha]
+
+jobs:
+  deploy-app:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node to run semantic-release
+        uses: actions/setup-node@v2
+      - name: Setup Ruby to run Fastlane 
+        uses: ruby/setup-ruby@v1 
+        with:
+          ruby-version: 2.7.2
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11' # Robolectric requires v9, but we choose LTS: https://adoptopenjdk.net/
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+      - name: Setup Fastlane 
+        uses: maierj/fastlane-action@v2.0.1
+        with:
+          lane: 'list' # give action a lane that doesn't perform an action to get fastlane installed on machine to use later. 
+          skip-tracking: true
+      - name: Setup for Deploying 
+        run: |
+          echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}" | base64 -d > firebase_appdistribution_service_account.json
+          echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > keystores/upload.keystore
+        env:
+          FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH: ${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}
+          RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+      
+      # Perform git related tasks inside of semantic-release because `git config user...` is already setup. It's easier to run commands in there with exec plugin.
+      - name: Deploy app via semantic release 
+        uses: cycjimmy/semantic-release-action@v2
+        with: 
+          # version numbers below can be in many forms: M, M.m, M.m.p
+          semantic_version: 17
+          extra_plugins: |
+            @semantic-release/commit-analyzer@8
+            @semantic-release/release-notes-generator@9
+            @semantic-release/changelog@5
+            @semantic-release/git@9
+            @semantic-release/github@7
+            @semantic-release/exec@5
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_PUSH_TOKEN }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
+          ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
+          ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
+          

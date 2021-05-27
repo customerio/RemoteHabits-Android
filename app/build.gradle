@@ -22,14 +22,24 @@ android {
         viewBinding true
     }
 
+    signingConfigs {
+        release {
+            storeFile rootProject.file('keystores/upload.keystore')
+            storePassword System.getenv("ANDROID_SIGNING_STORE_PASSWORD")
+            keyAlias System.getenv("ANDROID_SIGNING_ALIAS")
+            keyPassword System.getenv("ANDROID_SIGNING_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         debug {
             defaultConfig.minSdkVersion 23 // makes compiling faster and allows us to not require multidex support for older SDKs
             defaultConfig.multiDexEnabled true // required for getting instrumentation tests to build
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
