@@ -66,17 +66,14 @@ jobs:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Set up Google Cloud SDK for Firebase Test Lab
       uses: google-github-actions/setup-gcloud@master
-    - name: Setup for deploying app 
-      run: |
-        echo "${{ secrets.FIREBASE_TEST_LAB_GOOGLE_AUTH }}" | base64 -d > firebase_testlab_service_account.json
-        echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > keystores/upload.keystore
+    - name: Setup for Firebase Test Lab 
+      run: echo "${{ secrets.FIREBASE_TEST_LAB_GOOGLE_AUTH }}" | base64 -d > firebase_testlab_service_account.json        
       env:
-        FIREBASE_TEST_LAB_GOOGLE_AUTH: ${{ secrets.FIREBASE_TEST_LAB_GOOGLE_AUTH }}
-        RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+        FIREBASE_TEST_LAB_GOOGLE_AUTH: ${{ secrets.FIREBASE_TEST_LAB_GOOGLE_AUTH }}        
 
     - name: Run tests on Firebase Test Lab
       uses: maierj/fastlane-action@v2.0.1
-      with:
+      with: 
         lane: 'instrumentation_tests'
         skip-tracking: true
       env: 
@@ -123,9 +120,12 @@ jobs:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Setup for Firebase App Distribution 
       id: setup
-      run: echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}" | base64 -d > firebase_appdistribution_service_account.json
+      run: |
+        echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}" | base64 -d > firebase_appdistribution_service_account.json
+        echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > upload.keystore
       env:
         FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH: ${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}
+        RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
 
     - name: Deploy development build via Fastlane 
       uses: maierj/fastlane-action@v2.0.1
