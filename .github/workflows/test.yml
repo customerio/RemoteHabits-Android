@@ -1,5 +1,10 @@
 name: Tests
-on: [push, pull_request]
+on:  
+  push:
+    branches-ignore: [main, beta, alpha] # skip for deployment branches. 
+    tags-ignore: ['*']
+  pull_request:
+    branches: ['*']
 
 env:
   GITHUB_REPO_USERNAME: ${{ secrets.GH_REPO_USERNAME }}
@@ -54,22 +59,21 @@ jobs:
         java-version: '11' # Robolectric requires v9, but we choose LTS: https://adoptopenjdk.net/
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2
-    - name: Setup Ruby for Fastlane 
+    - name: Setup Ruby to run Fastlane 
       uses: ruby/setup-ruby@v1 
       with:
         ruby-version: 2.7.2
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Set up Google Cloud SDK for Firebase Test Lab
       uses: google-github-actions/setup-gcloud@master
-    - name: Setup for Firebase test lab 
-      run: 
-        echo "${{ secrets.FIREBASE_TEST_LAB_GOOGLE_AUTH }}" | base64 -d > firebase_service_account.json
+    - name: Setup for Firebase Test Lab 
+      run: echo "${{ secrets.FIREBASE_TEST_LAB_GOOGLE_AUTH }}" | base64 -d > firebase_testlab_service_account.json        
       env:
-        FIREBASE_TEST_LAB_GOOGLE_AUTH: ${{ secrets.FIREBASE_TEST_LAB_GOOGLE_AUTH }}
+        FIREBASE_TEST_LAB_GOOGLE_AUTH: ${{ secrets.FIREBASE_TEST_LAB_GOOGLE_AUTH }}        
 
     - name: Run tests on Firebase Test Lab
       uses: maierj/fastlane-action@v2.0.1
-      with:
+      with: 
         lane: 'instrumentation_tests'
         skip-tracking: true
       env: 
@@ -86,8 +90,7 @@ jobs:
     # upload artifacts action does not allow ",:,<,>,|,*,?. characters in directory names. 
     # test results contain : and . so we need to remove them. Create an archive to avoid this issue. 
     - name: Prepare upload test results 
-      run: 
-        tar -czvf test-results.tar.gz test-results
+      run: tar -czvf test-results.tar.gz test-results
       if: ${{ always() }}
     - name: Upload test results
       uses: actions/upload-artifact@v2
@@ -95,3 +98,44 @@ jobs:
         name: instrumentation-test-results
         path: test-results.tar.gz
       if: ${{ always() }}
+
+  deploy-builds:
+    runs-on: ubuntu-latest
+    name: Deploy development builds 
+    # skip if '[skip ci]' exists in commit message 
+    if: ${{ !contains(format('{0} {1}', github.event.head_commit.message, github.event.pull_request.title), '[skip ci]') }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11' # Robolectric requires v9, but we choose LTS: https://adoptopenjdk.net/
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+    - name: Setup Ruby to run Fastlane 
+      uses: ruby/setup-ruby@v1 
+      with:
+        ruby-version: 2.7.2
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Setup for Firebase App Distribution 
+      id: setup
+      run: |
+        echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}" | base64 -d > firebase_appdistribution_service_account.json
+        echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > upload.keystore
+      env:
+        FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH: ${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}
+        RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+
+    - name: Deploy development build via Fastlane 
+      uses: maierj/fastlane-action@v2.0.1
+      with:
+        lane: 'deploy_app'
+        skip-tracking: true
+      env: 
+        FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+        ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
+        ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
+        ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
+
