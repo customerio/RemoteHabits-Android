@@ -55,10 +55,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_PUSH_TOKEN }} # for semantic release git push access 
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }} # for firebase app distribution 
-          # for code signing release build p
+          # for code signing release build 
           ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
           ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
           ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
-          # for github maven repo authentication
-          GITHUB_REPO_USERNAME: ${{ secrets.GH_REPO_USERNAME }}
-          GITHUB_REPO_TOKEN: ${{ secrets.GH_REPO_TOKEN }}

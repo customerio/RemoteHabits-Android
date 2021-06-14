@@ -6,27 +6,18 @@ The Remote Habits Android app.
 
 Here is how to get started with the project. Get it compiling on your machine.
 
-1. Create a new file in the root level of your project, `secrets.properties`. Inside, put:
+1. Build the app in Android Studio.
 
-```
-githubRepo.username="<github-username>"
-githubRepo.token="<github-token>"
-```
-
-*Note: You will need to create a new GitHub personal access token that has access to private repos scope. Make sure your GitHub account has read access to the SDK's GitHub repo. Then, replace `<github-username>` with your GitHub username and `<github-token>` with the access token you just created.*
-
-2. Build the app in Android Studio.
-
-3. Setup git hooks to lint your code for you:
+2. Setup git hooks to lint your code for you:
 
 ```
 $ ./hooks/autohook.sh install
 [Autohook] Scripts installed into .git/hooks
 ```
 
-4. Install `ktlint` Kotlin linting CLI tool. The easiest way is `brew install ktlint` but if you are not on a Mac, [find another way to install](https://ktlint.github.io/#getting-started) on your machine. 
+3. Install `ktlint` Kotlin linting CLI tool. The easiest way is `brew install ktlint` but if you are not on a Mac, [find another way to install](https://ktlint.github.io/#getting-started) on your machine. 
 
-5. This project requires Firebase setup in order to build the app. You can quickly get the app to build with `cp app/google-services.json.example app/google-services.json` but if you want to do anything like push notifications, you will want to follow [Firebase setup](https://firebase.google.com/docs/android/setup) to add a new Android app to your Firebase project. This will give you a `google-services.json` file to download. Save this file at `app/google-services`. 
+4. This project requires Firebase setup in order to build the app. You can quickly get the app to build with `cp app/google-services.json.example app/google-services.json` but if you want to do anything like push notifications, you will want to follow [Firebase setup](https://firebase.google.com/docs/android/setup) to add a new Android app to your Firebase project. This will give you a `google-services.json` file to download. Save this file at `app/google-services`. 
 
 # Deployment
 
@@ -50,8 +41,6 @@ For both of these service accounts, create a private key file. Do this by clicki
 
 * Set the following secret environment variables:
 
-1. `GH_REPO_USERNAME` - username of github user to authenticate with. This is just to read packages so we can pull the SDK successfully.
-2. `GH_REPO_TOKEN` - personal github token with the scopes to read private repos and read packages. 
 3. `FIREBASE_PROJECT_ID` - Firebase project for app. Find in firebase project settings > General tab. 
 4. `REPO_PUSH_TOKEN` - personal github token to push to the repo. Make sure the github username for this token has push permissions for this repo. 
 5. `FIREBASE_TEST_LAB_GOOGLE_AUTH` - base64 encoded string of the Firebase Test Lab Service Account private file you downloaded. 
