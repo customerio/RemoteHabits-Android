@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: ['*']
 
-env:
-  GITHUB_REPO_USERNAME: ${{ secrets.GH_REPO_USERNAME }}
-  GITHUB_REPO_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
-
 jobs:
   jvm-test:
     runs-on: ubuntu-latest
