@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup node to run semantic-release
-        uses: actions/setup-node@v2
       - name: Setup Ruby to run Fastlane 
         uses: ruby/setup-ruby@v1 
         with:
@@ -24,6 +22,10 @@ jobs:
           java-version: '11' # Robolectric requires v9, but we choose LTS: https://adoptopenjdk.net/
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
+      - name: Prepare app for building 
+        run: echo "${{ secrets.GOOGLE_SERVICES_BASE64 }}" | base64 -d > app/google-services.json
+        env:
+          GOOGLE_SERVICES_BASE64: "${{ secrets.GOOGLE_SERVICES_BASE64 }}"
       - name: Setup Fastlane 
         uses: maierj/fastlane-action@v2.0.1
         with:

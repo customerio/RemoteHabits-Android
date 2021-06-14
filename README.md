@@ -26,6 +26,8 @@ $ ./hooks/autohook.sh install
 
 4. Install `ktlint` Kotlin linting CLI tool. The easiest way is `brew install ktlint` but if you are not on a Mac, [find another way to install](https://ktlint.github.io/#getting-started) on your machine. 
 
+5. This project requires Firebase setup in order to build the app. You can quickly get the app to build with `cp app/google-services.json.example app/google-services.json` but if you want to do anything like push notifications, you will want to follow [Firebase setup](https://firebase.google.com/docs/android/setup) to add a new Android app to your Firebase project. This will give you a `google-services.json` file to download. Save this file at `app/google-services`. 
+
 # Deployment
 
 Here are instructions for CI setup. 
@@ -59,3 +61,4 @@ For both of these service accounts, create a private key file. Do this by clicki
 9. `ANDROID_SIGNING_STORE_PASSWORD` - store password for release signing configuration.
 10. `ANDROID_SIGNING_ALIAS` - alias for the keystore file used for release signing. 
 11. `ANDROID_SIGNING_KEY_PASSWORD` - key password for release signing configuration. 
+12. `GOOGLE_SERVICES_BASE64` - Follow [Firebase setup](https://firebase.google.com/docs/android/setup) to add a new Android app to your Firebase project. This will give you a `google-services.json` file to download. Download this file onto your computer then run `cat google-services.json | base64`. The output is the value for this secret. 
