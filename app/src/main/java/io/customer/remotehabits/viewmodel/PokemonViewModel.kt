@@ -6,8 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.customer.remotehabits.service.api.ApiResult
 import io.customer.remotehabits.service.repository.PokemonRepository
 import io.customer.remotehabits.service.vo.PokemonVo
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class PokemonViewModel @Inject constructor(private val pokemonRepository: PokemonRepository) :

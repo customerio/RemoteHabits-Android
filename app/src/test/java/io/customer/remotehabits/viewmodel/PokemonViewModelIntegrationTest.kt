@@ -12,13 +12,13 @@ import io.customer.remotehabits.rule.runBlockingTest
 import io.customer.remotehabits.service.repository.PokemonRepository
 import io.customer.remotehabits.service.vo.PokemonSpritesVo
 import io.customer.remotehabits.service.vo.PokemonVo
+import javax.inject.Inject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import retrofit2.Response
-import javax.inject.Inject
 
 // Added fallback because Robolectric does not support SDK 31 yet
 @Config(sdk = [30])
