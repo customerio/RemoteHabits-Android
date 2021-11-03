@@ -130,7 +130,7 @@ platform :android do
       # run `gcloud beta firebase test android models list` to get list of devices to test on 
       devices: [
         # Pixel 4 physical
-        { model: "flame", version: "31" }
+        { model: "flame", version: "30" }
       ]
     )
   end 
