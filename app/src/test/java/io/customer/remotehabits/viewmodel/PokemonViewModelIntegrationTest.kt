@@ -12,13 +12,16 @@ import io.customer.remotehabits.rule.runBlockingTest
 import io.customer.remotehabits.service.repository.PokemonRepository
 import io.customer.remotehabits.service.vo.PokemonSpritesVo
 import io.customer.remotehabits.service.vo.PokemonVo
-import javax.inject.Inject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import retrofit2.Response
+import javax.inject.Inject
 
+// Added fallback because Robolectric does not support SDK 31 yet
+@Config(sdk = [30])
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class PokemonViewModelIntegrationTest : BaseTest() {
@@ -26,10 +29,12 @@ class PokemonViewModelIntegrationTest : BaseTest() {
     override fun provideTestClass(): Any = this
 
     // We have to manually construct the ViewModel because @Inject doesn't work for ViewModel
-    @Inject lateinit var pokemonRepository: PokemonRepository
+    @Inject
+    lateinit var pokemonRepository: PokemonRepository
     private lateinit var viewModel: PokemonViewModel
 
-    @get:Rule val runInstantTaskRule = testRules
+    @get:Rule
+    val runInstantTaskRule = testRules
 
     @Before
     override fun setup() {
@@ -40,7 +45,15 @@ class PokemonViewModelIntegrationTest : BaseTest() {
 
     @Test
     fun viewmodel_test() = mainCoroutineRule.runBlockingTest {
-        whenever(pokemonApiService.getPokemon(any())).thenReturn(Response.success(200, PokemonVo(context.getString(R.string.app_name), PokemonSpritesVo(Uri.parse(""), Uri.parse("")))))
+        whenever(pokemonApiService.getPokemon(any())).thenReturn(
+            Response.success(
+                200,
+                PokemonVo(
+                    context.getString(R.string.app_name),
+                    PokemonSpritesVo(Uri.parse(""), Uri.parse(""))
+                )
+            )
+        )
 
         testCoroutine { done ->
             viewModel.getPokemon("Remote Habits") { actual ->
@@ -54,7 +67,12 @@ class PokemonViewModelIntegrationTest : BaseTest() {
 
     @Test
     fun repo_test() = mainCoroutineRule.runBlockingTest {
-        whenever(pokemonApiService.getPokemon(any())).thenReturn(Response.success(200, PokemonVo("ditto", PokemonSpritesVo(Uri.parse(""), Uri.parse("")))))
+        whenever(pokemonApiService.getPokemon(any())).thenReturn(
+            Response.success(
+                200,
+                PokemonVo("ditto", PokemonSpritesVo(Uri.parse(""), Uri.parse("")))
+            )
+        )
 
         val actual = pokemonRepository.getPokemon("ditto")
 
