@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:name=".ui.MainApplication"
         android:theme="@style/Theme.RemoteHabits">
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +30,7 @@
             </intent-filter>
         </service>
 
-        <!-- Disable Firebase automatically running. This is because when running instrumentation tests, sometimes the Firebase Messaging Service runs our service really early before dependency injection has a chance to get started. We want to run messaging only when the real app runs. -->
+<!--         Disable Firebase automatically running. This is because when running instrumentation tests, sometimes the Firebase Messaging Service runs our service really early before dependency injection has a chance to get started. We want to run messaging only when the real app runs. -->
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
             android:value="false" />

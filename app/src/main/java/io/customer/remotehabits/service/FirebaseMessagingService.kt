@@ -8,8 +8,7 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import io.customer.remotehabits.service.logger.AppActivityKey
-import io.customer.remotehabits.service.logger.AppActivityParamKey
+import io.customer.messagingpush.CustomerIOFirebaseMessagingService
 import io.customer.remotehabits.service.logger.Logger
 
 /**
@@ -33,7 +32,10 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     // make sure all properties are lazy loaded and not called unless the app is running.
     private val logger: Logger
-        get() = EntryPointAccessors.fromApplication(application, FirebaseMessagingServiceEntryPoint::class.java).logger()
+        get() = EntryPointAccessors.fromApplication(
+            application,
+            FirebaseMessagingServiceEntryPoint::class.java
+        ).logger()
 
     // There are two types of messages data messages and notification messages. Data messages are handled
     // here in onMessageReceived whether the app is in the foreground or background. Data messages are the type
@@ -51,21 +53,9 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                 Pair("raw", message.toString())
             )
         )
-
-        if (message.data.isNotEmpty()) {
-            logger.appActivityOccurred(
-                AppActivityKey.PushNotificationReceived,
-                mapOf(
-                    Pair(AppActivityParamKey.Type, "data")
-                )
-            )
-        } else {
-            logger.appActivityOccurred(
-                AppActivityKey.PushNotificationReceived,
-                mapOf(
-                    Pair(AppActivityParamKey.Type, "ui")
-                )
-            )
+        val handled = CustomerIOFirebaseMessagingService.onMessageReceived(this, message)
+        if (handled) {
+            logger.breadcrumb(this, "Push notification has been handled", null)
         }
     }
 
@@ -76,6 +66,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                 Pair("token", token)
             )
         )
+        CustomerIOFirebaseMessagingService.onNewToken(token)
     }
 
     @EntryPoint

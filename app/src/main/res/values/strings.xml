@@ -4,4 +4,5 @@
     <string name="bad_internet_connection_error_message">There is a problem with your Internet. Reconnect, then try again.</string>
     <string name="developer_error_message">Sorry! There was an error. Our team has been notified to take care of it.</string>
     <string name="api_down_message">Looks like the backend system is temporarily down. Try again in a few minutes.</string>
+    <string name="track_click">Track Click</string>
 </resources>
