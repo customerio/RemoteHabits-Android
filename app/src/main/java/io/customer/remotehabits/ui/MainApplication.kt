@@ -22,6 +22,5 @@ class MainApplication : Application() {
         FirebaseApp.initializeApp(this)
         // manually enable firebase messaging and analytics. We disabled them from starting automatically in the manifest so that way they don't run during tests (even though it's not a huge deal if they do).
         FirebaseMessaging.getInstance().isAutoInitEnabled = true
-
     }
 }
