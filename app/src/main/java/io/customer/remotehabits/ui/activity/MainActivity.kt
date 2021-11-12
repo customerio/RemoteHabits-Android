@@ -14,6 +14,9 @@ import io.customer.remotehabits.service.logger.LogcatLogger.Companion.TAG
 import io.customer.remotehabits.service.util.RandomUtil
 import io.customer.sdk.CustomerIO
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -32,31 +35,18 @@ class MainActivity : AppCompatActivity() {
             setContentView(root)
         }
 
-        identifyYouCustomer()
-        trackClick()
+        setupListeners()
     }
 
-    private fun trackClick() {
+    private fun setupListeners() {
         binding.trackBtn.setOnClickListener {
             CustomerIO.instance().track(
                 "button",
                 mapOf("click-count" to buttonClickCounter)
-            ).enqueue()
+            ).enqueue(outputCallback)
             buttonClickCounter++
         }
-    }
 
-    private val outputCallback = Action.Callback<Unit> { result ->
-        when (result) {
-            is ErrorResult -> Log.v("ErrorResult", result.error.getDisplayMessage())
-            is Success -> {
-                Log.v("Success", "Success")
-                registerToken()
-            }
-        }
-    }
-
-    private fun identifyYouCustomer() {
         binding.identifyBtn.setOnClickListener {
             var identifier = binding.identifyEd.text.toString()
 
@@ -65,7 +55,29 @@ class MainActivity : AppCompatActivity() {
                 identifier = "remote-habits"
             }
 
-            CustomerIO.instance().identify(identifier = identifier).enqueue(outputCallback)
+            identify(identifier)
+        }
+    }
+
+    private val outputCallback = Action.Callback<Unit> { result ->
+        when (result) {
+            is ErrorResult -> Log.v("ErrorResult", result.error.getDisplayMessage())
+            is Success -> Log.v("Success", "Success")
+        }
+    }
+
+    private fun identify(identifier: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            // unregister token from any previously identified customer
+            CustomerIO.instance().deleteDeviceToken().execute()
+
+            // identify a customer
+            val result = CustomerIO.instance().identify(identifier = identifier)
+                .execute()
+            if (result is Success) {
+                // once identified register the token with the newly identified customer
+                registerToken()
+            }
         }
     }
 
@@ -81,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                 val token = task.result
 
                 Log.d(TAG, "Token: $token")
-                CustomerIO.instance().registerDeviceToken(token).enqueue()
+                CustomerIO.instance().registerDeviceToken(token).execute()
             }
         )
     }
