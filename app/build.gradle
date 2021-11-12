@@ -94,8 +94,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
     // Customer.io SDK
-    implementation 'io.customer.android:tracking:1.0.0-alpha.2'
-    implementation 'io.customer.android:messaging-push-fcm:1.0.0-alpha.2'
+    implementation 'io.customer.android:tracking:1.0.0-alpha.3'
+    implementation 'io.customer.android:messaging-push-fcm:1.0.0-alpha.3'
 
     // Android architecture, lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
