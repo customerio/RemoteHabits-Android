@@ -3,14 +3,20 @@ package io.customer.remotehabits.ui.activity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import io.customer.base.comunication.Action
 import io.customer.base.data.ErrorResult
 import io.customer.base.data.Success
 import io.customer.remotehabits.databinding.ActivityMainBinding
+import io.customer.remotehabits.service.logger.LogcatLogger.Companion.TAG
 import io.customer.remotehabits.service.util.RandomUtil
 import io.customer.sdk.CustomerIO
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -29,17 +35,27 @@ class MainActivity : AppCompatActivity() {
             setContentView(root)
         }
 
-        identifyYouCustomer()
-        trackClick()
+        setupListeners()
     }
 
-    private fun trackClick() {
+    private fun setupListeners() {
         binding.trackBtn.setOnClickListener {
             CustomerIO.instance().track(
                 "button",
                 mapOf("click-count" to buttonClickCounter)
             ).enqueue(outputCallback)
             buttonClickCounter++
+        }
+
+        binding.identifyBtn.setOnClickListener {
+            var identifier = binding.identifyEd.text.toString()
+
+            // in case user doesn't enter an identifier use the default one
+            if (identifier.isEmpty()) {
+                identifier = "remote-habits"
+            }
+
+            identify(identifier)
         }
     }
 
@@ -50,10 +66,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun identifyYouCustomer() {
-        CustomerIO.instance()
-            .identify(
-                identifier = "remote-habits"
-            ).enqueue(outputCallback)
+    private fun identify(identifier: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            // unregister token from any previously identified customer
+            CustomerIO.instance().deleteDeviceToken().execute()
+
+            // identify a customer
+            val result = CustomerIO.instance().identify(identifier = identifier)
+                .execute()
+            if (result is Success) {
+                // once identified register the token with the newly identified customer
+                registerToken()
+            }
+        }
+    }
+
+    private fun registerToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(
+            OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                val token = task.result
+
+                Log.d(TAG, "Token: $token")
+                CustomerIO.instance().registerDeviceToken(token).execute()
+            }
+        )
     }
 }

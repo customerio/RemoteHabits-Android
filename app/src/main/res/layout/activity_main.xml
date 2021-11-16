@@ -4,16 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     tools:context=".ui.activity.MainActivity">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/identifyEd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email_or_identifier"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/identifyBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/identify"
+        app:layout_constraintStart_toStartOf="@id/identifyEd"
+        app:layout_constraintTop_toBottomOf="@+id/identifyEd" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/trackBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/track_click"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@id/identifyEd"
+        app:layout_constraintTop_toBottomOf="@+id/identifyEd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
