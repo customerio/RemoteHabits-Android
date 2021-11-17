@@ -6,6 +6,7 @@ import android.util.Log
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
+import io.customer.remotehabits.BuildConfig
 import io.customer.sdk.CustomerIO
 import io.customer.sdk.data.communication.CustomerIOUrlHandler
 
@@ -17,8 +18,8 @@ class MainApplication : Application(), CustomerIOUrlHandler {
 
         // always call this before initializing firebase
         val builder = CustomerIO.Builder(
-            siteId = "your-site-id",
-            apiKey = "your-api-key",
+            siteId = BuildConfig.SITE_ID,
+            apiKey = BuildConfig.API_KEY,
             appContext = this
         )
         builder.setCustomerIOUrlHandler(this)
