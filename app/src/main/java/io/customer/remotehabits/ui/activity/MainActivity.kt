@@ -13,10 +13,10 @@ import io.customer.remotehabits.databinding.ActivityMainBinding
 import io.customer.remotehabits.service.logger.LogcatLogger.Companion.TAG
 import io.customer.remotehabits.service.util.RandomUtil
 import io.customer.sdk.CustomerIO
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
