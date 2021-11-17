@@ -22,6 +22,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "io.customer.remotehabits.AndroidTestTestRunner"
+
+        buildConfigField("String", "API_KEY", "\"" + localProperties['apiKey'] + "\"")
+        buildConfigField("String", "SITE_ID", "\"" + localProperties['siteId'] + "\"")
     }
     buildFeatures {
         viewBinding true
@@ -42,9 +45,6 @@ android {
             // makes compiling faster and allows us to not require multidex support for older SDKs
             // required for getting instrumentation tests to build
             defaultConfig.multiDexEnabled true
-
-            buildConfigField("String", "API_KEY", "\"" + localProperties['apiKey'] + "\"")
-            buildConfigField("String", "SITE_ID", "\"" + localProperties['siteId'] + "\"")
         }
         release {
             minifyEnabled true
