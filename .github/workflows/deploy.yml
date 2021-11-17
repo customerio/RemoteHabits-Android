@@ -30,8 +30,8 @@ jobs:
         run: touch local.properties
       - name: Add CIO creds secret in local properties
         run: |
-          echo "siteId=\"${{ secrets.CIO_SITE_ID }}"\" >> local.properties
-          echo "apiKey=\"${{ secrets.CIO_API_KEY }}"\" >> local.properties
+          echo "siteId=${{ secrets.CIO_SITE_ID }}\" >> local.properties
+          echo "apiKey=\${{ secrets.CIO_API_KEY }}\" >> local.properties
       - name: Setup Fastlane
         uses: maierj/fastlane-action@v2.0.1
         with:
