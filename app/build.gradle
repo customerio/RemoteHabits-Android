@@ -7,6 +7,13 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+def localProperties = new Properties()
+try {
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+} catch (Exception ex) {
+    println("$ex")
+}
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -19,6 +26,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "io.customer.remotehabits.AndroidTestTestRunner"
+
+        buildConfigField("String", "API_KEY", "\"" + localProperties['apiKey'] + "\"")
+        buildConfigField("String", "SITE_ID", "\"" + localProperties['siteId'] + "\"")
     }
     buildFeatures {
         viewBinding true
@@ -37,8 +47,8 @@ android {
         debug {
             defaultConfig.minSdkVersion 23
             // makes compiling faster and allows us to not require multidex support for older SDKs
-            defaultConfig.multiDexEnabled true
             // required for getting instrumentation tests to build
+            defaultConfig.multiDexEnabled true
         }
         release {
             minifyEnabled true
@@ -94,8 +104,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
     // Customer.io SDK
-    implementation 'io.customer.android:tracking:1.0.0-alpha.3'
-    implementation 'io.customer.android:messaging-push-fcm:1.0.0-alpha.3'
+    implementation 'io.customer.android:tracking:1.0.0-alpha.6'
+    implementation 'io.customer.android:messaging-push-fcm:1.0.0-alpha.6'
 
     // Android architecture, lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"

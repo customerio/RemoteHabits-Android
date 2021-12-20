@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                 val token = task.result
 
                 Log.d(TAG, "Token: $token")
-                CustomerIO.instance().registerDeviceToken(token).execute()
+                CustomerIO.instance().registerDeviceToken(token).enqueue(outputCallback)
             }
         )
     }

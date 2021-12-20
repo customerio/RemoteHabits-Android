@@ -2,6 +2,9 @@
 
 Sample app using the [Customer.io Android SDK](https://github.com/customerio/customerio-android). 
 
+# Get Started
+To run the remote habits app locally on your machine, you need to create a `local.properties` file on your machine.
+
 **Note: This project is a work in progress and not very useful at this time. Check out the [Customer.io Android SDK](https://github.com/customerio/customerio-android) to learn more about the progress of our mobile SDK and signup for early access.**
 
 # Contributing
