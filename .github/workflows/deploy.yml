@@ -27,9 +27,8 @@ jobs:
         env:
           GOOGLE_SERVICES_BASE64: "${{ secrets.GOOGLE_SERVICES_BASE64 }}"
       - name: Create Local Properties File
-        run: touch local.properties
-      - name: Add CIO creds secret in local properties
         run: |
+          touch local.properties
           echo "siteId=${{ secrets.CIO_SITE_ID }}" >> local.properties
           echo "apiKey=${{ secrets.CIO_API_KEY }}" >> local.properties
       - name: Setup Fastlane
