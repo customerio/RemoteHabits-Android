@@ -12,7 +12,7 @@ class DeepLinkActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDeepLinkBinding.inflate(layoutInflater).apply {
-            setContentView(root)
+//            setContentView(root)
         }
 
         val data: Uri? = intent?.data
