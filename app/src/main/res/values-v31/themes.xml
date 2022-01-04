@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.RemoteHabits" parent="Theme.AppCompat">
+        <!-- Primary brand color. -->
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="android:windowSplashScreenBackground">@color/yellow</item>
+    </style>
+</resources>
