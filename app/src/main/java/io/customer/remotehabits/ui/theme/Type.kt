@@ -1,6 +1,5 @@
 package io.customer.remotehabits.ui.theme
 
-import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -16,41 +15,47 @@ private val RobotoFontFamily = FontFamily(
     Font(R.font.roboto_light, FontWeight.Light),
 )
 
-val RHTypography = Typography(
-    defaultFontFamily = RobotoFontFamily,
-    h1 = TextStyle(
+data class RHTypography(
+    val h1: TextStyle = TextStyle(
+        fontFamily = RobotoFontFamily,
         fontWeight = FontWeight.W400,
         fontSize = 36.sp,
         letterSpacing = 0.sp
     ),
-    h2 = TextStyle(
+    val h2: TextStyle = TextStyle(
+        fontFamily = RobotoFontFamily,
         fontWeight = FontWeight.W400,
         fontSize = 22.sp,
         letterSpacing = 0.sp
     ),
-    h3 = TextStyle(
+    val h3: TextStyle = TextStyle(
+        fontFamily = RobotoFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        letterSpacing = 0.sp
+        letterSpacing = 0.1.sp
     ),
-    subtitle2 = TextStyle(
+    val input: TextStyle = TextStyle(
+        fontFamily = RobotoFontFamily,
         fontWeight = FontWeight.W400,
         fontSize = 16.sp,
-        letterSpacing = 0.sp
+        letterSpacing = 0.1.sp
     ),
-    body1 = TextStyle(
+    val body: TextStyle = TextStyle(
+        fontFamily = RobotoFontFamily,
         fontWeight = FontWeight.W400,
         fontSize = 14.sp,
         letterSpacing = 0.25.sp
     ),
-    button = TextStyle(
+    val button: TextStyle = TextStyle(
+        fontFamily = RobotoFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         letterSpacing = 0.25.sp
     ),
-    caption = TextStyle(
+    val caption: TextStyle = TextStyle(
+        fontFamily = RobotoFontFamily,
         fontWeight = FontWeight.W400,
         fontSize = 12.sp,
         letterSpacing = 0.sp
-    ),
+    )
 )

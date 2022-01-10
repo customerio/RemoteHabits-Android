@@ -3,6 +3,6 @@
 
     <style name="Theme.RemoteHabits" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
-        <item name="android:windowSplashScreenBackground">@color/yellow</item>
+        <item name="android:windowSplashScreenBackground">@color/blue_variant</item>
     </style>
 </resources>

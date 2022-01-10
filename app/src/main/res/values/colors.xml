@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="gray_300">#C7C7D4</color>
-    <color name="gray_500">#6F7488</color>
-    <color name="gray_900">#343446</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFF</color>
-    <color name="purple_300">#BA9CFF</color>
-    <color name="purple_700">#5721CC</color>
-    <color name="clementine">#FFEBD3</color>
     <color name="yellow">#FFFAE5</color>
+    <color name="yellow_variant">#FFD8BA</color>
+    <color name="blue">#2F326A</color>
+    <color name="blue_variant">#23232F</color>
 </resources>

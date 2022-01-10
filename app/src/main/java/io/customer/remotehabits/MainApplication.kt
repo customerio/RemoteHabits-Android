@@ -1,4 +1,4 @@
-package io.customer.remotehabits.ui
+package io.customer.remotehabits
 
 import android.app.Application
 import android.net.Uri
@@ -6,7 +6,6 @@ import android.util.Log
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
-import io.customer.remotehabits.BuildConfig
 import io.customer.sdk.CustomerIO
 import io.customer.sdk.data.communication.CustomerIOUrlHandler
 

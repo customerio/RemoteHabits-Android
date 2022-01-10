@@ -1,8 +1,7 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.RemoteHabits" parent="Theme.AppCompat">
+    <style name="Theme.RemoteHabits" parent="Theme.AppCompat.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="android:windowBackground">@color/yellow</item>
-        <item name="android:windowSplashscreenContent">@color/yellow</item>
+        <item name="android:windowBackground">@drawable/splash_bg</item>
     </style>
 </resources>
