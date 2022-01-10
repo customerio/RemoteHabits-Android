@@ -2,54 +2,79 @@ package io.customer.remotehabits.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.collectAsState
+import androidx.core.view.WindowCompat
+import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import dagger.hilt.android.AndroidEntryPoint
 import io.customer.base.comunication.Action
 import io.customer.base.data.ErrorResult
 import io.customer.base.data.Success
-import io.customer.remotehabits.databinding.ActivityMainBinding
+import io.customer.remotehabits.ui.RHApp
+import io.customer.remotehabits.ui.navigation.NavigationManager
 import io.customer.sdk.CustomerIO
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-
-    private var buttonClickCounter = 0
+    @Inject
+    lateinit var navigationManager: NavigationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater).apply {
-//            setContentView(root)
-        }
-
-        setupListeners()
-    }
-
-    private fun setupListeners() {
-        binding.trackBtn.setOnClickListener {
-            CustomerIO.instance().track(
-                "button",
-                mapOf("click-count" to buttonClickCounter)
-            ).enqueue(outputCallback)
-            buttonClickCounter++
-        }
-
-        binding.identifyBtn.setOnClickListener {
-            var identifier = binding.identifyEd.text.toString()
-
-            // in case user doesn't enter an identifier use the default one
-            if (identifier.isEmpty()) {
-                identifier = "remote-habits"
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        setContent {
+            val navController = rememberNavController()
+            navigationManager.commands.collectAsState().value.also { command ->
+                if (command.destination.isNotEmpty()) {
+                    navController.navigate(command.destination)
+                }
             }
-
-            identify(identifier)
+            RHApp(navController)
         }
     }
+
+//    private lateinit var binding: ActivityMainBinding
+
+    private var buttonClickCounter = 0
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//        binding = ActivityMainBinding.inflate(layoutInflater).apply {
+// //            setContentView(root)
+//        }
+//
+//        setupListeners()
+//    }
+
+//    private fun setupListeners() {
+//        binding.trackBtn.setOnClickListener {
+//            CustomerIO.instance().track(
+//                "button",
+//                mapOf("click-count" to buttonClickCounter)
+//            ).enqueue(outputCallback)
+//            buttonClickCounter++
+//        }
+//
+//        binding.identifyBtn.setOnClickListener {
+//            var identifier = binding.identifyEd.text.toString()
+//
+//            // in case user doesn't enter an identifier use the default one
+//            if (identifier.isEmpty()) {
+//                identifier = "remote-habits"
+//            }
+//
+//            identify(identifier)
+//        }
+//    }
 
     private val outputCallback = Action.Callback<Unit> { result ->
         when (result) {
