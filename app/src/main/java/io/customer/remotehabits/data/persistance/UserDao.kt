@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user")
-    fun getAll(): Flow<List<User>>
+    fun observeAll(): Flow<List<User>>
 
     @Query("SELECT * FROM user WHERE email IN (:emails)")
-    fun loadAllByIds(emails: Array<String>): Flow<List<User>>
+    fun observeAllByEmail(emails: Array<String>): Flow<List<User>>
 
     @Query("SELECT * FROM user WHERE name LIKE :name LIMIT 1")
     fun findByName(name: String): User
@@ -22,7 +22,7 @@ interface UserDao {
     fun getUserCount(): Long
 
     @Insert
-    suspend fun insertAll(vararg users: User)
+    suspend fun insert(vararg users: User)
 
     @Delete
     fun delete(user: User)

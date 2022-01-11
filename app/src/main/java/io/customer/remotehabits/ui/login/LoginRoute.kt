@@ -162,7 +162,7 @@ fun LoginTextField(
     if (errorMessage.isNotEmpty()) {
         Text(
             text = errorMessage,
-            color = Color.Red,
+            color = RHTheme.colors.error,
             style = RHTheme.typography.caption
         )
     }

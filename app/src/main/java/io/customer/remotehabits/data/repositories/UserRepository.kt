@@ -19,14 +19,14 @@ class UserRepositoryImpl(
 
     override fun getUser(email: String?): Flow<User?> {
         val usersList = if (email.isNullOrEmpty()) {
-            userDao.getAll()
+            userDao.observeAll()
         } else {
-            userDao.loadAllByIds(emails = arrayOf(email))
+            userDao.observeAllByEmail(emails = arrayOf(email))
         }
         return usersList.map { it.firstOrNull() }
     }
 
     override suspend fun login(email: String, name: String) {
-        return userDao.insertAll(User(email = email, name = name))
+        return userDao.insert(User(email = email, name = name))
     }
 }
