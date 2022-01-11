@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Colors for Splash screen-->
     <color name="yellow">#FFFAE5</color>
     <color name="yellow_variant">#FFD8BA</color>
     <color name="blue">#2F326A</color>
