@@ -219,7 +219,7 @@ fun LoginFormView(
                 shape = RoundedCornerShape(100.dp),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = RHTheme.colors.primary,
-                    contentColor = Color.White
+                    contentColor = RHTheme.colors.formBackground
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
