@@ -27,6 +27,8 @@ class RHColors(
     textTertiary: Color,
     underline: Color,
     cardBackground: Color,
+    error: Color,
+    formBackground: Color,
     isLight: Boolean
 ) {
     var background by mutableStateOf(background)
@@ -49,6 +51,10 @@ class RHColors(
         private set
     var cardBackground by mutableStateOf(cardBackground)
         private set
+    var error by mutableStateOf(error)
+        private set
+    var formBackground by mutableStateOf(formBackground)
+        private set
     var isLight by mutableStateOf(isLight)
         internal set
 
@@ -63,6 +69,8 @@ class RHColors(
         textTertiary: Color = this.textTertiary,
         underline: Color = this.underline,
         cardBackground: Color = this.cardBackground,
+        error: Color = this.error,
+        formBackground: Color = this.formBackground,
         isLight: Boolean = this.isLight
     ): RHColors = RHColors(
         background = background,
@@ -75,6 +83,8 @@ class RHColors(
         textTertiary = textTertiary,
         underline = underline,
         cardBackground = cardBackground,
+        error = error,
+        formBackground = formBackground,
         isLight = isLight
     )
 
@@ -88,6 +98,8 @@ class RHColors(
         textSecondary = other.textSecondary
         textTertiary = other.textTertiary
         underline = other.underline
+        error = other.error
+        formBackground = other.formBackground
         cardBackground = other.cardBackground
     }
 }
@@ -102,6 +114,8 @@ fun lightColors(
     textSecondary: Color = Gray900,
     textTertiary: Color = Gray500,
     underline: Color = Gray300,
+    error: Color = Color.Red,
+    formBackground: Color = Color.White,
     cardBackground: Color = Color.White,
 ): RHColors = RHColors(
     background = background,
@@ -114,6 +128,8 @@ fun lightColors(
     textTertiary = textTertiary,
     underline = underline,
     cardBackground = cardBackground,
+    error = error,
+    formBackground = formBackground,
     isLight = true
 )
 
@@ -127,6 +143,8 @@ fun darkColors(
     textSecondary: Color = Gray900,
     textTertiary: Color = Gray500,
     underline: Color = Gray500,
+    error: Color = Color.Red,
+    formBackground: Color = Color.White,
     cardBackground: Color = Gray900,
 ): RHColors = RHColors(
     background = background,
@@ -139,6 +157,8 @@ fun darkColors(
     textTertiary = textTertiary,
     underline = underline,
     cardBackground = cardBackground,
+    error = error,
+    formBackground = formBackground,
     isLight = false
 )
 

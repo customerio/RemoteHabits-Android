@@ -7,4 +7,12 @@
     <string name="track_click">Track Click</string>
     <string name="identify">Identify</string>
     <string name="email_or_identifier">Email or identifier</string>
+    <string name="remote_habbits">Remote Habits</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="continue_as_guest">Continue as Guest</string>
+    <string name="database">remote_habits_db</string>
+    <string name="invalid_email">Please enter a valid email</string>
+    <string name="invalid_name">Please enter a valid name</string>
 </resources>
