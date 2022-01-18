@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flowOn
 interface HabitRepository {
     fun getHabits(): Flow<List<Habit>>
     suspend fun updateHabit(habit: Habit)
-    suspend fun reset(context : Context)
+    suspend fun reset(context: Context)
 }
 
 class HabitRepositoryImpl(private val habitDao: HabitDao) : HabitRepository {
@@ -24,7 +24,7 @@ class HabitRepositoryImpl(private val habitDao: HabitDao) : HabitRepository {
         habitDao.updateHabits(habit)
     }
 
-    override suspend fun reset(context : Context) {
+    override suspend fun reset(context: Context) {
         habitDao.updateHabits(*HabitsStub.getHabits(context))
     }
 }

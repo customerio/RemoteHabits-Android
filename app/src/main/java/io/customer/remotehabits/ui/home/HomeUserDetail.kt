@@ -62,12 +62,12 @@ fun HomeUserDetailItem(
                         style = RHTheme.typography.body
                     )
                 }, secondaryText = {
-                    Text(
-                        text = secondaryText,
-                        color = RHTheme.colors.textPrimary,
-                        style = RHTheme.typography.h3
-                    )
-                }
+                Text(
+                    text = secondaryText,
+                    color = RHTheme.colors.textPrimary,
+                    style = RHTheme.typography.h3
+                )
+            }
             )
             HabitListActionText(
                 actionText = if (actionText == null) "" else stringResource(id = actionText),

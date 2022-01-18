@@ -254,7 +254,9 @@ fun LoginFormView(
 @Preview(uiMode = android.content.res.Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(LoginUiState(),
-     onLogin = { _, _ -> },
-    onGuestLogin = {})
+    LoginScreen(
+        LoginUiState(),
+        onLogin = { _, _ -> },
+        onGuestLogin = {}
+    )
 }

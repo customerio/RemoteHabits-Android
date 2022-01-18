@@ -106,8 +106,8 @@ fun RowScope.HabitListActionText(
         modifier = Modifier
             .weight(1F)
             .clickable {
-            onAction.invoke()
-        }
+                onAction.invoke()
+            }
     )
 }
 
