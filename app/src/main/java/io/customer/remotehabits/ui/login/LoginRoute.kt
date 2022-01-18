@@ -2,6 +2,7 @@ package io.customer.remotehabits.ui.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -32,6 +33,9 @@ fun LoginRoute(
         uiState = state.value,
         onLogin = { email, name ->
             loginViewModel.login(email, name)
+        },
+        onGuestLogin = {
+            loginViewModel.loginAsGuest()
         }
     )
 }
@@ -39,7 +43,8 @@ fun LoginRoute(
 @Composable
 fun LoginScreen(
     uiState: LoginUiState,
-    onLogin: (email: String, name: String) -> Unit
+    onLogin: (email: String, name: String) -> Unit,
+    onGuestLogin: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -64,7 +69,8 @@ fun LoginScreen(
             LoginFormView(
                 emailErrorState = if (uiState.emailError == null) "" else stringResource(id = uiState.emailError),
                 nameErrorState = if (uiState.nameError == null) "" else stringResource(id = uiState.nameError),
-                onLogin = onLogin
+                onLogin = onLogin,
+                onGuestLogin = onGuestLogin
             )
         }
         LoginScreenFooter()
@@ -172,7 +178,8 @@ fun LoginTextField(
 fun LoginFormView(
     emailErrorState: String,
     nameErrorState: String,
-    onLogin: (email: String, name: String) -> Unit
+    onLogin: (email: String, name: String) -> Unit,
+    onGuestLogin: () -> Unit
 ) {
 
     var name by remember { mutableStateOf("") }
@@ -234,7 +241,11 @@ fun LoginFormView(
                 text = stringResource(R.string.continue_as_guest),
                 style = RHTheme.typography.button.copy(fontWeight = FontWeight.W500),
                 color = RHTheme.colors.primary,
-                modifier = Modifier.padding(bottom = 28.dp)
+                modifier = Modifier
+                    .padding(bottom = 28.dp)
+                    .clickable {
+                        onGuestLogin.invoke()
+                    }
             )
         }
     }
@@ -243,5 +254,7 @@ fun LoginFormView(
 @Preview(uiMode = android.content.res.Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(LoginUiState()) { _, _ -> }
+    LoginScreen(LoginUiState(),
+     onLogin = { _, _ -> },
+    onGuestLogin = {})
 }

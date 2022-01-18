@@ -10,9 +10,10 @@ import io.customer.remotehabits.data.models.User
 import io.customer.remotehabits.data.repositories.UserRepository
 import io.customer.remotehabits.ui.navigation.LoginDirections
 import io.customer.remotehabits.ui.navigation.NavigationManager
-import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.*
+import javax.inject.Inject
 
 /**
  * UI state for the Login screen
@@ -34,8 +35,12 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LoginUiState(loading = true))
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
-    fun login(email: String, name: String) {
-        if (name.isEmpty()) {
+    fun login(email: String, name: String, isGuest: Boolean = false) {
+        if (isGuest) {
+            viewModelScope.launch {
+                userRepository.login(email = email, name = name, isGuest = isGuest)
+            }
+        } else if (name.isEmpty()) {
             _uiState.update {
                 it.copy(
                     nameError = R.string.invalid_name,
@@ -51,9 +56,18 @@ class LoginViewModel @Inject constructor(
             }
         } else {
             viewModelScope.launch {
-                userRepository.login(email = email, name = name)
+                userRepository.login(email = email, name = name, isGuest = isGuest)
             }
         }
+    }
+
+    fun loginAsGuest() {
+        val uuid = UUID.randomUUID().toString()
+        login(
+            email = uuid,
+            name = "Guest",
+            isGuest = true
+        )
     }
 
     init {
