@@ -8,4 +8,5 @@ import androidx.room.PrimaryKey
 data class User(
     @PrimaryKey val email: String,
     @ColumnInfo(name = "name") val name: String?,
+    @ColumnInfo(name = "is_guest") val isGuest: Boolean = false,
 )

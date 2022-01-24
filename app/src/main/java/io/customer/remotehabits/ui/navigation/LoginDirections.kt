@@ -4,11 +4,18 @@ import androidx.navigation.NamedNavArgument
 
 object LoginDirections {
 
-    val Default = object : NavigationCommand {
+    val default = object : NavigationCommand {
 
         override val arguments = emptyList<NamedNavArgument>()
 
         override val destination = ""
+    }
+
+    val login = object : NavigationCommand {
+
+        override val arguments = emptyList<NamedNavArgument>()
+
+        override val destination = Screen.Login.route
     }
 
     val dashboard = object : NavigationCommand {

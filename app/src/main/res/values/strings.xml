@@ -15,4 +15,21 @@
     <string name="database">remote_habits_db</string>
     <string name="invalid_email">Please enter a valid email</string>
     <string name="invalid_name">Please enter a valid name</string>
+    <string name="hydration">Hydration</string>
+    <string name="hydration_caption">Set reminders to drink water</string>
+    <string name="hydration_decription">Drinking enough water each day is crucial for many reasons: to regulate body temperature, keep joints lubricated, prevent infections, deliver nutrients to cells, and keep organs functioning properly. Being well-hydrated also improves sleep quality, cognition, and mood.</string>
+    <string name="taking_breaks">Taking Breaks</string>
+    <string name="taking_breaks_caption">Set reminders to take breaks</string>
+    <string name="taking_breaks_decription">Taking a break improves focus and concentration and provides the opportunity for an employee\'s mental reset. After a break, work can resume with more energy and motivation. Working without taking one or more breaks only leads to mental and physical fatigue. It can even lead to burnout in the long run.</string>
+    <string name="focus_time">Focus Time</string>
+    <string name="focus_time_caption">Set reminders to focus</string>
+    <string name="focus_time_decription">Set reminders to focus</string>
+    <string name="users_habits">%1$s\'s habits</string>
+    <string name="details">Details</string>
+    <string name="logout">Log out</string>
+    <string name="site_id">Site Id</string>
+    <string name="sdk">SDK</string>
+    <string name="switch_id">Switch</string>
+    <string name="anonymous">Anonymous</string>
+    <string name="guest">Guest</string>
 </resources>

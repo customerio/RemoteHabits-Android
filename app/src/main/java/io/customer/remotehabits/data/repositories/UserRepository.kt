@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.map
 interface UserRepository {
     suspend fun isLoggedIn(): Boolean
     fun getUser(email: String? = null): Flow<User?>
-    suspend fun login(email: String, name: String)
+    suspend fun login(email: String, name: String, isGuest: Boolean = false)
+    suspend fun deleteUser(user: User)
 }
 
 class UserRepositoryImpl(
@@ -26,7 +27,11 @@ class UserRepositoryImpl(
         return usersList.map { it.firstOrNull() }
     }
 
-    override suspend fun login(email: String, name: String) {
-        return userDao.insert(User(email = email, name = name))
+    override suspend fun login(email: String, name: String, isGuest: Boolean) {
+        return userDao.insert(User(email = email, name = name, isGuest = isGuest))
+    }
+
+    override suspend fun deleteUser(user: User) {
+        userDao.delete(user = user)
     }
 }
