@@ -8,11 +8,11 @@ import io.customer.remotehabits.data.models.Habit
 import io.customer.remotehabits.data.models.User
 import io.customer.remotehabits.data.repositories.HabitRepository
 import io.customer.remotehabits.data.repositories.UserRepository
-import io.customer.remotehabits.ui.navigation.LoginDirections
+import io.customer.remotehabits.ui.navigation.DashboardDirections
 import io.customer.remotehabits.ui.navigation.NavigationManager
-import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class HomeUiState(
     val user: User = User("", ""),
@@ -61,7 +61,11 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             habitRepository.reset(context)
             userRepository.deleteUser(user)
-            navigationManager.navigate(LoginDirections.login)
+
         }
+    }
+
+    fun openHabitDetail(habit: Habit) {
+        navigationManager.navigate(DashboardDirections.habitDetail(habit.type))
     }
 }

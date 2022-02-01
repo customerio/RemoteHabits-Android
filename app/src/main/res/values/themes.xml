@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.RemoteHabits" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme.RemoteHabits" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="android:windowBackground">@drawable/splash_bg</item>
     </style>

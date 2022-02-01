@@ -32,4 +32,12 @@
     <string name="switch_id">Switch</string>
     <string name="anonymous">Anonymous</string>
     <string name="guest">Guest</string>
+    <string name="back">Back</string>
+    <string name="add_to_my_habits">Add to my habits</string>
+    <string name="added_to_my_habits">Added to my habits</string>
+    <string name="reminders">Reminders</string>
+    <string name="how_many_times_per_day">How many times per day?</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="why_it_matters">Why it matters</string>
 </resources>

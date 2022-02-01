@@ -2,14 +2,18 @@ package io.customer.remotehabits.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import io.customer.remotehabits.data.models.HabitType
+import io.customer.remotehabits.ui.detail.HabitDetailRoute
 import io.customer.remotehabits.ui.home.HomeRoute
 import io.customer.remotehabits.ui.login.LoginRoute
+import io.customer.remotehabits.ui.navigation.LeafScreen.Companion.ARGS_HABIT_CATEGORY
 
 sealed class Screen(val route: String) {
     object Authentication : Screen("auth")
@@ -17,19 +21,29 @@ sealed class Screen(val route: String) {
     object Dashboard : Screen("dashboard")
 }
 
-sealed class LeafScreen(val route: String) {
+sealed class LeafScreen(private val route: String) {
+
+    companion object {
+        const val ARGS_HABIT_CATEGORY = "category"
+    }
 
     fun createRoute(root: Screen) = "${root.route}/$route"
 
-    object Hydration : LeafScreen("hydration")
+    object HabitDetails : Screen("habit/{category}") {
+
+        fun createRoute(type: HabitType): String {
+            return "habit/${type.name}"
+        }
+    }
 }
 
 @Composable
 fun RHNavGraph(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
     startDestination: String = Screen.Login.route
 ) {
+
+    val navController = rememberNavController()
 
     NavHost(
         navController = navController,
@@ -38,11 +52,32 @@ fun RHNavGraph(
     ) {
         addLoginRoute(navController)
         addDashboardRoute(navController)
+        addHabitDetailRoute(navController)
+    }
+}
+
+internal fun NavGraphBuilder.addHabitDetailRoute(
+    navController: NavHostController,
+) {
+    composable(
+        route = LeafScreen.HabitDetails.route,
+        arguments = listOf(
+            navArgument(ARGS_HABIT_CATEGORY) { type = NavType.StringType }
+        )
+    )
+    {
+        val habitType = it.arguments?.getString("category")
+        requireNotNull(habitType) { "$ARGS_HABIT_CATEGORY parameter wasn't found. Please make sure it's set!" }
+        HabitDetailRoute(
+            onBackPressed = {
+                navController.navigateUp()
+            }
+        )
     }
 }
 
 internal fun NavGraphBuilder.addLoginRoute(
-    navController: NavController
+    navController: NavHostController,
 ) {
     composable(Screen.Login.route) {
         LoginRoute()
@@ -50,9 +85,11 @@ internal fun NavGraphBuilder.addLoginRoute(
 }
 
 internal fun NavGraphBuilder.addDashboardRoute(
-    navController: NavController
+    navController: NavHostController,
 ) {
     composable(Screen.Dashboard.route) {
-        HomeRoute()
+        HomeRoute(openHabitDetail = {
+            navController.navigate(LeafScreen.HabitDetails.createRoute(it.type))
+        })
     }
 }

@@ -23,12 +23,14 @@ import io.customer.sdk.CustomerIO
 
 @Composable
 fun HomeRoute(
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    openHabitDetail: (habit: Habit) -> Unit,
 ) {
     val state = homeViewModel.uiState.collectAsState()
     val context = LocalContext.current
     HomeScreen(
         state = state.value,
+        openHabitDetail = openHabitDetail,
         onHabitStatusChange = { type, isChecked ->
             homeViewModel.onStateChanged(type, isChecked)
         },
@@ -41,6 +43,7 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     state: HomeUiState,
+    openHabitDetail: (habit: Habit) -> Unit,
     onHabitStatusChange: (habit: Habit, isChecked: Boolean) -> Unit,
     onLogout: (user: User) -> Unit
 ) {
@@ -51,7 +54,7 @@ fun HomeScreen(
             .verticalScroll(rememberScrollState()),
     ) {
         HomeScreenTitle(state.user)
-        HomeScreenHabits(state.habits, onHabitStatusChange)
+        HomeScreenHabits(state.habits, openHabitDetail, onHabitStatusChange)
         HomeScreenUserDetails(state.user, onLogout = onLogout)
     }
 }
@@ -97,14 +100,20 @@ fun HomeScreenUserDetails(
 @Composable
 fun HomeScreenHabits(
     habits: List<Habit>,
+    openHabitDetail: (habit: Habit) -> Unit,
     onHabitStatusChange: (habit: Habit, isChecked: Boolean) -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         habits.forEach { habit ->
-            HomeHabitListItem(habit, onHabitStatusChange)
+            HomeHabitListItem(
+                habit = habit,
+                openHabitDetail = openHabitDetail,
+                onHabitStatusChange = onHabitStatusChange
+            )
         }
     }
 }
+
 
 @Composable
 fun HomeScreenTitle(user: User) {
@@ -130,7 +139,8 @@ fun PreviewHome() {
             user = User(name = "Bradley", email = "brad@email.com"),
             habits = HabitsStub.getHabits(context).toList()
         ),
+        openHabitDetail = {},
         onHabitStatusChange = { _, _ -> },
-        onLogout = { _ -> }
+        onLogout = { }
     )
 }

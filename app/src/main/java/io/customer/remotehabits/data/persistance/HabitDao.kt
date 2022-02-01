@@ -10,6 +10,9 @@ interface HabitDao {
     @Query("SELECT * FROM habit")
     fun observeAll(): Flow<List<Habit>>
 
+    @Query("SELECT * FROM habit WHERE type = :type")
+    fun observeByType(type: HabitType): Flow<Habit>
+
     @Query("SELECT * FROM habit WHERE type IN (:types)")
     fun observeAllByType(types: Array<HabitType>): Flow<List<Habit>>
 

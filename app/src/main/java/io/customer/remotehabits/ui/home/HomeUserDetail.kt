@@ -2,13 +2,10 @@ package io.customer.remotehabits.ui.home
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.customer.remotehabits.R
+import io.customer.remotehabits.ui.component.RemoteHabitCard
 import io.customer.remotehabits.ui.theme.RHTheme
 
 @Composable
@@ -37,10 +35,7 @@ fun HomeUserDetailItem(
     @StringRes actionText: Int?,
     onAction: () -> Unit
 ) {
-    Card(
-        backgroundColor = RHTheme.colors.cardBackground,
-        shape = RoundedCornerShape(size = 12.dp),
-        border = BorderStroke(width = 1.dp, color = RHTheme.colors.surface),
+    RemoteHabitCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
@@ -62,12 +57,12 @@ fun HomeUserDetailItem(
                         style = RHTheme.typography.body
                     )
                 }, secondaryText = {
-                Text(
-                    text = secondaryText,
-                    color = RHTheme.colors.textPrimary,
-                    style = RHTheme.typography.h3
-                )
-            }
+                    Text(
+                        text = secondaryText,
+                        color = RHTheme.colors.textPrimary,
+                        style = RHTheme.typography.h3
+                    )
+                }
             )
             HabitListActionText(
                 actionText = if (actionText == null) "" else stringResource(id = actionText),

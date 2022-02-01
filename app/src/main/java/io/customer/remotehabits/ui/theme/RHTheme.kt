@@ -140,7 +140,7 @@ fun darkColors(
     primary: Color = Purple700,
     accent: Color = Purple300,
     textPrimary: Color = Color.White,
-    textSecondary: Color = Gray900,
+    textSecondary: Color = Gray300,
     textTertiary: Color = Gray500,
     underline: Color = Gray500,
     error: Color = Color.Red,
