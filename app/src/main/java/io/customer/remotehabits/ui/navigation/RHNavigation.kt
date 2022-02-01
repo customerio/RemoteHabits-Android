@@ -16,7 +16,6 @@ import io.customer.remotehabits.ui.login.LoginRoute
 import io.customer.remotehabits.ui.navigation.LeafScreen.Companion.ARGS_HABIT_CATEGORY
 
 sealed class Screen(val route: String) {
-    object Authentication : Screen("auth")
     object Login : Screen("login")
     object Dashboard : Screen("dashboard")
 }
@@ -80,7 +79,14 @@ internal fun NavGraphBuilder.addLoginRoute(
     navController: NavHostController,
 ) {
     composable(Screen.Login.route) {
-        LoginRoute()
+        LoginRoute(
+            onLoginSuccess = {
+                navController.navigate(Screen.Dashboard.route) {
+                    launchSingleTop = true
+                    popUpTo(Screen.Login.route) { inclusive = true }
+                }
+            }
+        )
     }
 }
 
@@ -88,8 +94,14 @@ internal fun NavGraphBuilder.addDashboardRoute(
     navController: NavHostController,
 ) {
     composable(Screen.Dashboard.route) {
-        HomeRoute(openHabitDetail = {
-            navController.navigate(LeafScreen.HabitDetails.createRoute(it.type))
-        })
+        HomeRoute(
+            openHabitDetail = {
+                navController.navigate(LeafScreen.HabitDetails.createRoute(it.type))
+            },
+            onLogout = {
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Dashboard.route) { inclusive = true }
+                }
+            })
     }
 }

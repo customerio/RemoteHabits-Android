@@ -8,8 +8,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.customer.remotehabits.R
 import io.customer.remotehabits.data.models.User
 import io.customer.remotehabits.data.repositories.UserRepository
-import io.customer.remotehabits.ui.navigation.LoginDirections
-import io.customer.remotehabits.ui.navigation.NavigationManager
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
@@ -27,20 +25,15 @@ data class LoginUiState(
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userRepository: UserRepository,
-    private val navigationManager: NavigationManager
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     // UI state exposed to the UI
     private val _uiState = MutableStateFlow(LoginUiState(loading = true))
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
-    fun login(email: String, name: String, isGuest: Boolean = false) {
-        if (isGuest) {
-            viewModelScope.launch {
-                userRepository.login(email = email, name = name, isGuest = isGuest)
-            }
-        } else if (name.isEmpty()) {
+    fun loginUser(email: String, name: String, onLoginSuccess: () -> Unit) {
+        if (name.isEmpty()) {
             _uiState.update {
                 it.copy(
                     nameError = R.string.invalid_name,
@@ -55,18 +48,24 @@ class LoginViewModel @Inject constructor(
                 )
             }
         } else {
-            viewModelScope.launch {
-                userRepository.login(email = email, name = name, isGuest = isGuest)
-            }
+            login(email = email, name = name, onLoginSuccess = onLoginSuccess)
         }
     }
 
-    fun loginAsGuest() {
+    private fun login(email: String, name: String, isGuest: Boolean = false, onLoginSuccess: () -> Unit){
+        viewModelScope.launch {
+            userRepository.login(email = email, name = name, isGuest = isGuest)
+            onLoginSuccess.invoke()
+        }
+    }
+
+    fun loginAsGuest(onLoginSuccess: () -> Unit) {
         val uuid = UUID.randomUUID().toString()
         login(
             email = uuid,
             name = "Guest",
-            isGuest = true
+            isGuest = true,
+            onLoginSuccess = onLoginSuccess
         )
     }
 
@@ -86,9 +85,6 @@ class LoginViewModel @Inject constructor(
                         nameError = null,
                         user = user
                     )
-                }
-                if (user != null) {
-                    navigationManager.navigate(LoginDirections.dashboard)
                 }
             }
         }

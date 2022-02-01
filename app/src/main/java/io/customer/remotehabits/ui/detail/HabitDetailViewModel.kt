@@ -7,7 +7,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.customer.remotehabits.data.models.Habit
 import io.customer.remotehabits.data.models.HabitType
 import io.customer.remotehabits.data.repositories.HabitRepository
-import io.customer.remotehabits.ui.navigation.NavigationManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,8 +22,7 @@ data class HabitDetailUiState(
 @HiltViewModel
 class HabitDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val habitRepository: HabitRepository,
-    private val navigationManager: NavigationManager
+    private val habitRepository: HabitRepository
 ) : ViewModel() {
 
     private val habitType =

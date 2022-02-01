@@ -25,6 +25,7 @@ import io.customer.sdk.CustomerIO
 fun HomeRoute(
     homeViewModel: HomeViewModel = hiltViewModel(),
     openHabitDetail: (habit: Habit) -> Unit,
+    onLogout: () -> Unit
 ) {
     val state = homeViewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -35,7 +36,7 @@ fun HomeRoute(
             homeViewModel.onStateChanged(type, isChecked)
         },
         onLogout = { user ->
-            homeViewModel.logout(user, context)
+            homeViewModel.logout(user, context, onLogout)
         }
     )
 }
