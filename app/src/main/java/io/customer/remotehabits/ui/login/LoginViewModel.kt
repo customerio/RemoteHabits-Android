@@ -10,10 +10,10 @@ import io.customer.remotehabits.data.models.User
 import io.customer.remotehabits.data.repositories.UserRepository
 import io.customer.remotehabits.ui.navigation.LoginDirections
 import io.customer.remotehabits.ui.navigation.NavigationManager
-import java.util.*
-import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.*
+import javax.inject.Inject
 
 /**
  * UI state for the Login screen
