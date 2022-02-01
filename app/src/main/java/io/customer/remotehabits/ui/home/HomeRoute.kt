@@ -115,7 +115,6 @@ fun HomeScreenHabits(
     }
 }
 
-
 @Composable
 fun HomeScreenTitle(user: User) {
     user.name?.let {

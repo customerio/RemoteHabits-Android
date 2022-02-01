@@ -83,7 +83,8 @@ fun HabitDetailReminder(
 }
 
 private fun showDatePicker(
-    context: Context, date: Long?,
+    context: Context,
+    date: Long?,
     onTimeSelected: (Long) -> Unit
 ) {
     val activity = context.findActivity()

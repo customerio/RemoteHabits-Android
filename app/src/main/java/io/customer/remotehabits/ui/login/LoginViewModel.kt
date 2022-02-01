@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+
 /**
  * UI state for the Login screen
  */
@@ -52,7 +53,12 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun login(email: String, name: String, isGuest: Boolean = false, onLoginSuccess: () -> Unit){
+    private fun login(
+        email: String,
+        name: String,
+        isGuest: Boolean = false,
+        onLoginSuccess: () -> Unit
+    ) {
         viewModelScope.launch {
             userRepository.login(email = email, name = name, isGuest = isGuest)
             onLoginSuccess.invoke()

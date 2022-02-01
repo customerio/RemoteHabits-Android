@@ -70,5 +70,4 @@ class HabitDetailViewModel @Inject constructor(
             }
         }
     }
-
 }

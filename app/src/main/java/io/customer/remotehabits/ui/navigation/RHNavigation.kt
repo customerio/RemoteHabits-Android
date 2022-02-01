@@ -63,8 +63,7 @@ internal fun NavGraphBuilder.addHabitDetailRoute(
         arguments = listOf(
             navArgument(ARGS_HABIT_CATEGORY) { type = NavType.StringType }
         )
-    )
-    {
+    ) {
         val habitType = it.arguments?.getString("category")
         requireNotNull(habitType) { "$ARGS_HABIT_CATEGORY parameter wasn't found. Please make sure it's set!" }
         HabitDetailRoute(
