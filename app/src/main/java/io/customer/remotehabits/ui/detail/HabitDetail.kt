@@ -112,7 +112,6 @@ fun HabitDetailView(habit: Habit) {
                 style = RHTheme.typography.body,
                 color = RHTheme.colors.textSecondary
             )
-
         }
     }
 }
@@ -202,7 +201,6 @@ fun HabitDetailStatus(
             )
         }
     }
-
 }
 
 @Composable
@@ -225,7 +223,6 @@ fun HabitDetailIcon(icon: Int, caption: String) {
             color = RHTheme.colors.textPrimary
         )
     }
-
 }
 
 @Composable
@@ -273,6 +270,6 @@ fun HabitDetailPreview() {
         },
         onHabitReminderCountUpdate = { _, _ ->
         }, onHabitStatusChange = { _, _ ->
-        }
+    }
     )
 }

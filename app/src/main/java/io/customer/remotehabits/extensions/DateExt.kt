@@ -13,5 +13,4 @@ fun Date.getFormattedTime(): String {
     } catch (exception: Exception) {
         defaultTimePlaceHolder
     }
-
 }
