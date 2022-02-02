@@ -15,6 +15,21 @@ $ ./hooks/autohook.sh install
 
 4. This project requires Firebase setup in order to build the app. You can quickly get the app to build with `cp app/google-services.json.example app/google-services.json` but if you want to do anything like push notifications, you will want to follow [Firebase setup](https://firebase.google.com/docs/android/setup) to add a new Android app to your Firebase project. This will give you a `google-services.json` file to download. Save this file at `app/google-services`. 
 
+# Work on SDK locally
+
+Did you just implement a bug fix or new feature to the [Android SDK](https://github.com/customerio/customerio-android) that you want to test your change locally in Remote Habits? Want to work on Remote Habits *and* the SDK at the same time on your local machine? You can! 
+
+1. Open this Remote Habits project in Android Studio. 
+> Note: You can have Android Studio have 2 windows open on your computer at once. 1 window with the SDK project open and 1 window with Remote Habits open. Android Studio does not allow you to open both in 1 window. 
+2. Follow the [SDK docs](https://github.com/customerio/customerio-android/blob/develop/docs/dev-notes/DEVELOPMENT.md#work-on-remote-habits-locally) to setup your SDK for Remote Habits to install. 
+3. Build the Remote Habits app in Android Studio. 
+
+### How does this work? 
+
+The Android Studio Remote Habits project checks your environment variables for a value `CI`. This variable is preset when running a project on a CI server (such as in our automated builds on GitHub). Since your local computer is not a CI server, Android Studio will use the local Maven server (`~/.m2/repository/`) instead of Maven Central to download the SDK from. 
+
+Search the `.gradle` files in this project for `IS_DEVELOPMENT` to learn more. 
+
 # Deployment
 
 Here are instructions for CI setup. 

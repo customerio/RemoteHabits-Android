@@ -104,8 +104,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
     // Customer.io SDK
-    implementation 'io.customer.android:tracking:1.0.0-alpha.6'
-    implementation 'io.customer.android:messaging-push-fcm:1.0.0-alpha.6'
+    def cioVersion = "1.0.0"
+    if (IS_DEVELOPMENT) cioVersion = "local"
+    implementation "io.customer.android:tracking:$cioVersion"
+    implementation "io.customer.android:messaging-push-fcm:$cioVersion"
 
     // Android architecture, lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
