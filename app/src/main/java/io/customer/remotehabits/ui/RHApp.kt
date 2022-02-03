@@ -7,8 +7,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.systemBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -18,7 +18,6 @@ import io.customer.remotehabits.ui.theme.AppTheme
 
 @Composable
 fun RHApp(
-    navController: NavHostController,
     authenticationViewModel: AuthenticationViewModel = hiltViewModel()
 ) {
 
@@ -30,6 +29,8 @@ fun RHApp(
             SideEffect {
                 systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = darkIcons)
             }
+
+            val navController = rememberNavController()
 
             val navBackStackEntry by navController.currentBackStackEntryAsState()
 
