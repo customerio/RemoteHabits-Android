@@ -24,7 +24,8 @@ import io.customer.remotehabits.ui.theme.RHTheme
 
 @Composable
 fun LoginRoute(
-    loginViewModel: LoginViewModel = hiltViewModel()
+    loginViewModel: LoginViewModel = hiltViewModel(),
+    onLoginSuccess: () -> Unit
 ) {
 
     val state = loginViewModel.uiState.collectAsState()
@@ -32,10 +33,14 @@ fun LoginRoute(
     LoginScreen(
         uiState = state.value,
         onLogin = { email, name ->
-            loginViewModel.login(email, name)
+            loginViewModel.loginUser(
+                email = email,
+                name = name,
+                onLoginSuccess = onLoginSuccess
+            )
         },
         onGuestLogin = {
-            loginViewModel.loginAsGuest()
+            loginViewModel.loginAsGuest(onLoginSuccess)
         }
     )
 }

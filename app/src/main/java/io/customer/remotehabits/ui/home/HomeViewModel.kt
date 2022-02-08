@@ -8,8 +8,6 @@ import io.customer.remotehabits.data.models.Habit
 import io.customer.remotehabits.data.models.User
 import io.customer.remotehabits.data.repositories.HabitRepository
 import io.customer.remotehabits.data.repositories.UserRepository
-import io.customer.remotehabits.ui.navigation.LoginDirections
-import io.customer.remotehabits.ui.navigation.NavigationManager
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -23,8 +21,7 @@ data class HomeUiState(
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val habitRepository: HabitRepository,
-    private val navigationManager: NavigationManager
+    private val habitRepository: HabitRepository
 ) : ViewModel() {
 
     // UI state exposed to the UI
@@ -57,11 +54,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun logout(user: User, context: Context) {
+    fun logout(user: User, context: Context, onLogout: () -> Unit) {
         viewModelScope.launch {
             habitRepository.reset(context)
             userRepository.deleteUser(user)
-            navigationManager.navigate(LoginDirections.login)
+            onLogout.invoke()
         }
     }
 }
