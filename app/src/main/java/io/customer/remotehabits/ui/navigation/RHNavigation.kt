@@ -101,6 +101,7 @@ internal fun NavGraphBuilder.addDashboardRoute(
                 navController.navigate(Screen.Login.route) {
                     popUpTo(Screen.Dashboard.route) { inclusive = true }
                 }
-            })
+            }
+        )
     }
 }

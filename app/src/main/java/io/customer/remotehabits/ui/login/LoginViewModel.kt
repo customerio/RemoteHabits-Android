@@ -8,11 +8,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.customer.remotehabits.R
 import io.customer.remotehabits.data.models.User
 import io.customer.remotehabits.data.repositories.UserRepository
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 /**
  * UI state for the Login screen

@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.customer.remotehabits.R
 import io.customer.remotehabits.data.models.Habit
+import io.customer.remotehabits.data.models.HabitTimeFormat
 import io.customer.remotehabits.data.stubs.HabitsStub
-import io.customer.remotehabits.extensions.defaultTimePlaceHolder
 import io.customer.remotehabits.extensions.getFormattedTime
 import io.customer.remotehabits.ui.component.RHTextField
 import io.customer.remotehabits.ui.component.RemoteHabitCard
@@ -146,7 +146,7 @@ fun ReminderListItem(
                     }
             ) {
                 val time = if (textFieldText == null) {
-                    defaultTimePlaceHolder
+                    HabitTimeFormat.defaultTimePlaceHolder
                 } else {
                     Date(textFieldText).getFormattedTime()
                 }

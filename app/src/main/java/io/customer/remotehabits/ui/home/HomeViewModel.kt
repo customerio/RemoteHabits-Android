@@ -8,9 +8,9 @@ import io.customer.remotehabits.data.models.Habit
 import io.customer.remotehabits.data.models.User
 import io.customer.remotehabits.data.repositories.HabitRepository
 import io.customer.remotehabits.data.repositories.UserRepository
+import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 data class HomeUiState(
     val user: User = User("", ""),

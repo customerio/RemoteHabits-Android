@@ -1,16 +1,8 @@
 package io.customer.remotehabits.extensions
 
-import java.text.SimpleDateFormat
+import io.customer.remotehabits.data.models.HabitTimeFormat
 import java.util.*
 
-val timeFormat: SimpleDateFormat by lazy { SimpleDateFormat("hh:mm a", Locale.getDefault()) }
-
-const val defaultTimePlaceHolder = "--:--"
-
-fun Date.getFormattedTime(): String {
-    return try {
-        timeFormat.format(this.time)
-    } catch (exception: Exception) {
-        defaultTimePlaceHolder
-    }
+fun Date.getFormattedTime(habitTimeFormat: HabitTimeFormat = HabitTimeFormat.Time12Hour()): String {
+    return habitTimeFormat.getFormattedDate(this)
 }

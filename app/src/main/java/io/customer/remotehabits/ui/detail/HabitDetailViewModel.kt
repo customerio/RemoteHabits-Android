@@ -7,12 +7,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.customer.remotehabits.data.models.Habit
 import io.customer.remotehabits.data.models.HabitType
 import io.customer.remotehabits.data.repositories.HabitRepository
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 data class HabitDetailUiState(
     val loading: Boolean = false,

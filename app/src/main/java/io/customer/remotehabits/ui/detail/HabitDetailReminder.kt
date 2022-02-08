@@ -1,6 +1,5 @@
 package io.customer.remotehabits.ui.detail
 
-import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -12,14 +11,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import io.customer.remotehabits.R
 import io.customer.remotehabits.data.models.Habit
-import io.customer.remotehabits.extensions.findActivity
-import io.customer.remotehabits.extensions.getMinuteAndHour
-import io.customer.remotehabits.extensions.getTimeStampFromMinuteAndHour
+import io.customer.remotehabits.extensions.getHabitTime
 import io.customer.remotehabits.ui.component.RemoteHabitCard
+import io.customer.remotehabits.ui.component.showDatePicker
 import io.customer.remotehabits.ui.theme.RHTheme
 
 @Composable
@@ -63,7 +59,7 @@ fun HabitDetailReminder(
                 textFieldText = habit.startTime,
                 isTimePicker = true,
                 showTimePicket = {
-                    showDatePicker(context, habit.startTime) {
+                    showDatePicker(context, getHabitTime(habit.startTime)) {
                         onHabitStartTimeUpdate.invoke(habit, it)
                     }
                 }
@@ -73,31 +69,11 @@ fun HabitDetailReminder(
                 textFieldText = habit.endTime,
                 isTimePicker = true,
                 showTimePicket = {
-                    showDatePicker(context, habit.endTime) {
+                    showDatePicker(context, getHabitTime(habit.endTime)) {
                         onHabitEndTimeUpdate.invoke(habit, it)
                     }
                 }
             )
-        }
-    }
-}
-
-private fun showDatePicker(
-    context: Context,
-    date: Long?,
-    onTimeSelected: (Long) -> Unit
-) {
-    val activity = context.findActivity()
-    val minuteAndHour = getMinuteAndHour(date)
-    val picker = MaterialTimePicker.Builder()
-        .setTimeFormat(TimeFormat.CLOCK_12H)
-        .setMinute(minuteAndHour.first)
-        .setHour(minuteAndHour.second).build()
-    activity.let {
-        picker.show(it.supportFragmentManager, picker.toString())
-        picker.addOnPositiveButtonClickListener {
-            val time = getTimeStampFromMinuteAndHour(picker.minute, picker.hour)
-            onTimeSelected.invoke(time)
         }
     }
 }
