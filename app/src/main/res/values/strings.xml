@@ -40,4 +40,8 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="why_it_matters">Why it matters</string>
+    <string name="customer_io">Customer.io</string>
+    <string name="customer_io_workspace">Customer.io Workspace</string>
+    <string name="switch_workspace">Switch Workspace</string>
+    <string name="api_key">API Key</string>
 </resources>

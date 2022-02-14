@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,10 +21,13 @@ import io.customer.remotehabits.data.models.Habit
 import io.customer.remotehabits.data.models.HabitTimeFormat
 import io.customer.remotehabits.data.stubs.HabitsStub
 import io.customer.remotehabits.extensions.getFormattedTime
-import io.customer.remotehabits.ui.component.RHTextField
+import io.customer.remotehabits.ui.component.BackNavigationWithTitle
+import io.customer.remotehabits.ui.component.RHBasicTextField
 import io.customer.remotehabits.ui.component.RemoteHabitCard
 import io.customer.remotehabits.ui.home.HabitListStatusSwitch
 import io.customer.remotehabits.ui.theme.RHTheme
+import io.customer.remotehabits.utils.AnalyticsConstants.SCREEN_HABIT_DETAIL
+import io.customer.remotehabits.utils.TrackScreenDisposableEffect
 import java.util.*
 
 @Composable
@@ -34,6 +36,13 @@ fun HabitDetailRoute(
     onBackPressed: () -> Unit,
 ) {
     val state = habitDetailViewModel.uiState.collectAsState()
+
+    TrackScreenDisposableEffect(
+        onScreenEnter = {
+            habitDetailViewModel.trackScreenEnterEventsName(SCREEN_HABIT_DETAIL)
+        }
+    )
+
     HabitDetailScreen(
         state = state.value,
         onHabitStatusChange = { habit, isChecked ->
@@ -69,7 +78,7 @@ fun HabitDetailScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         state.habit?.let { habit ->
-            HabitDetailTitle(title = habit.name, onBackPressed = onBackPressed)
+            BackNavigationWithTitle(title = habit.name, onBackPressed = onBackPressed)
             HabitDetailIcon(icon = habit.type.getIcon(), caption = habit.caption)
             HabitDetailStatus(
                 habit = habit,
@@ -157,7 +166,7 @@ fun ReminderListItem(
                 )
             }
         } else {
-            RHTextField(
+            RHBasicTextField(
                 value = textFieldText.toString(),
                 onChange = {
                     onItemUpdate.invoke(it)
@@ -220,34 +229,6 @@ fun HabitDetailIcon(icon: Int, caption: String) {
         Text(
             text = caption,
             style = RHTheme.typography.body,
-            color = RHTheme.colors.textPrimary
-        )
-    }
-}
-
-@Composable
-fun HabitDetailTitle(
-    title: String,
-    onBackPressed: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp, horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(20.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_back),
-            contentDescription = stringResource(id = R.string.back),
-            colorFilter = ColorFilter.tint(color = RHTheme.colors.textPrimary),
-            modifier = Modifier.clickable {
-                onBackPressed.invoke()
-            }
-        )
-        Text(
-            text = title,
-            style = RHTheme.typography.h2,
             color = RHTheme.colors.textPrimary
         )
     }

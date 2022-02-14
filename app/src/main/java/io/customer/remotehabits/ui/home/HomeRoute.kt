@@ -19,15 +19,25 @@ import io.customer.remotehabits.data.models.Habit
 import io.customer.remotehabits.data.models.User
 import io.customer.remotehabits.data.stubs.HabitsStub
 import io.customer.remotehabits.ui.theme.RHTheme
+import io.customer.remotehabits.utils.AnalyticsConstants.SCREEN_DASHBOARD
+import io.customer.remotehabits.utils.TrackScreenDisposableEffect
 import io.customer.sdk.CustomerIO
 
 @Composable
 fun HomeRoute(
     homeViewModel: HomeViewModel = hiltViewModel(),
     openHabitDetail: (habit: Habit) -> Unit,
+    switchWorkspace: () -> Unit,
     onLogout: () -> Unit
 ) {
     val state = homeViewModel.uiState.collectAsState()
+
+    TrackScreenDisposableEffect(
+        onScreenEnter = {
+            homeViewModel.trackScreenEnterEventsName(SCREEN_DASHBOARD)
+        }
+    )
+
     val context = LocalContext.current
     HomeScreen(
         state = state.value,
@@ -35,6 +45,7 @@ fun HomeRoute(
         onHabitStatusChange = { type, isChecked ->
             homeViewModel.onStateChanged(type, isChecked)
         },
+        switchWorkspace = switchWorkspace,
         onLogout = { user ->
             homeViewModel.logout(user, context, onLogout)
         }
@@ -46,6 +57,7 @@ fun HomeScreen(
     state: HomeUiState,
     openHabitDetail: (habit: Habit) -> Unit,
     onHabitStatusChange: (habit: Habit, isChecked: Boolean) -> Unit,
+    switchWorkspace: () -> Unit,
     onLogout: (user: User) -> Unit
 ) {
     Column(
@@ -56,14 +68,16 @@ fun HomeScreen(
     ) {
         HomeScreenTitle(state.user)
         HomeScreenHabits(state.habits, openHabitDetail, onHabitStatusChange)
-        HomeScreenUserDetails(state.user, onLogout = onLogout)
+        HomeScreenUserDetails(state.user, switchWorkspace = switchWorkspace, onLogout = onLogout)
     }
 }
 
 @Composable
 fun HomeScreenUserDetails(
     user: User,
-    onLogout: (user: User) -> Unit
+    switchWorkspace: () -> Unit,
+    onLogout: (user: User) -> Unit,
+
 ) {
     val userDisplayText: Pair<String, String> = if (user.isGuest)
         Pair(stringResource(id = R.string.guest), stringResource(id = R.string.anonymous))
@@ -87,6 +101,7 @@ fun HomeScreenUserDetails(
             icon = R.drawable.ic_cio,
             actionText = R.string.switch_id
         ) {
+            switchWorkspace.invoke()
         }
         HomeUserDetailItem(
             primaryText = stringResource(id = R.string.sdk),
@@ -141,6 +156,7 @@ fun PreviewHome() {
         ),
         openHabitDetail = {},
         onHabitStatusChange = { _, _ -> },
+        switchWorkspace = {},
         onLogout = { }
     )
 }

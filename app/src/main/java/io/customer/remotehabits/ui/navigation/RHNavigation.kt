@@ -2,22 +2,23 @@ package io.customer.remotehabits.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import io.customer.remotehabits.data.models.HabitType
 import io.customer.remotehabits.ui.detail.HabitDetailRoute
 import io.customer.remotehabits.ui.home.HomeRoute
+import io.customer.remotehabits.ui.home.SwitchWorkspaceRoute
 import io.customer.remotehabits.ui.login.LoginRoute
 import io.customer.remotehabits.ui.navigation.LeafScreen.Companion.ARGS_HABIT_CATEGORY
+
+const val scheme = "remote-habits"
 
 sealed class Screen(val route: String) {
     object Login : Screen("login")
     object Dashboard : Screen("dashboard")
+    object SwitchWorkspace : Screen("switch_workspace")
 }
 
 sealed class LeafScreen(private val route: String) {
@@ -52,6 +53,7 @@ fun RHNavGraph(
         addLoginRoute(navController)
         addDashboardRoute(navController)
         addHabitDetailRoute(navController)
+        addSwitchWorkSpaceRoute(navController)
     }
 }
 
@@ -69,6 +71,34 @@ internal fun NavGraphBuilder.addHabitDetailRoute(
         HabitDetailRoute(
             onBackPressed = {
                 navController.navigateUp()
+            }
+        )
+    }
+}
+
+internal fun NavGraphBuilder.addSwitchWorkSpaceRoute(
+    navController: NavHostController,
+) {
+    composable(
+        route = Screen.SwitchWorkspace.route,
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "$scheme://switch_workspace?site_id={site_id}&api_key={api_key}"
+            }
+        )
+    ) {
+        val siteId = it.arguments?.getString("site_id")
+        val apiKey = it.arguments?.getString("api_key")
+        SwitchWorkspaceRoute(
+            workspaceSiteId = siteId,
+            workspaceApiKey = apiKey,
+            onBackPressed = {
+                navController.navigateUp()
+            },
+            onWorkspaceChanged = {
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.SwitchWorkspace.route) { inclusive = true }
+                }
             }
         )
     }
@@ -96,6 +126,9 @@ internal fun NavGraphBuilder.addDashboardRoute(
         HomeRoute(
             openHabitDetail = {
                 navController.navigate(LeafScreen.HabitDetails.createRoute(it.type))
+            },
+            switchWorkspace = {
+                navController.navigate(Screen.SwitchWorkspace.route)
             },
             onLogout = {
                 navController.navigate(Screen.Login.route) {

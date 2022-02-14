@@ -65,8 +65,9 @@ android {
         jvmTarget = '1.8'
     }
     packagingOptions {
-        exclude 'META-INF/AL2.0'
-        exclude 'META-INF/LGPL2.1'
+        resources {
+            excludes += ['META-INF/AL2.0', 'META-INF/LGPL2.1']
+        }
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.1.0-rc02'
@@ -143,6 +144,9 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    //logging
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // Robolectric dependencies
     testImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"

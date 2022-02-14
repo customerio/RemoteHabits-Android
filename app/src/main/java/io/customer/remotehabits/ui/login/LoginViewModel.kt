@@ -7,7 +7,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.customer.remotehabits.R
 import io.customer.remotehabits.data.models.User
+import io.customer.remotehabits.data.repositories.EventsRepository
 import io.customer.remotehabits.data.repositories.UserRepository
+import io.customer.remotehabits.utils.AnalyticsConstants.EMAIL
+import io.customer.remotehabits.utils.AnalyticsConstants.IS_GUEST
+import io.customer.remotehabits.utils.AnalyticsConstants.LOGIN_ATTEMPT
+import io.customer.remotehabits.utils.AnalyticsConstants.NAME
 import java.util.*
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
@@ -25,7 +30,8 @@ data class LoginUiState(
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val eventsRepository: EventsRepository,
 ) : ViewModel() {
 
     // UI state exposed to the UI
@@ -33,6 +39,10 @@ class LoginViewModel @Inject constructor(
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
     fun loginUser(email: String, name: String, onLoginSuccess: () -> Unit) {
+        eventsRepository.track(
+            name = LOGIN_ATTEMPT,
+            attributes = mapOf(NAME to name, EMAIL to email)
+        )
         if (name.isEmpty()) {
             _uiState.update {
                 it.copy(
@@ -52,6 +62,10 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun trackScreenName(name: String) {
+        eventsRepository.screen(name = name)
+    }
+
     private fun login(
         email: String,
         name: String,
@@ -60,6 +74,10 @@ class LoginViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             userRepository.login(email = email, name = name, isGuest = isGuest)
+            eventsRepository.identify(
+                identifier = email,
+                attributes = mapOf(NAME to name, IS_GUEST to isGuest)
+            )
             onLoginSuccess.invoke()
         }
     }

@@ -1,16 +1,15 @@
 package io.customer.remotehabits
 
 import android.app.Application
-import android.net.Uri
-import android.util.Log
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
 import io.customer.sdk.CustomerIO
-import io.customer.sdk.data.communication.CustomerIOUrlHandler
+import timber.log.Timber.*
+import timber.log.Timber.Forest.plant
 
 @HiltAndroidApp
-class MainApplication : Application(), CustomerIOUrlHandler {
+class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -21,18 +20,14 @@ class MainApplication : Application(), CustomerIOUrlHandler {
             apiKey = BuildConfig.API_KEY,
             appContext = this
         )
-        builder.setCustomerIOUrlHandler(this)
         builder.build()
+
+        if (BuildConfig.DEBUG) {
+            plant(DebugTree())
+        }
 
         FirebaseApp.initializeApp(this)
         // manually enable firebase messaging and analytics. We disabled them from starting automatically in the manifest so that way they don't run during tests (even though it's not a huge deal if they do).
         FirebaseMessaging.getInstance().isAutoInitEnabled = true
-    }
-
-    override fun handleCustomerIOUrl(uri: Uri): Boolean {
-        Log.v("handleIterableURL", uri.toString())
-
-        // since we dont have a Deep link manager here, returning false
-        return false
     }
 }
