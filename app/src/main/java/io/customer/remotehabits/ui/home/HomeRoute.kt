@@ -78,7 +78,7 @@ fun HomeScreenUserDetails(
     switchWorkspace: () -> Unit,
     onLogout: (user: User) -> Unit,
 
-) {
+    ) {
     val userDisplayText: Pair<String, String> = if (user.isGuest)
         Pair(stringResource(id = R.string.guest), stringResource(id = R.string.anonymous))
     else

@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.customer.remotehabits">
 
-    <application tools:ignore="GoogleAppIndexingWarning"
-        android:networkSecurityConfig="@xml/network_security_config">
-    </application>
+    <application
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:ignore="GoogleAppIndexingWarning"></application>
 
 </manifest>
