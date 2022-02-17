@@ -1,37 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
+    android:orientation="vertical"
     tools:context=".ui.activity.MainActivity">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/identifyEd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/email_or_identifier"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:hint="@string/email_or_identifier" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/identifyBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/identify"
-        app:layout_constraintStart_toStartOf="@id/identifyEd"
-        app:layout_constraintTop_toBottomOf="@+id/identifyEd" />
+        android:text="@string/identify" />
 
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/trackBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/track_click"
-        app:layout_constraintEnd_toEndOf="@id/identifyEd"
-        app:layout_constraintTop_toBottomOf="@+id/identifyEd" />
+        android:text="@string/track_click" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

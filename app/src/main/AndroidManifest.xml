@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="io.customer.remotehabits">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-sdk tools:overrideLibrary="androidx.core.splashscreen" />
+
     <application
-        android:name=".ui.MainApplication"
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,38 +17,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RemoteHabits">
         <activity
-            android:name=".ui.activity.DeepLinkActivity"
-            android:exported="true">
-
-            <intent-filter android:label="deep_linking_filter">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "remote-habits://deep” -->
-                <data
-                    android:host="deep"
-                    android:scheme="remote-habits" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "remote-habits://” -->
+                <data android:scheme="remote-habits" />
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".service.FirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service> <!-- Disable Firebase automatically running. This is because when running instrumentation tests, sometimes the Firebase Messaging Service runs our service really early before dependency injection has a chance to get started. We want to run messaging only when the real app runs. -->
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
             android:value="false" />
