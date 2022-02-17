@@ -1,8 +1,8 @@
-# Deploy the app to stable. Not builds for development/QA
-name: Deploy non-development builds
+name: Deploy stable app builds 
+
 on:
-  push:
-    branches: [ main, beta, alpha ]
+  release:
+    types: [published]
 
 jobs:
   deploy-app:
@@ -44,23 +44,15 @@ jobs:
           FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH: ${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}
           RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
 
-      # Perform git related tasks inside of semantic-release because `git config user...` is already setup. It's easier to run commands in there with exec plugin.
-      - name: Deploy app via semantic release
-        uses: cycjimmy/semantic-release-action@v2
+      - name: Deploy build via Fastlane
+        uses: maierj/fastlane-action@v2.0.1
         with:
-          # version numbers below can be in many forms: M, M.m, M.m.p
-          semantic_version: 17
-          extra_plugins: |
-            @semantic-release/commit-analyzer@8
-            @semantic-release/release-notes-generator@9
-            @semantic-release/changelog@5
-            @semantic-release/git@9
-            @semantic-release/github@7
-            @semantic-release/exec@5
+          lane: 'deploy_app'
+          options: '{ "version": ${{ github.event.release.tag_name }} }'
+          skip-tracking: true
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_PUSH_TOKEN }} # for semantic release git push access 
-          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }} # for firebase app distribution 
-          # for code signing release build 
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
           ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
           ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
           ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}

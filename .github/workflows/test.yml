@@ -1,17 +1,11 @@
 name: Tests
-on:
-  push:
-    branches-ignore: [ main, beta, alpha ] # skip for deployment branches.
-    tags-ignore: [ '*' ]
-  pull_request:
-    branches: [ '*' ]
+
+on: [push, pull_request]
 
 jobs:
   jvm-test:
     runs-on: ubuntu-latest
     name: JVM tests
-    # skip if '[skip ci]' exists in commit message 
-    if: ${{ !contains(format('{0} {1}', github.event.head_commit.message, github.event.pull_request.title), '[skip ci]') }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK
@@ -47,8 +41,6 @@ jobs:
   android-test:
     runs-on: ubuntu-latest
     name: Android instrumentation tests
-    # skip if '[skip ci]' exists in commit message 
-    if: ${{ !contains(format('{0} {1}', github.event.head_commit.message, github.event.pull_request.title), '[skip ci]') }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK
@@ -105,8 +97,6 @@ jobs:
   deploy-builds:
     runs-on: ubuntu-latest
     name: Deploy development builds
-    # skip if '[skip ci]' exists in commit message 
-    if: ${{ !contains(format('{0} {1}', github.event.head_commit.message, github.event.pull_request.title), '[skip ci]') }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK

@@ -34,12 +34,12 @@ platform :android do
     is_main_build = new_app_version != nil && new_app_version != ""
     new_build_number = Time.now.to_i # make the build number always unique. we do this with time. 
     release_notes = ["app: Remote Habits Android"]
-    groups = ['development', 'QA'] # default - always send to these groups. 
+    groups = ['all-builds'] # default - always send to these groups. 
 
     if is_main_build
       UI.message("Deploying a main build of app. Version: #{new_app_version}")
 
-      groups.append("main-builds") 
+      groups.append("stable-builds") 
 
       release_notes.append(
         "build type: main",
@@ -93,7 +93,7 @@ platform :android do
 
     UI.important("Release notes:\n#{release_notes}")
     UI.important("New app version: #{new_app_version}")
-    UI.important("App testing groups: #{groups}")
+    UI.important("Firebase App testing groups: #{groups}")
 
     android_set_version_name(version_name: new_app_version)
     android_set_version_code(version_code: new_build_number)

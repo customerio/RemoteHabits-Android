@@ -2,10 +2,11 @@
 buildscript {
     ext.kotlin_version = "1.6.10"
     ext.hilt_version = '2.38.1'
-    ext.compose_version = '1.2.0-alpha02'
+    ext.compose_version = '1.2.0-alpha03'
     ext.coroutines_version = '1.5.2'
-    ext.accompanist_version = '0.21.3-beta'
+    ext.accompanist_version = '0.23.0'
     ext.room_version = "2.4.1"
+    ext.IS_DEVELOPMENT = false
 
     repositories {
         google()
@@ -25,6 +26,7 @@ buildscript {
 
 allprojects {
     repositories {
+        if (IS_DEVELOPMENT) mavenLocal()
         google()
         mavenCentral()
     }
