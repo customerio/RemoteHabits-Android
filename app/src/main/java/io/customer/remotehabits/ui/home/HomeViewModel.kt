@@ -14,11 +14,11 @@ import io.customer.remotehabits.data.repositories.HabitRepository
 import io.customer.remotehabits.data.repositories.UserRepository
 import io.customer.remotehabits.utils.AnalyticsConstants.LOGOUT
 import io.customer.remotehabits.utils.AnalyticsConstants.STATUS
+import io.customer.remotehabits.utils.Logger
 import io.customer.sdk.CustomerIO
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 data class HomeUiState(
     val user: User = User("", ""),
@@ -30,7 +30,8 @@ data class HomeUiState(
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val habitRepository: HabitRepository,
-    private val eventsRepository: EventsRepository
+    private val eventsRepository: EventsRepository,
+    private val logger: Logger,
 ) : ViewModel() {
 
     // UI state exposed to the UI
@@ -62,16 +63,17 @@ class HomeViewModel @Inject constructor(
         registerToken()
     }
 
+    // It's always best to fetch the latest device token from FCM before registering with CIO.
     private fun registerToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(
             OnCompleteListener { task ->
                 if (!task.isSuccessful) {
-                    Timber.e("Fetching FCM registration token failed", task.exception)
+                    logger.e("Fetching FCM registration token failed", task.exception)
                     return@OnCompleteListener
                 }
                 // Get new FCM registration token
                 val token = task.result
-                Timber.d("Token: $token")
+                logger.d("Token: $token")
                 eventsRepository.registerDeviceToken(token)
             }
         )
@@ -91,6 +93,7 @@ class HomeViewModel @Inject constructor(
         appContext: Application,
         onWorkspaceChanged: () -> Unit
     ) {
+        // Register the `CustomerIO` instance with updated workspace credentials `siteId` and `apiKey`
         CustomerIO.Builder(
             siteId = siteId,
             apiKey = apiKey,
