@@ -6,7 +6,7 @@ buildscript {
     ext.coroutines_version = '1.5.2'
     ext.accompanist_version = '0.23.0'
     ext.room_version = "2.4.1"
-    ext.IS_DEVELOPMENT = false
+    ext.IS_DEVELOPMENT = System.getenv("CI") == null
 
     repositories {
         google()
