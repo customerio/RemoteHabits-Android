@@ -20,7 +20,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.customer.remotehabits.R
+import io.customer.remotehabits.ui.component.RHTextField
 import io.customer.remotehabits.ui.theme.RHTheme
+import io.customer.remotehabits.utils.AnalyticsConstants.SCREEN_LOGIN
+import io.customer.remotehabits.utils.TrackScreenDisposableEffect
 
 @Composable
 fun LoginRoute(
@@ -29,6 +32,10 @@ fun LoginRoute(
 ) {
 
     val state = loginViewModel.uiState.collectAsState()
+
+    TrackScreenDisposableEffect(
+        onScreenEnter = { loginViewModel.trackScreenName(SCREEN_LOGIN) }
+    )
 
     LoginScreen(
         uiState = state.value,
@@ -146,40 +153,6 @@ fun loginTextFieldColors(
 )
 
 @Composable
-fun LoginTextField(
-    modifier: Modifier = Modifier,
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    errorMessage: String = ""
-) {
-    TextField(
-        value = value,
-        textStyle = RHTheme.typography.input,
-        colors = loginTextFieldColors(),
-        onValueChange = onValueChange,
-        label = {
-            Text(
-                text = label,
-                color = RHTheme.colors.textTertiary,
-                style = RHTheme.typography.caption
-            )
-        },
-        keyboardOptions = keyboardOptions,
-        isError = errorMessage.isNotEmpty(),
-        modifier = modifier,
-    )
-    if (errorMessage.isNotEmpty()) {
-        Text(
-            text = errorMessage,
-            color = RHTheme.colors.error,
-            style = RHTheme.typography.caption
-        )
-    }
-}
-
-@Composable
 fun LoginFormView(
     emailErrorState: String,
     nameErrorState: String,
@@ -201,7 +174,7 @@ fun LoginFormView(
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LoginTextField(
+            RHTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
@@ -212,7 +185,7 @@ fun LoginFormView(
                 label = stringResource(R.string.name),
                 errorMessage = nameErrorState
             )
-            LoginTextField(
+            RHTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),

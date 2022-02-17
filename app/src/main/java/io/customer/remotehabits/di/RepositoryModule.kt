@@ -7,10 +7,7 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import io.customer.remotehabits.data.persistance.HabitDao
 import io.customer.remotehabits.data.persistance.UserDao
-import io.customer.remotehabits.data.repositories.HabitRepository
-import io.customer.remotehabits.data.repositories.HabitRepositoryImpl
-import io.customer.remotehabits.data.repositories.UserRepository
-import io.customer.remotehabits.data.repositories.UserRepositoryImpl
+import io.customer.remotehabits.data.repositories.*
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -26,5 +23,11 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideHabitRepository(habitDao: HabitDao): HabitRepository {
         return HabitRepositoryImpl(habitDao = habitDao)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideEventsRepository(): EventsRepository {
+        return CustomerIOEventsRepositoryImp()
     }
 }
