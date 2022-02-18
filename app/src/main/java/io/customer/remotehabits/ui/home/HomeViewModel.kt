@@ -16,9 +16,9 @@ import io.customer.remotehabits.utils.AnalyticsConstants.LOGOUT
 import io.customer.remotehabits.utils.AnalyticsConstants.STATUS
 import io.customer.remotehabits.utils.Logger
 import io.customer.sdk.CustomerIO
+import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 data class HomeUiState(
     val user: User = User("", ""),

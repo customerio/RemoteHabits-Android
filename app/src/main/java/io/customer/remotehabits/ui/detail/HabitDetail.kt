@@ -251,6 +251,6 @@ fun HabitDetailPreview() {
         },
         onHabitReminderCountUpdate = { _, _ ->
         }, onHabitStatusChange = { _, _ ->
-        }
+    }
     )
 }

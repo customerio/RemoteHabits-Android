@@ -47,12 +47,12 @@ fun HomeHabitListItem(
                         style = RHTheme.typography.h3
                     )
                 }, secondaryText = {
-                    Text(
-                        text = habit.caption,
-                        color = RHTheme.colors.textTertiary,
-                        style = RHTheme.typography.body
-                    )
-                }
+                Text(
+                    text = habit.caption,
+                    color = RHTheme.colors.textTertiary,
+                    style = RHTheme.typography.body
+                )
+            }
             )
             HabitListStatusSwitch(
                 modifier = Modifier.weight(1F),
