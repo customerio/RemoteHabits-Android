@@ -56,3 +56,13 @@ jobs:
           ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
           ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
           ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
+      
+      - name: Notify team of app deployment 
+        uses: openhousepvt/slack@v1.3.2
+        with:
+          status: 'success'
+          version: ${{ github.event.release.tag_name }}
+          platform: 'Android Remote Habits new version deployed'
+          channel: '#squad-mobile'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_NOTIFY_RELEASES_WEBHOOK_URL }}
