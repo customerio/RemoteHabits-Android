@@ -15,8 +15,10 @@ import io.customer.remotehabits.utils.AnalyticsConstants.LOGIN_ATTEMPT
 import io.customer.remotehabits.utils.AnalyticsConstants.NAME
 import java.util.*
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * UI state for the Login screen
@@ -63,7 +65,9 @@ class LoginViewModel @Inject constructor(
     }
 
     fun trackScreenName(name: String) {
-        eventsRepository.screen(name = name)
+        viewModelScope.launch {
+            eventsRepository.screen(name = name)
+        }
     }
 
     private fun login(
@@ -72,13 +76,15 @@ class LoginViewModel @Inject constructor(
         isGuest: Boolean = false,
         onLoginSuccess: () -> Unit
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             userRepository.login(email = email, name = name, isGuest = isGuest)
             eventsRepository.identify(
                 identifier = email,
                 attributes = mapOf(NAME to name, IS_GUEST to isGuest)
             )
-            onLoginSuccess.invoke()
+            withContext(Dispatchers.Main) {
+                onLoginSuccess.invoke()
+            }
         }
     }
 
