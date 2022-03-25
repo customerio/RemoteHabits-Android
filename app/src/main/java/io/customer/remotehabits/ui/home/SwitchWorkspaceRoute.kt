@@ -165,7 +165,7 @@ fun SwitchWorkspaceFormView(
             )
             Button(
                 onClick = {
-                    onWorkspaceChanged.invoke(apiKey, siteId)
+                    onWorkspaceChanged.invoke(siteId, apiKey)
                 },
                 shape = RoundedCornerShape(100.dp),
                 colors = ButtonDefaults.buttonColors(
