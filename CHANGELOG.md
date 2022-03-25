@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/customerio/RemoteHabits-Android/compare/1.1.0...1.1.1) (2022-03-25)
+
+
+### Bug Fixes
+
+* added fix for skipping registering token ([#46](https://github.com/customerio/RemoteHabits-Android/issues/46)) ([ffd5ac8](https://github.com/customerio/RemoteHabits-Android/commit/ffd5ac8b8c7a59ef238530171c59be8ca26118e1))
+
 # [1.1.0](https://github.com/customerio/RemoteHabits-Android/compare/1.0.0...1.1.0) (2022-02-23)
 
 
