@@ -26,7 +26,6 @@ import io.customer.remotehabits.ui.component.RHTextField
 import io.customer.remotehabits.ui.theme.RHTheme
 import io.customer.remotehabits.utils.AnalyticsConstants.SCREEN_SWITCH_WORKSPACE
 import io.customer.remotehabits.utils.TrackScreenDisposableEffect
-import io.customer.sdk.CustomerIO
 
 @Composable
 fun SwitchWorkspaceRoute(
@@ -43,10 +42,14 @@ fun SwitchWorkspaceRoute(
         onScreenEnter = { homeViewModel.trackScreenEnterEventsName(SCREEN_SWITCH_WORKSPACE) }
     )
 
+    val workSpaceCredentialsState = homeViewModel.workspaceCredentials.collectAsState()
+    val wsSiteId = workspaceSiteId ?: workSpaceCredentialsState.value.siteId
+    val wsApiKey = workspaceApiKey ?: workSpaceCredentialsState.value.apiKey
+
     SwitchWorkspaceScreen(
         state = state.value,
-        workspaceSiteId = workspaceSiteId,
-        workspaceApiKey = workspaceApiKey,
+        workspaceSiteId = wsSiteId,
+        workspaceApiKey = wsApiKey,
         onBackPressed = onBackPressed
     ) { siteId, apiKey, user ->
         homeViewModel.changeWorkspace(
@@ -62,8 +65,8 @@ fun SwitchWorkspaceRoute(
 @Composable
 fun SwitchWorkspaceScreen(
     state: HomeUiState,
-    workspaceSiteId: String? = null,
-    workspaceApiKey: String? = null,
+    workspaceSiteId: String,
+    workspaceApiKey: String,
     onBackPressed: () -> Unit,
     onWorkspaceChanged: (siteId: String, apiKey: String, user: User) -> Unit
 ) {
@@ -117,19 +120,19 @@ fun SwitchWorkspaceHeader() {
 
 @Composable
 fun SwitchWorkspaceFormView(
-    workspaceSiteId: String? = null,
-    workspaceApiKey: String? = null,
+    workspaceSiteId: String,
+    workspaceApiKey: String,
     onWorkspaceChanged: (siteId: String, apiKey: String) -> Unit
 ) {
 
     var siteId by remember {
         mutableStateOf(
-            workspaceSiteId ?: CustomerIO.instance().config.siteId
+            workspaceSiteId
         )
     }
     var apiKey by remember {
         mutableStateOf(
-            workspaceApiKey ?: CustomerIO.instance().config.apiKey
+            workspaceApiKey
         )
     }
 
@@ -191,6 +194,8 @@ fun SwitchWorkspacePreview() {
     SwitchWorkspaceScreen(
         state = HomeUiState(),
         onBackPressed = {},
+        workspaceApiKey = "",
+        workspaceSiteId = "",
         onWorkspaceChanged = { _, _, _ ->
         }
     )

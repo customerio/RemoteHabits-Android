@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import io.customer.remotehabits.R
 import io.customer.remotehabits.data.models.Habit
 import io.customer.remotehabits.data.models.User
+import io.customer.remotehabits.data.models.Workspace
 import io.customer.remotehabits.data.stubs.HabitsStub
 import io.customer.remotehabits.ui.theme.RHTheme
 import io.customer.remotehabits.utils.AnalyticsConstants.SCREEN_DASHBOARD
@@ -31,6 +32,7 @@ fun HomeRoute(
     onLogout: () -> Unit
 ) {
     val state = homeViewModel.uiState.collectAsState()
+    val workSpaceCredentialsState = homeViewModel.workspaceCredentials.collectAsState()
 
     TrackScreenDisposableEffect(
         onScreenEnter = {
@@ -41,6 +43,7 @@ fun HomeRoute(
     val context = LocalContext.current
     HomeScreen(
         state = state.value,
+        workSpaceCredentials = workSpaceCredentialsState.value,
         openHabitDetail = openHabitDetail,
         onHabitStatusChange = { type, isChecked ->
             homeViewModel.onStateChanged(type, isChecked)
@@ -55,6 +58,7 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     state: HomeUiState,
+    workSpaceCredentials: Workspace,
     openHabitDetail: (habit: Habit) -> Unit,
     onHabitStatusChange: (habit: Habit, isChecked: Boolean) -> Unit,
     switchWorkspace: () -> Unit,
@@ -68,13 +72,19 @@ fun HomeScreen(
     ) {
         HomeScreenTitle(state.user)
         HomeScreenHabits(state.habits, openHabitDetail, onHabitStatusChange)
-        HomeScreenUserDetails(state.user, switchWorkspace = switchWorkspace, onLogout = onLogout)
+        HomeScreenUserDetails(
+            state.user,
+            workspace = workSpaceCredentials,
+            switchWorkspace = switchWorkspace,
+            onLogout = onLogout
+        )
     }
 }
 
 @Composable
 fun HomeScreenUserDetails(
     user: User,
+    workspace: Workspace,
     switchWorkspace: () -> Unit,
     onLogout: (user: User) -> Unit,
 
@@ -97,7 +107,7 @@ fun HomeScreenUserDetails(
         )
         HomeUserDetailItem(
             primaryText = stringResource(id = R.string.site_id),
-            secondaryText = CustomerIO.instance().config.siteId,
+            secondaryText = workspace.siteId,
             icon = R.drawable.ic_cio,
             actionText = R.string.switch_id
         ) {
@@ -150,10 +160,11 @@ fun HomeScreenTitle(user: User) {
 fun PreviewHome() {
     val context = LocalContext.current
     HomeScreen(
-        HomeUiState(
+        state = HomeUiState(
             user = User(name = "Bradley", email = "brad@email.com"),
             habits = HabitsStub.getHabits(context).toList()
         ),
+        workSpaceCredentials = Workspace("", ""),
         openHabitDetail = {},
         onHabitStatusChange = { _, _ -> },
         switchWorkspace = {},
