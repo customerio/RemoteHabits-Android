@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.customer.remotehabits.BuildConfig
 import io.customer.remotehabits.R
 import io.customer.remotehabits.data.models.User
 import io.customer.remotehabits.ui.component.BackNavigationWithTitle
@@ -26,7 +27,6 @@ import io.customer.remotehabits.ui.component.RHTextField
 import io.customer.remotehabits.ui.theme.RHTheme
 import io.customer.remotehabits.utils.AnalyticsConstants.SCREEN_SWITCH_WORKSPACE
 import io.customer.remotehabits.utils.TrackScreenDisposableEffect
-import io.customer.sdk.CustomerIO
 
 @Composable
 fun SwitchWorkspaceRoute(
@@ -124,12 +124,12 @@ fun SwitchWorkspaceFormView(
 
     var siteId by remember {
         mutableStateOf(
-            workspaceSiteId ?: CustomerIO.instance().config.siteId
+            workspaceSiteId ?: BuildConfig.SITE_ID
         )
     }
     var apiKey by remember {
         mutableStateOf(
-            workspaceApiKey ?: CustomerIO.instance().config.apiKey
+            workspaceApiKey ?: BuildConfig.API_KEY
         )
     }
 
