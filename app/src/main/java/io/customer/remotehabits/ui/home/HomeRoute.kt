@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.customer.remotehabits.BuildConfig
 import io.customer.remotehabits.R
 import io.customer.remotehabits.data.models.Habit
 import io.customer.remotehabits.data.models.User
@@ -115,7 +116,7 @@ fun HomeScreenUserDetails(
         }
         HomeUserDetailItem(
             primaryText = stringResource(id = R.string.sdk),
-            secondaryText = CustomerIO.instance().store.deviceStore.buildUserAgent(),
+            secondaryText = "Remote Habits v${BuildConfig.VERSION_NAME}, SDK v${CustomerIO.instance().sdkVersion}",
             icon = R.drawable.ic_sdk,
             actionText = null
         ) {

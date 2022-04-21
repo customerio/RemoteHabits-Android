@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/customerio/RemoteHabits-Android/compare/1.1.1...1.2.0) (2022-04-21)
+
+
+### Features
+
+* added BQ ([d071793](https://github.com/customerio/RemoteHabits-Android/commit/d071793e31fe73636acb68dfb55ac7018337b870))
+
 ## [1.1.1](https://github.com/customerio/RemoteHabits-Android/compare/1.1.0...1.1.1) (2022-03-25)
 
 
