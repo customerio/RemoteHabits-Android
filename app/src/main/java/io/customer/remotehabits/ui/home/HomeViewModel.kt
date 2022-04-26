@@ -9,15 +9,20 @@ import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.customer.remotehabits.data.models.Habit
 import io.customer.remotehabits.data.models.User
+import io.customer.remotehabits.data.models.Workspace
 import io.customer.remotehabits.data.repositories.EventsRepository
 import io.customer.remotehabits.data.repositories.HabitRepository
+import io.customer.remotehabits.data.repositories.PreferenceRepository
 import io.customer.remotehabits.data.repositories.UserRepository
 import io.customer.remotehabits.utils.AnalyticsConstants.LOGOUT
 import io.customer.remotehabits.utils.AnalyticsConstants.STATUS
 import io.customer.remotehabits.utils.Logger
 import io.customer.sdk.CustomerIO
 import javax.inject.Inject
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 data class HomeUiState(
@@ -31,12 +36,16 @@ class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val habitRepository: HabitRepository,
     private val eventsRepository: EventsRepository,
+    private val preferenceRepository: PreferenceRepository,
     private val logger: Logger,
 ) : ViewModel() {
 
     // UI state exposed to the UI
     private val _uiState = MutableStateFlow(HomeUiState(loading = true))
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+
+    private val _workspaceCredentials = MutableStateFlow(Workspace(siteId = "", apiKey = ""))
+    val workspaceCredentials = _workspaceCredentials
 
     init {
         loadData()
@@ -54,6 +63,12 @@ class HomeViewModel @Inject constructor(
                 )
             }.collect {
                 _uiState.value = it
+            }
+        }
+
+        viewModelScope.launch {
+            preferenceRepository.getWorkspaceCredentials().collect {
+                _workspaceCredentials.value = it
             }
         }
     }
@@ -93,6 +108,11 @@ class HomeViewModel @Inject constructor(
         appContext: Application,
         onWorkspaceChanged: () -> Unit
     ) {
+        viewModelScope.launch {
+            preferenceRepository.saveWorkspaceCredentials(
+                siteId = siteId, apiKey = apiKey
+            )
+        }
         // Register the `CustomerIO` instance with updated workspace credentials `siteId` and `apiKey`
         CustomerIO.Builder(
             siteId = siteId,

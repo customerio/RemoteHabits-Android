@@ -1,5 +1,7 @@
 package io.customer.remotehabits.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,5 +32,11 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideEventsRepository(logger: Logger): EventsRepository {
         return CustomerIOEventsRepositoryImp(logger)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun providePreferencesRepository(dataStore: DataStore<Preferences>): PreferenceRepository {
+        return PreferenceRepositoryImp(dataStore)
     }
 }
