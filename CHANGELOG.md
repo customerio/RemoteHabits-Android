@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/customerio/RemoteHabits-Android/compare/1.2.0...1.2.1) (2022-04-26)
+
+
+### Bug Fixes
+
+* save workspace credentials on change ([c75c3cb](https://github.com/customerio/RemoteHabits-Android/commit/c75c3cb5f3b1064ea7280a5b6913d84b10f5f468))
+
 # [1.2.0](https://github.com/customerio/RemoteHabits-Android/compare/1.1.1...1.2.0) (2022-04-21)
 
 
