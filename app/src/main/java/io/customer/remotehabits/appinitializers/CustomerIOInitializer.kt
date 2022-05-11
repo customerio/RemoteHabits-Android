@@ -3,6 +3,7 @@ package io.customer.remotehabits.appinitializers
 import android.app.Application
 import io.customer.remotehabits.BuildConfig
 import io.customer.sdk.CustomerIO
+import io.customer.sdk.util.CioLogLevel
 import javax.inject.Inject
 
 class CustomerIOInitializer @Inject constructor() : AppInitializer {
@@ -11,6 +12,8 @@ class CustomerIOInitializer @Inject constructor() : AppInitializer {
             siteId = BuildConfig.SITE_ID,
             apiKey = BuildConfig.API_KEY,
             appContext = application
-        ).build()
+        )
+            .setLogLevel(CioLogLevel.DEBUG)
+            .build()
     }
 }

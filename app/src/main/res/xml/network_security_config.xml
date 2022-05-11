@@ -4,4 +4,29 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
     </domain-config>
+
+    <!-- Enables debugging HTTP requests with Proxyman desktop application -->
+    <debug-overrides>
+        <trust-anchors>
+            <!-- Trust user added CAs while debuggable only -->
+            <certificates src="user" />
+            <certificates src="system" />
+        </trust-anchors>
+    </debug-overrides>
+
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <domain-config>
+        <!-- Make sure your URL Server here -->
+        <domain includeSubdomains="true">customer.io</domain>
+        <trust-anchors>
+            <certificates src="user"/>
+            <certificates src="system"/>
+        </trust-anchors>
+    </domain-config>
+    <!-- End proxyman config -->
 </network-security-config>
