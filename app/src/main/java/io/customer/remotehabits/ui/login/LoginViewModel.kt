@@ -1,5 +1,6 @@
 package io.customer.remotehabits.ui.login
 
+import android.app.Application
 import android.util.Patterns
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
@@ -8,11 +9,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.customer.remotehabits.R
 import io.customer.remotehabits.data.models.User
 import io.customer.remotehabits.data.repositories.EventsRepository
+import io.customer.remotehabits.data.repositories.PreferenceRepository
 import io.customer.remotehabits.data.repositories.UserRepository
 import io.customer.remotehabits.utils.AnalyticsConstants.EMAIL
 import io.customer.remotehabits.utils.AnalyticsConstants.IS_GUEST
 import io.customer.remotehabits.utils.AnalyticsConstants.LOGIN_ATTEMPT
 import io.customer.remotehabits.utils.AnalyticsConstants.NAME
+import io.customer.sdk.CustomerIO
 import java.util.*
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -34,11 +37,15 @@ data class LoginUiState(
 class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val eventsRepository: EventsRepository,
+    private val preferenceRepository: PreferenceRepository
 ) : ViewModel() {
 
     // UI state exposed to the UI
     private val _uiState = MutableStateFlow(LoginUiState(loading = true))
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
+
+    private val _trackApiUrl: MutableStateFlow<String?> = MutableStateFlow("")
+    val trackApiUrl = _trackApiUrl
 
     fun loginUser(email: String, name: String, onLoginSuccess: () -> Unit) {
         eventsRepository.track(
@@ -116,6 +123,29 @@ class LoginViewModel @Inject constructor(
                     )
                 }
             }
+        }
+
+        viewModelScope.launch {
+            preferenceRepository.getTrackApiUrl().collect {
+                _trackApiUrl.emit(it)
+            }
+        }
+    }
+
+    fun updateTrackApiUrl(url: String, application: Application, onBackPressed: () -> Unit) {
+        viewModelScope.launch {
+            preferenceRepository.saveTrackApiUrl(url)
+
+            val workspace = preferenceRepository.getWorkspaceCredentials().first()
+
+            CustomerIO.Builder(
+                siteId = workspace.siteId,
+                apiKey = workspace.apiKey,
+                appContext = application,
+            ).setTrackingApiURL(trackingApiUrl = url)
+                .build()
+
+            onBackPressed.invoke()
         }
     }
 }

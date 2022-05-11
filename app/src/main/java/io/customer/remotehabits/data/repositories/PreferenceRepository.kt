@@ -7,12 +7,15 @@ import io.customer.remotehabits.BuildConfig
 import io.customer.remotehabits.data.models.Workspace
 import io.customer.remotehabits.utils.PreferencesKeys.API_KEY
 import io.customer.remotehabits.utils.PreferencesKeys.SITE_ID
+import io.customer.remotehabits.utils.PreferencesKeys.TRACK_API_URL_KEY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 interface PreferenceRepository {
     suspend fun saveWorkspaceCredentials(siteId: String, apiKey: String)
     fun getWorkspaceCredentials(): Flow<Workspace>
+    suspend fun saveTrackApiUrl(trackingApiUrl: String)
+    fun getTrackApiUrl(): Flow<String?>
 }
 
 class PreferenceRepositoryImp(private val dataStore: DataStore<Preferences>) :
@@ -22,6 +25,18 @@ class PreferenceRepositoryImp(private val dataStore: DataStore<Preferences>) :
         dataStore.edit { preferences ->
             preferences[SITE_ID] = siteId
             preferences[API_KEY] = apiKey
+        }
+    }
+
+    override suspend fun saveTrackApiUrl(trackingApiUrl: String) {
+        dataStore.edit { preferences ->
+            preferences[TRACK_API_URL_KEY] = trackingApiUrl
+        }
+    }
+
+    override fun getTrackApiUrl(): Flow<String?> {
+        return dataStore.data.map { preference ->
+            preference[TRACK_API_URL_KEY]
         }
     }
 

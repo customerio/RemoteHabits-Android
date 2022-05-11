@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +30,7 @@ import io.customer.remotehabits.utils.TrackScreenDisposableEffect
 @Composable
 fun LoginRoute(
     loginViewModel: LoginViewModel = hiltViewModel(),
+    onSettingsClick: () -> Unit,
     onLoginSuccess: () -> Unit
 ) {
 
@@ -48,7 +51,8 @@ fun LoginRoute(
         },
         onGuestLogin = {
             loginViewModel.loginAsGuest(onLoginSuccess)
-        }
+        },
+        onSettingsClick = onSettingsClick
     )
 }
 
@@ -56,6 +60,7 @@ fun LoginRoute(
 fun LoginScreen(
     uiState: LoginUiState,
     onLogin: (email: String, name: String) -> Unit,
+    onSettingsClick: () -> Unit,
     onGuestLogin: () -> Unit
 ) {
     Column(
@@ -77,6 +82,7 @@ fun LoginScreen(
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            LoginSettings(onSettingsClick)
             LoginScreenHeader()
             LoginFormView(
                 emailErrorState = if (uiState.emailError == null) "" else stringResource(id = uiState.emailError),
@@ -87,6 +93,20 @@ fun LoginScreen(
         }
         LoginScreenFooter()
     }
+}
+
+@Composable
+fun ColumnScope.LoginSettings(onSettingsClick: () -> Unit) {
+    Icon(
+        imageVector = Icons.Default.Settings,
+        contentDescription = "Login settings",
+        modifier = Modifier
+            .size(64.dp)
+            .align(Alignment.End)
+            .padding(16.dp)
+            .clickable(onClick = onSettingsClick),
+        tint = RHTheme.colors.textSecondary
+    )
 }
 
 @Composable
@@ -235,6 +255,7 @@ fun LoginScreenPreview() {
     LoginScreen(
         LoginUiState(),
         onLogin = { _, _ -> },
+        onSettingsClick = {},
         onGuestLogin = {}
     )
 }
