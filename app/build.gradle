@@ -118,7 +118,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
 
     // Customer.io SDK
-    def cioVersion = "shahroz-custom-track-url-SNAPSHOT"
+    def cioVersion = "2.0.0-alpha.3"
     if (IS_DEVELOPMENT) cioVersion = "local"
     implementation "io.customer.android:tracking:$cioVersion"
     implementation "io.customer.android:messaging-push-fcm:$cioVersion"

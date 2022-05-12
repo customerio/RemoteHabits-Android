@@ -99,7 +99,7 @@ fun LoginScreen(
 fun ColumnScope.LoginSettings(onSettingsClick: () -> Unit) {
     Icon(
         imageVector = Icons.Default.Settings,
-        contentDescription = "Login settings",
+        contentDescription = stringResource(R.string.login_settings),
         modifier = Modifier
             .size(64.dp)
             .align(Alignment.End)

@@ -132,7 +132,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun updateTrackApiUrl(url: String, application: Application, onBackPressed: () -> Unit) {
+    fun updateTrackApiUrl(url: String, application: Application, onComplete: () -> Unit) {
         viewModelScope.launch {
             preferenceRepository.saveTrackApiUrl(url)
 
@@ -145,7 +145,7 @@ class LoginViewModel @Inject constructor(
             ).setTrackingApiURL(trackingApiUrl = url)
                 .build()
 
-            onBackPressed.invoke()
+            onComplete.invoke()
         }
     }
 }

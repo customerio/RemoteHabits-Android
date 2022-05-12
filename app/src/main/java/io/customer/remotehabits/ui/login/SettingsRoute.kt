@@ -36,7 +36,7 @@ fun SettingsRoute(
                 loginViewModel.updateTrackApiUrl(
                     url = it,
                     application = context.applicationContext as Application,
-                    onBackPressed = onBackPressed
+                    onComplete = onBackPressed
                 )
             }
         },

@@ -28,12 +28,13 @@ class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore
             }
         }
 
-        val builder = CustomerIO.Builder(
+        CustomerIO.Builder(
             siteId = siteId ?: BuildConfig.SITE_ID,
             apiKey = apiKey ?: BuildConfig.API_KEY,
             appContext = application,
-        )
-        trackingApiUrl?.let { builder.setTrackingApiURL(trackingApiUrl = it) }
-        builder.build()
+        ).apply {
+            trackingApiUrl?.let { setTrackingApiURL(trackingApiUrl = it ?: "") }
+            build()
+        }
     }
 }
