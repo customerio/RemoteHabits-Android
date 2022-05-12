@@ -8,6 +8,7 @@ import io.customer.remotehabits.utils.PreferencesKeys.API_KEY
 import io.customer.remotehabits.utils.PreferencesKeys.SITE_ID
 import io.customer.remotehabits.utils.PreferencesKeys.TRACK_API_URL_KEY
 import io.customer.sdk.CustomerIO
+import io.customer.sdk.util.CioLogLevel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -34,6 +35,7 @@ class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore
             appContext = application,
         ).apply {
             trackingApiUrl?.let { setTrackingApiURL(trackingApiUrl = it ?: "") }
+            setLogLevel(CioLogLevel.DEBUG)
             build()
         }
     }
