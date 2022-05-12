@@ -11,12 +11,14 @@ import io.customer.remotehabits.ui.detail.HabitDetailRoute
 import io.customer.remotehabits.ui.home.HomeRoute
 import io.customer.remotehabits.ui.home.SwitchWorkspaceRoute
 import io.customer.remotehabits.ui.login.LoginRoute
+import io.customer.remotehabits.ui.login.SettingsRoute
 import io.customer.remotehabits.ui.navigation.LeafScreen.Companion.ARGS_HABIT_CATEGORY
 
 const val scheme = "remote-habits"
 
 sealed class Screen(val route: String) {
     object Login : Screen("login")
+    object Settings : Screen("settings")
     object Dashboard : Screen("dashboard")
     object SwitchWorkspace : Screen("switch_workspace")
 }
@@ -51,6 +53,7 @@ fun RHNavGraph(
         modifier = modifier
     ) {
         addLoginRoute(navController)
+        addSettingsRoute(navController)
         addDashboardRoute(navController)
         addHabitDetailRoute(navController)
         addSwitchWorkSpaceRoute(navController)
@@ -114,6 +117,21 @@ internal fun NavGraphBuilder.addLoginRoute(
                     launchSingleTop = true
                     popUpTo(Screen.Login.route) { inclusive = true }
                 }
+            },
+            onSettingsClick = {
+                navController.navigate(Screen.Settings.route)
+            }
+        )
+    }
+}
+
+internal fun NavGraphBuilder.addSettingsRoute(
+    navController: NavHostController,
+) {
+    composable(Screen.Settings.route) {
+        SettingsRoute(
+            onBackPressed = {
+                navController.navigateUp()
             }
         )
     }

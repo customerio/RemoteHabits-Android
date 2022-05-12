@@ -5,8 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -22,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import io.customer.remotehabits.R
 import io.customer.remotehabits.data.models.User
 import io.customer.remotehabits.ui.component.BackNavigationWithTitle
+import io.customer.remotehabits.ui.component.RHButton
 import io.customer.remotehabits.ui.component.RHTextField
 import io.customer.remotehabits.ui.theme.RHTheme
 import io.customer.remotehabits.utils.AnalyticsConstants.SCREEN_SWITCH_WORKSPACE
@@ -166,18 +165,10 @@ fun SwitchWorkspaceFormView(
                 },
                 label = stringResource(R.string.api_key),
             )
-            Button(
+            RHButton(
                 onClick = {
                     onWorkspaceChanged.invoke(siteId, apiKey)
-                },
-                shape = RoundedCornerShape(100.dp),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = RHTheme.colors.primary,
-                    contentColor = RHTheme.colors.formBackground
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp)
+                }
             ) {
                 Text(
                     text = stringResource(R.string.switch_workspace),
