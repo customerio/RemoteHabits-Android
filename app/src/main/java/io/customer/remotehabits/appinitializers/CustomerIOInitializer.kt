@@ -35,6 +35,7 @@ class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore
             appContext = application,
         ).apply {
             trackingApiUrl?.let { setTrackingApiURL(trackingApiUrl = it ?: "") }
+            addCustomerIOModule(ModuleMessagingPushFCM())
             setLogLevel(CioLogLevel.DEBUG)
             build()
         }
