@@ -3,6 +3,7 @@ package io.customer.remotehabits.appinitializers
 import android.app.Application
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import io.customer.messagingpush.ModuleMessagingPushFCM
 import io.customer.remotehabits.BuildConfig
 import io.customer.remotehabits.utils.PreferencesKeys.API_KEY
 import io.customer.remotehabits.utils.PreferencesKeys.SITE_ID
@@ -35,6 +36,7 @@ class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore
             appContext = application,
         ).apply {
             trackingApiUrl?.let { setTrackingApiURL(trackingApiUrl = it ?: "") }
+            addCustomerIOModule(ModuleMessagingPushFCM())
             setLogLevel(CioLogLevel.DEBUG)
             build()
         }

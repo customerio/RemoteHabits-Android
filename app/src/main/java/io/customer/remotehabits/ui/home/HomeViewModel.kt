@@ -127,6 +127,7 @@ class HomeViewModel @Inject constructor(
             habitRepository.reset(context)
             userRepository.deleteUser(user)
             eventsRepository.track(name = LOGOUT)
+            eventsRepository.clearIdentify()
             onLogout.invoke()
         }
     }
