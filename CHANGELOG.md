@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/customerio/RemoteHabits-Android/compare/1.2.1...1.3.0) (2022-05-18)
+
+
+### Features
+
+* added support for custom track config ([#49](https://github.com/customerio/RemoteHabits-Android/issues/49)) ([50f29d5](https://github.com/customerio/RemoteHabits-Android/commit/50f29d56b4f9a35080936f45e84785366798e903))
+* update SDK to 2.0-alpha.3 ([62299c0](https://github.com/customerio/RemoteHabits-Android/commit/62299c0f308597c1801656850eb45ed44c5d77de))
+* update SDK to 2.0-beta.1 ([169b53d](https://github.com/customerio/RemoteHabits-Android/commit/169b53d7e68a6a476d72712cc183e5128f5397c4))
+
 ## [1.2.1](https://github.com/customerio/RemoteHabits-Android/compare/1.2.0...1.2.1) (2022-04-26)
 
 
