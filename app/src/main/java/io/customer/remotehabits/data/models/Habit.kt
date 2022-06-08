@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import io.customer.remotehabits.R
+import io.customer.remotehabits.utils.*
 
 @Entity
 class Habit(
@@ -47,6 +48,22 @@ enum class HabitType {
             Hydration -> R.drawable.ic_hydration
             TakingBreaks -> R.drawable.ic_breaks
             FocusTime -> R.drawable.ic_focus
+        }
+    }
+
+    fun getSwitchTestTag(): String {
+        return when (this) {
+            Hydration -> HYDRATION_TOGGLE
+            TakingBreaks -> TAKING_BREAK_TOGGLE
+            FocusTime -> FOCUS_TIME_TOGGLE
+        }
+    }
+
+    fun getListTestTag(): String {
+        return when (this) {
+            Hydration -> HYDRATION_LIST_ITEM
+            TakingBreaks -> TAKING_BREAK_LIST_ITEM
+            FocusTime -> FOCUS_TIME_LIST_ITEM
         }
     }
 }
