@@ -2,7 +2,7 @@
 buildscript {
     ext.kotlin_version = "1.6.10"
     ext.hilt_version = '2.38.1'
-    ext.compose_version = '1.2.0-alpha07'
+    ext.compose_version = '1.2.0-beta03'
     ext.coroutines_version = '1.5.2'
     ext.accompanist_version = '0.23.0'
     ext.room_version = "2.4.2"
