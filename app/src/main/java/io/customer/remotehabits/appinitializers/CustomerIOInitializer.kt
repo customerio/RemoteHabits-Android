@@ -1,6 +1,7 @@
 package io.customer.remotehabits.appinitializers
 
 import android.app.Application
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import io.customer.messaginginapp.ModuleMessagingInApp
@@ -11,9 +12,9 @@ import io.customer.remotehabits.utils.PreferencesKeys.SITE_ID
 import io.customer.remotehabits.utils.PreferencesKeys.TRACK_API_URL_KEY
 import io.customer.sdk.CustomerIO
 import io.customer.sdk.util.CioLogLevel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore<Preferences>) :
     AppInitializer {
@@ -31,6 +32,7 @@ class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore
             }
         }
 
+        Log.v("ORGANIZATION_ID", BuildConfig.ORGANIZATION_ID)
         CustomerIO.Builder(
             siteId = siteId ?: BuildConfig.SITE_ID,
             apiKey = apiKey ?: BuildConfig.API_KEY,
