@@ -1,7 +1,6 @@
 package io.customer.remotehabits.appinitializers
 
 import android.app.Application
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import io.customer.messaginginapp.ModuleMessagingInApp
@@ -32,7 +31,6 @@ class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore
             }
         }
 
-        Log.v("ORGANIZATION_ID", BuildConfig.ORGANIZATION_ID)
         CustomerIO.Builder(
             siteId = siteId ?: BuildConfig.SITE_ID,
             apiKey = apiKey ?: BuildConfig.API_KEY,
