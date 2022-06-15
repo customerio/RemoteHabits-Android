@@ -53,8 +53,8 @@ android {
             defaultConfig.multiDexEnabled true
         }
         release {
-//            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
@@ -119,7 +119,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
 
     // Customer.io SDK
-    def cioVersion = "shahroz-in-app-module-SNAPSHOT"
+    def cioVersion = "in-app-sdk-SNAPSHOT"
     if (IS_DEVELOPMENT) cioVersion = "local"
     implementation "io.customer.android:tracking:$cioVersion"
     implementation "io.customer.android:messaging-push-fcm:$cioVersion"
