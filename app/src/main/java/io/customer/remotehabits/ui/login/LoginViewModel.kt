@@ -13,7 +13,7 @@ import io.customer.remotehabits.data.repositories.PreferenceRepository
 import io.customer.remotehabits.data.repositories.UserRepository
 import io.customer.remotehabits.utils.AnalyticsConstants.EMAIL
 import io.customer.remotehabits.utils.AnalyticsConstants.IS_GUEST
-import io.customer.remotehabits.utils.AnalyticsConstants.LOGIN_ATTEMPT
+import io.customer.remotehabits.utils.AnalyticsConstants.LOGIN
 import io.customer.remotehabits.utils.AnalyticsConstants.NAME
 import io.customer.sdk.CustomerIO
 import java.util.*
@@ -48,10 +48,6 @@ class LoginViewModel @Inject constructor(
     val trackApiUrl = _trackApiUrl
 
     fun loginUser(email: String, name: String, onLoginSuccess: () -> Unit) {
-        eventsRepository.track(
-            name = LOGIN_ATTEMPT,
-            attributes = mapOf(NAME to name, EMAIL to email)
-        )
         if (name.isEmpty()) {
             _uiState.update {
                 it.copy(
@@ -88,6 +84,10 @@ class LoginViewModel @Inject constructor(
             eventsRepository.identify(
                 identifier = email,
                 attributes = mapOf(NAME to name, IS_GUEST to isGuest)
+            )
+            eventsRepository.track(
+                name = LOGIN,
+                attributes = mapOf(NAME to name, EMAIL to email)
             )
             withContext(Dispatchers.Main) {
                 onLoginSuccess.invoke()
