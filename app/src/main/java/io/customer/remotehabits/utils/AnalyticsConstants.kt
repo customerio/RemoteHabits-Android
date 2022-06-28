@@ -10,7 +10,7 @@ object AnalyticsConstants {
     const val START_TIME = "start_time"
     const val REMINDER_COUNT = "reminder_count"
     const val LOGOUT = "logout"
-    const val LOGIN_ATTEMPT = "login_attempt"
+    const val LOGIN = "login"
     const val NAME = "name"
     const val EMAIL = "email"
     const val IS_GUEST = "is_guest"
