@@ -10,12 +10,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.customer.remotehabits.R
 import io.customer.remotehabits.ui.component.RemoteHabitCard
 import io.customer.remotehabits.ui.theme.RHTheme
+import io.customer.remotehabits.utils.LOGOUT_BUTTON
 
 @Composable
 fun HomeUserDetailTitle() {
@@ -65,6 +67,7 @@ fun HomeUserDetailItem(
                 }
             )
             HabitListActionText(
+                modifier = Modifier.testTag(LOGOUT_BUTTON),
                 actionText = if (actionText == null) "" else stringResource(id = actionText),
                 onAction = onAction
             )

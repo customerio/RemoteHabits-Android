@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -24,8 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import io.customer.remotehabits.R
 import io.customer.remotehabits.ui.component.RHTextField
 import io.customer.remotehabits.ui.theme.RHTheme
+import io.customer.remotehabits.utils.*
 import io.customer.remotehabits.utils.AnalyticsConstants.SCREEN_LOGIN
-import io.customer.remotehabits.utils.TrackScreenDisposableEffect
 
 @Composable
 fun LoginRoute(
@@ -197,7 +198,8 @@ fun LoginFormView(
             RHTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 8.dp)
+                    .testTag(NAME_FIELD),
                 value = name,
                 onValueChange = {
                     name = it
@@ -208,7 +210,8 @@ fun LoginFormView(
             RHTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 8.dp)
+                    .testTag(EMAIL_FIELD),
                 value = email,
                 onValueChange = {
                     email = it
@@ -228,6 +231,7 @@ fun LoginFormView(
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .testTag(LOGIN_BUTTON)
                     .padding(vertical = 16.dp)
             ) {
                 Text(
@@ -241,6 +245,7 @@ fun LoginFormView(
                 color = RHTheme.colors.primary,
                 modifier = Modifier
                     .padding(bottom = 28.dp)
+                    .testTag(CONTINUE_AS_GUEST_BUTTON)
                     .clickable {
                         onGuestLogin.invoke()
                     }

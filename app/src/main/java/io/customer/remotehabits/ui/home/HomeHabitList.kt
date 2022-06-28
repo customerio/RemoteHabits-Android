@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import io.customer.remotehabits.data.models.Habit
@@ -24,6 +25,7 @@ fun HomeHabitListItem(
 ) {
     RemoteHabitCard(
         modifier = Modifier
+            .testTag(habit.type.getListTestTag())
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .clickable {
@@ -55,7 +57,9 @@ fun HomeHabitListItem(
                 }
             )
             HabitListStatusSwitch(
-                modifier = Modifier.weight(1F),
+                modifier = Modifier
+                    .weight(1F)
+                    .testTag(habit.type.getSwitchTestTag()),
                 habit = habit,
                 onHabitStatusChange = onHabitStatusChange
             )
@@ -100,6 +104,7 @@ fun RowScope.HabitListMultiText(
 
 @Composable
 fun RowScope.HabitListActionText(
+    modifier: Modifier = Modifier,
     actionText: String,
     onAction: () -> Unit
 ) {
@@ -107,7 +112,7 @@ fun RowScope.HabitListActionText(
         text = actionText,
         style = RHTheme.typography.button,
         color = RHTheme.colors.accent,
-        modifier = Modifier
+        modifier = modifier
             .weight(1F)
             .clickable {
                 onAction.invoke()
