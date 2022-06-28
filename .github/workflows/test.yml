@@ -120,6 +120,7 @@ jobs:
         run: |
           echo "siteId=${{ secrets.CIO_SITE_ID }}" >> local.properties
           echo "apiKey=${{ secrets.CIO_API_KEY }}" >> local.properties
+          echo "orgId=${{ secrets.GIST_ORG_ID }}" >> local.properties
       - name: Setup Ruby to run Fastlane
         uses: ruby/setup-ruby@v1
         with:
