@@ -33,7 +33,6 @@ fun LoginRoute(
     onSettingsClick: () -> Unit,
     onLoginSuccess: () -> Unit
 ) {
-
     val state = loginViewModel.uiState.collectAsState()
 
     TrackScreenDisposableEffect(
@@ -117,7 +116,7 @@ fun LoginScreenFooter() {
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter),
+                .align(Alignment.BottomCenter)
         )
         Box(
             modifier = Modifier
@@ -128,24 +127,24 @@ fun LoginScreenFooter() {
             Image(
                 painter = painterResource(R.drawable.ic_login_globe),
                 contentDescription = null,
-                modifier = Modifier.align(Alignment.CenterStart),
+                modifier = Modifier.align(Alignment.CenterStart)
             )
             Image(
                 painter = painterResource(R.drawable.ic_login_reports),
                 contentDescription = null,
-                modifier = Modifier.align(Alignment.BottomEnd),
+                modifier = Modifier.align(Alignment.BottomEnd)
             )
             Image(
                 painter = painterResource(R.drawable.ic_login_computer),
                 contentDescription = null,
-                modifier = Modifier.align(Alignment.BottomCenter),
+                modifier = Modifier.align(Alignment.BottomCenter)
             )
             Image(
                 painter = painterResource(R.drawable.ic_login_cup),
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(start = 16.dp),
+                    .padding(start = 16.dp)
             )
         }
     }
@@ -169,7 +168,7 @@ fun loginTextFieldColors(
 ) = TextFieldDefaults.textFieldColors(
     textColor = textColor,
     backgroundColor = backgroundColor,
-    cursorColor = cursorColor,
+    cursorColor = cursorColor
 )
 
 @Composable
@@ -179,7 +178,6 @@ fun LoginFormView(
     onLogin: (email: String, name: String) -> Unit,
     onGuestLogin: () -> Unit
 ) {
-
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
 

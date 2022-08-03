@@ -18,12 +18,12 @@ import io.customer.remotehabits.utils.AnalyticsConstants.LOGOUT
 import io.customer.remotehabits.utils.AnalyticsConstants.STATUS
 import io.customer.remotehabits.utils.Logger
 import io.customer.sdk.CustomerIO
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class HomeUiState(
     val user: User = User("", ""),
@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
     private val habitRepository: HabitRepository,
     private val eventsRepository: EventsRepository,
     private val preferenceRepository: PreferenceRepository,
-    private val logger: Logger,
+    private val logger: Logger
 ) : ViewModel() {
 
     // UI state exposed to the UI
@@ -110,7 +110,8 @@ class HomeViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             preferenceRepository.saveWorkspaceCredentials(
-                siteId = siteId, apiKey = apiKey
+                siteId = siteId,
+                apiKey = apiKey
             )
         }
         // Register the `CustomerIO` instance with updated workspace credentials `siteId` and `apiKey`

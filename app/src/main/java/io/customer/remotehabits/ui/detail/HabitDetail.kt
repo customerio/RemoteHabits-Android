@@ -33,7 +33,7 @@ import java.util.*
 @Composable
 fun HabitDetailRoute(
     habitDetailViewModel: HabitDetailViewModel = hiltViewModel(),
-    onBackPressed: () -> Unit,
+    onBackPressed: () -> Unit
 ) {
     val state = habitDetailViewModel.uiState.collectAsState()
 
@@ -138,7 +138,6 @@ fun ReminderListItem(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Text(
             text = title,
             style = RHTheme.typography.body,
@@ -201,12 +200,12 @@ fun HabitDetailStatus(
             Text(
                 text = displayText,
                 style = RHTheme.typography.h3,
-                color = RHTheme.colors.textPrimary,
+                color = RHTheme.colors.textPrimary
             )
 
             HabitListStatusSwitch(
                 habit = habit,
-                onHabitStatusChange = onHabitStatusChange,
+                onHabitStatusChange = onHabitStatusChange
             )
         }
     }
@@ -250,7 +249,8 @@ fun HabitDetailPreview() {
         onHabitEndTimeUpdate = { _, _ ->
         },
         onHabitReminderCountUpdate = { _, _ ->
-        }, onHabitStatusChange = { _, _ ->
+        },
+        onHabitStatusChange = { _, _ ->
         }
     )
 }

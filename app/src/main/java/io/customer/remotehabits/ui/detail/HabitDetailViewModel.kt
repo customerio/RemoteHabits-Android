@@ -12,12 +12,12 @@ import io.customer.remotehabits.utils.AnalyticsConstants.END_TIME
 import io.customer.remotehabits.utils.AnalyticsConstants.REMINDER_COUNT
 import io.customer.remotehabits.utils.AnalyticsConstants.START_TIME
 import io.customer.remotehabits.utils.AnalyticsConstants.STATUS
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class HabitDetailUiState(
     val loading: Boolean = false,
@@ -28,7 +28,7 @@ data class HabitDetailUiState(
 class HabitDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val habitRepository: HabitRepository,
-    private val eventsRepository: EventsRepository,
+    private val eventsRepository: EventsRepository
 ) : ViewModel() {
 
     private val habitType =

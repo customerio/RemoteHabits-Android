@@ -37,7 +37,7 @@ fun HomeHabitListItem(
         ) {
             HabitListIcon(
                 painter = painterResource(id = habit.type.getIcon()),
-                contentDescription = habit.name,
+                contentDescription = habit.name
             )
             HabitListMultiText(
                 primaryText = {
@@ -46,7 +46,8 @@ fun HomeHabitListItem(
                         color = RHTheme.colors.textPrimary,
                         style = RHTheme.typography.h3
                     )
-                }, secondaryText = {
+                },
+                secondaryText = {
                     Text(
                         text = habit.caption,
                         color = RHTheme.colors.textTertiary,
