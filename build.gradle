@@ -10,7 +10,6 @@ buildscript {
 
     repositories {
         google()
-        maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
         mavenCentral()
     }
     dependencies {
@@ -30,7 +29,6 @@ allprojects {
         if (IS_DEVELOPMENT) mavenLocal()
         google()
         mavenCentral()
-        maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
         maven {
             url 'https://maven.gist.build'
         }

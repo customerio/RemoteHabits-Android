@@ -119,7 +119,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
 
     // Customer.io SDK
-    def cioVersion = "in-app-sdk-SNAPSHOT"
+    def cioVersion = "2.2.0-alpha.1"
     if (IS_DEVELOPMENT) cioVersion = "local"
     implementation "io.customer.android:tracking:$cioVersion"
     implementation "io.customer.android:messaging-push-fcm:$cioVersion"
