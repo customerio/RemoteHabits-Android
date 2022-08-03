@@ -91,7 +91,7 @@ fun RHTextField(
         },
         keyboardOptions = keyboardOptions,
         isError = errorMessage.isNotEmpty(),
-        modifier = modifier,
+        modifier = modifier
     )
     if (errorMessage.isNotEmpty()) {
         Text(

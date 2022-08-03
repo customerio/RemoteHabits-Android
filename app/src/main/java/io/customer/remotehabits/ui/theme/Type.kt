@@ -12,7 +12,7 @@ private val RobotoFontFamily = FontFamily(
     Font(R.font.roboto_regular, FontWeight.W400),
     Font(R.font.roboto_bold, FontWeight.Bold),
     Font(R.font.roboto_thin, FontWeight.Thin),
-    Font(R.font.roboto_light, FontWeight.Light),
+    Font(R.font.roboto_light, FontWeight.Light)
 )
 
 data class RHTypography(

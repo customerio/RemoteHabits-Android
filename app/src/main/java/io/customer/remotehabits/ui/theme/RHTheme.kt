@@ -116,7 +116,7 @@ fun lightColors(
     underline: Color = Gray300,
     error: Color = Color.Red,
     formBackground: Color = Color.White,
-    cardBackground: Color = Color.White,
+    cardBackground: Color = Color.White
 ): RHColors = RHColors(
     background = background,
     backgroundVariant = backgroundVariant,
@@ -145,7 +145,7 @@ fun darkColors(
     underline: Color = Gray500,
     error: Color = Color.Red,
     formBackground: Color = Color.White,
-    cardBackground: Color = Gray900,
+    cardBackground: Color = Gray900
 ): RHColors = RHColors(
     background = background,
     backgroundVariant = backgroundVariant,

@@ -69,7 +69,7 @@ fun HomeScreen(
         Modifier
             .background(RHTheme.colors.background)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
     ) {
         HomeScreenTitle(state.user)
         HomeScreenHabits(state.habits, openHabitDetail, onHabitStatusChange)
@@ -87,13 +87,14 @@ fun HomeScreenUserDetails(
     user: User,
     workspace: Workspace,
     switchWorkspace: () -> Unit,
-    onLogout: (user: User) -> Unit,
+    onLogout: (user: User) -> Unit
 
 ) {
-    val userDisplayText: Pair<String, String> = if (user.isGuest)
+    val userDisplayText: Pair<String, String> = if (user.isGuest) {
         Pair(stringResource(id = R.string.guest), stringResource(id = R.string.anonymous))
-    else
+    } else {
         Pair(user.email, user.name ?: "")
+    }
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         HomeUserDetailTitle()

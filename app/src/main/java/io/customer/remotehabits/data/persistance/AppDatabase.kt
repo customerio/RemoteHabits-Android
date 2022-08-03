@@ -31,7 +31,8 @@ abstract class AppDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,
-                AppDatabase::class.java, context.getString(R.string.database)
+                AppDatabase::class.java,
+                context.getString(R.string.database)
             )
                 // prepopulate the habit database after onCreate was called
                 .addCallback(object : Callback() {

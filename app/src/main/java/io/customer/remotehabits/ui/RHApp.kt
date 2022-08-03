@@ -20,7 +20,6 @@ import io.customer.remotehabits.ui.theme.AppTheme
 fun RHApp(
     authenticationViewModel: AuthenticationViewModel = hiltViewModel()
 ) {
-
     AppTheme {
         ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
             val systemUiController = rememberSystemUiController()

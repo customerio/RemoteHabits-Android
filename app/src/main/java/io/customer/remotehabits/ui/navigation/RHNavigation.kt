@@ -44,7 +44,6 @@ fun RHNavGraph(
     modifier: Modifier = Modifier,
     startDestination: String = Screen.Login.route
 ) {
-
     val navController = rememberNavController()
 
     NavHost(
@@ -61,7 +60,7 @@ fun RHNavGraph(
 }
 
 internal fun NavGraphBuilder.addHabitDetailRoute(
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     composable(
         route = LeafScreen.HabitDetails.route,
@@ -80,7 +79,7 @@ internal fun NavGraphBuilder.addHabitDetailRoute(
 }
 
 internal fun NavGraphBuilder.addSwitchWorkSpaceRoute(
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     composable(
         route = Screen.SwitchWorkspace.route,
@@ -108,7 +107,7 @@ internal fun NavGraphBuilder.addSwitchWorkSpaceRoute(
 }
 
 internal fun NavGraphBuilder.addLoginRoute(
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     composable(Screen.Login.route) {
         LoginRoute(
@@ -126,7 +125,7 @@ internal fun NavGraphBuilder.addLoginRoute(
 }
 
 internal fun NavGraphBuilder.addSettingsRoute(
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     composable(Screen.Settings.route) {
         SettingsRoute(
@@ -138,7 +137,7 @@ internal fun NavGraphBuilder.addSettingsRoute(
 }
 
 internal fun NavGraphBuilder.addDashboardRoute(
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     composable(Screen.Dashboard.route) {
         HomeRoute(

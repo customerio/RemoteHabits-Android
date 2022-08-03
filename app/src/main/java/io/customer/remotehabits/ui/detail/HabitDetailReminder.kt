@@ -25,7 +25,6 @@ fun HabitDetailReminder(
     onHabitStartTimeUpdate: (habit: Habit, time: Long) -> Unit,
     onHabitEndTimeUpdate: (habit: Habit, time: Long) -> Unit
 ) {
-
     val context = LocalContext.current
 
     RemoteHabitCard(
@@ -50,7 +49,8 @@ fun HabitDetailReminder(
                         it.toInt()
                     } else 0
                     onHabitReminderCountUpdate.invoke(
-                        habit, count
+                        habit,
+                        count
                     )
                 }
             )
@@ -87,7 +87,8 @@ fun ReminderTimeBox(
         modifier
             .border(
                 border = BorderStroke(
-                    width = 1.dp, color = RHTheme.colors.underline
+                    width = 1.dp,
+                    color = RHTheme.colors.underline
                 ),
                 shape = RoundedCornerShape(12.dp)
             )

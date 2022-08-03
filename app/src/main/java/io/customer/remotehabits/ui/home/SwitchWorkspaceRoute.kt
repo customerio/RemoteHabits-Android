@@ -123,7 +123,6 @@ fun SwitchWorkspaceFormView(
     workspaceApiKey: String,
     onWorkspaceChanged: (siteId: String, apiKey: String) -> Unit
 ) {
-
     var siteId by remember {
         mutableStateOf(
             workspaceSiteId
@@ -163,7 +162,7 @@ fun SwitchWorkspaceFormView(
                 onValueChange = {
                     apiKey = it
                 },
-                label = stringResource(R.string.api_key),
+                label = stringResource(R.string.api_key)
             )
             RHButton(
                 onClick = {

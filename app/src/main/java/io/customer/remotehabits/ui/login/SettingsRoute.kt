@@ -24,7 +24,7 @@ import io.customer.remotehabits.ui.theme.RHTheme
 @Composable
 fun SettingsRoute(
     loginViewModel: LoginViewModel = hiltViewModel(),
-    onBackPressed: () -> Unit,
+    onBackPressed: () -> Unit
 ) {
     val trackApiUrlState = loginViewModel.trackApiUrl.collectAsState()
     val context = LocalContext.current
@@ -81,7 +81,6 @@ fun SettingsScreen(
                     .padding(horizontal = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 RHTextField(
                     modifier = Modifier
                         .fillMaxWidth()

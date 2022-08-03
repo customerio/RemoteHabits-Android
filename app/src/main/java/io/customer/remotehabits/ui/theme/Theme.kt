@@ -28,6 +28,6 @@ fun AppTheme(
     AppTheme(
         colors = if (darkTheme) darkColors() else lightColors(),
         typography = RHTypography(),
-        content = content,
+        content = content
     )
 }

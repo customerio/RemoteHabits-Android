@@ -20,7 +20,7 @@ import io.customer.remotehabits.ui.theme.RHTheme
 @Composable
 fun BackNavigationWithTitle(
     title: String,
-    onBackPressed: () -> Unit,
+    onBackPressed: () -> Unit
 ) {
     Row(
         modifier = Modifier
