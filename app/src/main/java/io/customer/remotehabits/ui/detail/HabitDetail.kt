@@ -195,7 +195,9 @@ fun HabitDetailStatus(
         ) {
             val displayText = if (habit.status) {
                 stringResource(id = R.string.added_to_my_habits)
-            } else stringResource(id = R.string.add_to_my_habits)
+            } else {
+                stringResource(id = R.string.add_to_my_habits)
+            }
 
             Text(
                 text = displayText,

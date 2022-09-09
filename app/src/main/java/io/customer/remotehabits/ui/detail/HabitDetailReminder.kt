@@ -47,7 +47,9 @@ fun HabitDetailReminder(
                 onItemUpdate = {
                     val count = if (it.isDigitsOnly() && it.isNotEmpty()) {
                         it.toInt()
-                    } else 0
+                    } else {
+                        0
+                    }
                     onHabitReminderCountUpdate.invoke(
                         habit,
                         count
