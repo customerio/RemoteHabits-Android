@@ -17,7 +17,10 @@ class AuthenticationViewModel @Inject constructor(
         val isLoggedIn = runBlocking(Dispatchers.IO) {
             userRepository.isLoggedIn()
         }
-        return if (isLoggedIn) Screen.Dashboard.route
-        else Screen.Login.route
+        return if (isLoggedIn) {
+            Screen.Dashboard.route
+        } else {
+            Screen.Login.route
+        }
     }
 }
