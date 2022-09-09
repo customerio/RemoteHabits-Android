@@ -1,3 +1,16 @@
+# [1.4.0](https://github.com/customerio/RemoteHabits-Android/compare/1.3.0...1.4.0) (2022-09-09)
+
+
+### Bug Fixes
+
+* fixed login event ([481a633](https://github.com/customerio/RemoteHabits-Android/commit/481a633b4359c38c6cb99d7aa70fb1265f34de6f))
+
+
+### Features
+
+* added in-app support ([3f7287b](https://github.com/customerio/RemoteHabits-Android/commit/3f7287b4c4f3f989b3d46fec98428f542bcf6ed7))
+* update SDK to 3.0.0-alpha.1 ([e7006c7](https://github.com/customerio/RemoteHabits-Android/commit/e7006c762257c674bc3d6b2623862161e0a7383c))
+
 # [1.3.0](https://github.com/customerio/RemoteHabits-Android/compare/1.2.1...1.3.0) (2022-05-18)
 
 
