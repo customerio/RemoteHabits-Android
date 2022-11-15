@@ -6,6 +6,7 @@ instrumentation_output.txt
 # file gets created on CI server
 github_context.json
 keystores/*.keystore
+.DS_Store
 
 # Built application files
 *.apk
