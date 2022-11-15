@@ -119,7 +119,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
 
     // Customer.io SDK
-    def cioVersion = "3.0.0-beta.1"
+    def cioVersion = "levi-inapp-event-listener-SNAPSHOT"
     if (IS_DEVELOPMENT) cioVersion = "local"
     implementation "io.customer.android:tracking:$cioVersion"
     implementation "io.customer.android:messaging-push-fcm:$cioVersion"
