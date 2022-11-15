@@ -32,6 +32,9 @@ allprojects {
         maven {
             url 'https://maven.gist.build'
         }
+        maven { // for SDK snapshot builds
+            url 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+        }
     }
 }
 
