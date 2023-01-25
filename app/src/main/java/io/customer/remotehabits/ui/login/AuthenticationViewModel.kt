@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.customer.remotehabits.data.repositories.UserRepository
 import io.customer.remotehabits.ui.navigation.Screen
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 @HiltViewModel
 class AuthenticationViewModel @Inject constructor(
