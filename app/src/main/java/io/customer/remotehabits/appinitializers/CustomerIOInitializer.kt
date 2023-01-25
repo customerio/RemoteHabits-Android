@@ -15,9 +15,9 @@ import io.customer.remotehabits.utils.PreferencesKeys.SITE_ID
 import io.customer.remotehabits.utils.PreferencesKeys.TRACK_API_URL_KEY
 import io.customer.sdk.CustomerIO
 import io.customer.sdk.util.CioLogLevel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore<Preferences>, private val logger: Logger) :
     AppInitializer {
@@ -47,23 +47,42 @@ class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore
                         .setEventListener(object : InAppEventListener {
                             override fun errorWithMessage(message: InAppMessage) {
                                 logger.v("error with in-app message. message: $message")
+                                trackInAppEvent(
+                                    eventName = "errorWithMessage",
+                                    message = message
+                                )
                             }
 
                             override fun messageActionTaken(
                                 message: InAppMessage,
-                                currentRoute: String,
                                 action: String,
                                 name: String
                             ) {
-                                logger.v("in-app message action taken. current route: $currentRoute, action: $action, name: $name, message: $message")
+                                logger.v("in-app message action taken. action: $action, name: $name, message: $message")
+                                trackInAppEvent(
+                                    eventName = "messageActionTaken",
+                                    message = message,
+                                    arguments = mapOf(
+                                        "action" to action,
+                                        "name" to name
+                                    )
+                                )
                             }
 
                             override fun messageDismissed(message: InAppMessage) {
                                 logger.v("in-app message dismissed. message: $message")
+                                trackInAppEvent(
+                                    eventName = "messageDismissed",
+                                    message = message
+                                )
                             }
 
                             override fun messageShown(message: InAppMessage) {
                                 logger.v("in-app message shown. message: $message")
+                                trackInAppEvent(
+                                    eventName = "messageShown",
+                                    message = message
+                                )
                             }
                         })
                         .build()
@@ -74,4 +93,19 @@ class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore
             build()
         }
     }
+
+    private fun trackInAppEvent(
+        eventName: String,
+        message: InAppMessage,
+        arguments: Map<String, Any> = emptyMap()
+    ) = CustomerIO.instance().track(
+        name = "In-App Event",
+        attributes = arguments.plus(
+            mapOf(
+                "event_name" to eventName,
+                "message_id" to message.messageId,
+                "delivery_id" to (message.deliveryId ?: "NULL")
+            )
+        )
+    )
 }
