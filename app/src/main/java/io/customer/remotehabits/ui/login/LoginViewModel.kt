@@ -16,12 +16,12 @@ import io.customer.remotehabits.utils.AnalyticsConstants.IS_GUEST
 import io.customer.remotehabits.utils.AnalyticsConstants.LOGIN
 import io.customer.remotehabits.utils.AnalyticsConstants.NAME
 import io.customer.sdk.CustomerIO
+import java.util.*
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
-import javax.inject.Inject
 
 /**
  * UI state for the Login screen
