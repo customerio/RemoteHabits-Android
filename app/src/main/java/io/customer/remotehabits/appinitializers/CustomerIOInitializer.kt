@@ -40,54 +40,6 @@ class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore
             appContext = application
         ).apply {
             trackingApiUrl?.let { setTrackingApiURL(trackingApiUrl = it) }
-            addCustomerIOModule(
-                ModuleMessagingInApp(
-                    organizationId = BuildConfig.ORGANIZATION_ID,
-                    config = MessagingInAppModuleConfig.Builder()
-                        .setEventListener(object : InAppEventListener {
-                            override fun errorWithMessage(message: InAppMessage) {
-                                logger.v("error with in-app message. message: $message")
-                                trackInAppEvent(
-                                    eventName = "errorWithMessage",
-                                    message = message
-                                )
-                            }
-
-                            override fun messageActionTaken(
-                                message: InAppMessage,
-                                action: String,
-                                name: String
-                            ) {
-                                logger.v("in-app message action taken. action: $action, name: $name, message: $message")
-                                trackInAppEvent(
-                                    eventName = "messageActionTaken",
-                                    message = message,
-                                    arguments = mapOf(
-                                        "action" to action,
-                                        "name" to name
-                                    )
-                                )
-                            }
-
-                            override fun messageDismissed(message: InAppMessage) {
-                                logger.v("in-app message dismissed. message: $message")
-                                trackInAppEvent(
-                                    eventName = "messageDismissed",
-                                    message = message
-                                )
-                            }
-
-                            override fun messageShown(message: InAppMessage) {
-                                logger.v("in-app message shown. message: $message")
-                                trackInAppEvent(
-                                    eventName = "messageShown",
-                                    message = message
-                                )
-                            }
-                        })
-                        .build()
-                )
-            )
             addCustomerIOModule(ModuleMessagingPushFCM())
             setLogLevel(CioLogLevel.DEBUG)
             build()
