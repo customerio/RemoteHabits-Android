@@ -57,16 +57,16 @@ class CustomerIOInitializer @Inject constructor(
 
                             override fun messageActionTaken(
                                 message: InAppMessage,
-                                action: String,
-                                name: String
+                                actionValue: String,
+                                actionName: String
                             ) {
-                                logger.v("in-app message action taken. action: $action, name: $name, message: $message")
+                                logger.v("in-app message action taken. action: $actionValue, name: $actionName, message: $message")
                                 trackInAppEvent(
                                     eventName = "messageActionTaken",
                                     message = message,
                                     arguments = mapOf(
-                                        "action" to action,
-                                        "name" to name
+                                        "actionValue" to actionValue,
+                                        "actionName" to actionName
                                     )
                                 )
                             }
