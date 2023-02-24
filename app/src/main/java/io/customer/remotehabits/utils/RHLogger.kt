@@ -1,7 +1,7 @@
 package io.customer.remotehabits.utils
 
-import timber.log.Timber
 import javax.inject.Inject
+import timber.log.Timber
 
 class RHLogger @Inject constructor() : Logger {
 
