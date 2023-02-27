@@ -60,7 +60,7 @@ jobs:
           ruby-version: 2.7.2
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Set up Google Cloud SDK for Firebase Test Lab
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@main
       - name: Setup for Firebase Test Lab
         run: echo "${{ secrets.FIREBASE_TEST_LAB_GOOGLE_AUTH }}" | base64 -d > firebase_testlab_service_account.json
         env:
