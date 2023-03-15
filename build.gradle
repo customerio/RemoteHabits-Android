@@ -6,7 +6,8 @@ buildscript {
     ext.coroutines_version = '1.5.2'
     ext.accompanist_version = '0.23.0'
     ext.room_version = "2.4.2"
-    ext.IS_DEVELOPMENT = System.getenv("CI") == null
+    // set IS_DEVELOPMENT to true if you want to use with local version of sdk
+    ext.IS_DEVELOPMENT = false
 
     repositories {
         google()

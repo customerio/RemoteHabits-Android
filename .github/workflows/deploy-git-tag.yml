@@ -6,30 +6,92 @@ on:
   push:
     branches: [main, beta, alpha]
 
+permissions:
+  contents: write # access to push the git tag
+  issues: write # Bot creates an issue if there is an issue during deployment process
+  pull-requests: write # allow bot to make comments on PRs after they get deployed
+
 jobs:
-  deploy-sdk:
+  deploy-git-tag:
     name: Deploy git tag
     runs-on: ubuntu-latest
+    outputs:
+      new_release_git_head: ${{ steps.semantic-release.outputs.new_release_git_head }}
+      new_release_published: ${{ steps.semantic-release.outputs.new_release_published }}
+      new_release_version: ${{ steps.semantic-release.outputs.new_release_version }}      
     steps:
-      - name: semantic-release setup
-        uses: levibostian/action-semantic-release-justwork@v1
-      - name: Deploy git tag via semantic-release 
+      - uses: actions/checkout@v3
+      - name: Deploy git tag via semantic-release
         uses: cycjimmy/semantic-release-action@v2
-        with: 
+        id: semantic-release
+        with:
           # version numbers below can be in many forms: M, M.m, M.m.p
           semantic_version: 18
           extra_plugins: |
+            conventional-changelog-conventionalcommits@4
             @semantic-release/changelog@6
             @semantic-release/git@10
             @semantic-release/github@8
             @semantic-release/exec@6
         env:
-          # Needs to push git commits to repo. Needs write access. 
-          GITHUB_TOKEN: ${{ secrets.WRITE_ACCESS_BOT_TOKEN }}
-
-      - name: Copy deployment commit into develop 
-        uses: levibostian/action-sync-branches@v1
+          # Needs to push git commits to repo. Needs write access.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  deploy-app:
+    name: Deploy app
+    needs: [deploy-git-tag]
+    if: needs.deploy-git-tag.outputs.new_release_published == 'true' # only run if a git tag was made.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
         with:
-          behind: develop
-          ahead: main
-          githubToken: ${{ secrets.WRITE_ACCESS_BOT_TOKEN }}
+          ref: ${{ needs.deploy-git-tag.outputs.new_release_git_head }}
+
+      - name: Setup Ruby to run Fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11' # Robolectric requires v9, but we choose LTS: https://adoptopenjdk.net/
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+      - name: Prepare app for building
+        run: echo "${{ secrets.GOOGLE_SERVICES_BASE64 }}" | base64 -d > app/google-services.json
+        env:
+          GOOGLE_SERVICES_BASE64: "${{ secrets.GOOGLE_SERVICES_BASE64 }}"
+      - name: Create Local Properties File
+        run: |
+          touch local.properties
+          echo "siteId=${{ secrets.CIO_SITE_ID }}" >> local.properties
+          echo "apiKey=${{ secrets.CIO_API_KEY }}" >> local.properties
+          echo "orgId=${{ secrets.GIST_ORG_ID }}" >> local.properties
+      - name: Setup Fastlane
+        uses: maierj/fastlane-action@v2.0.1
+        with:
+          lane: 'list' # give action a lane that doesn't perform an action to get fastlane installed on machine to use later. 
+          skip-tracking: true
+      - name: Setup for Deploying
+        run: |
+          echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}" | base64 -d > firebase_appdistribution_service_account.json
+          echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > upload.keystore
+        env:
+          FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH: ${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}
+          RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+
+      - name: Deploy build via Fastlane
+        uses: maierj/fastlane-action@v2.0.1
+        with:
+          lane: 'deploy_app'
+          options: '{ "version": "${{ github.event.release.tag_name }}" }'
+          skip-tracking: true
+        env:
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+          ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
+          ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
+          ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
+      
