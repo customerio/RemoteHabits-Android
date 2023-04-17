@@ -21,9 +21,9 @@ android {
     defaultConfig {
         applicationId "io.customer.remotehabits"
         minSdkVersion 16
-        targetSdkVersion 32
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 33
+        versionCode 499
+        versionName "in-app-click-tracking-build"
         compileSdkPreview = "UpsideDownCake"
 
         testInstrumentationRunner "io.customer.remotehabits.AndroidTestTestRunner"
@@ -72,7 +72,7 @@ android {
         }
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.5'
+        kotlinCompilerExtensionVersion '1.4.4'
     }
 
     testOptions {
@@ -120,7 +120,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
 
     // Customer.io SDK
-    def cioVersion = "3.2.0-alpha.2"
+    def cioVersion = "shahroz-in-app-click-tracking-SNAPSHOT"
     if (IS_DEVELOPMENT) cioVersion = "local"
     implementation "io.customer.android:tracking:$cioVersion"
     implementation "io.customer.android:messaging-push-fcm:$cioVersion"
