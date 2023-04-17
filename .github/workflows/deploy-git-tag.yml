@@ -76,10 +76,10 @@ jobs:
           skip-tracking: true
       - name: Setup for Deploying
         run: |
-          echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}" | base64 -d > firebase_appdistribution_service_account.json
+          echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_CREDS_B64 }}" | base64 -d > firebase_appdistribution_service_account.json
           echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > upload.keystore
         env:
-          FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH: ${{ secrets.FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH }}
+          FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_CREDS_B64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_CREDS_B64 }}
           RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
 
       - name: Deploy build via Fastlane

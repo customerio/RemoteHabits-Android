@@ -55,7 +55,7 @@ For both of these service accounts, create a private key file. Do this by clicki
 3. `FIREBASE_PROJECT_ID` - Firebase project for app. Find in firebase project settings > General tab. 
 4. `REPO_PUSH_TOKEN` - personal github token to push to the repo. Make sure the github username for this token has push permissions for this repo. 
 5. `FIREBASE_TEST_LAB_GOOGLE_AUTH` - base64 encoded string of the Firebase Test Lab Service Account private file you downloaded. 
-6. `FIREBASE_APP_DISTRIBUTION_GOOGLE_AUTH` - base64 encoded string of the Firebase App Distribution Service Account private file you downloaded. 
+6. `FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_CREDS_B64` - base64 encoded string of the Firebase App Distribution Service Account private file you downloaded. 
 7. `FIREBASE_APP_ID` - App ID for the app in your Firebase project. Find in firebase project settings > General tab > apps > select your app > app id. Format is similar to: `"1:1234567890:ios:0a1b2c3d4e5f67890"`
 8. `RELEASE_KEYSTORE_BASE64` - base64 encoded string for the `keystores/upload.keystore` file used for app release signing. 
 9. `ANDROID_SIGNING_STORE_PASSWORD` - store password for release signing configuration.
