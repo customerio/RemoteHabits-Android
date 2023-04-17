@@ -15,6 +15,13 @@
 
 require 'json'
 
+# Functions for setting up code signing on CI server
+import_from_git(
+  url: "https://github.com/customerio/apple-code-signing.git",
+  branch: "main",
+  path: "fastlane/Fastfile"
+)
+
 def is_pull_request(github_context)
   return github_context["event"]["pull_request"] != nil 
 end
@@ -103,9 +110,13 @@ platform :android do
       build_type: 'Release'
     )
 
+    service_credentials_file_path = setup_google_bucket_access(
+        environment_variable_key: "FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_CREDS_B64"
+    )
+
     firebase_app_distribution(
       app: ENV["FIREBASE_APP_ID"],
-      service_credentials_file: './firebase_appdistribution_service_account.json',
+      service_credentials_file: service_credentials_file_path,
       groups: groups,
       release_notes: release_notes
     )
