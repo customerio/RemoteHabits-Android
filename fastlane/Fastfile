@@ -111,7 +111,7 @@ platform :android do
     )
 
     service_credentials_file_path = setup_google_bucket_access(
-        environment_variable_key: "FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_CREDS_B64"
+        environment_variable_key: ENV["FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_CREDS_B64"]
     )
 
     firebase_app_distribution(
