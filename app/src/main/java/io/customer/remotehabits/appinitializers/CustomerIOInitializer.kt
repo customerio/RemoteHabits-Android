@@ -19,7 +19,10 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
-class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore<Preferences>, private val logger: Logger) :
+class CustomerIOInitializer @Inject constructor(
+    private val dataStore: DataStore<Preferences>,
+    private val logger: Logger
+) :
     AppInitializer {
     override fun init(application: Application) {
         val (trackingApiUrl, siteId, apiKey) = runBlocking {
@@ -42,7 +45,6 @@ class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore
             trackingApiUrl?.let { setTrackingApiURL(trackingApiUrl = it) }
             addCustomerIOModule(
                 ModuleMessagingInApp(
-                    organizationId = BuildConfig.ORGANIZATION_ID,
                     config = MessagingInAppModuleConfig.Builder()
                         .setEventListener(object : InAppEventListener {
                             override fun errorWithMessage(message: InAppMessage) {
@@ -55,16 +57,16 @@ class CustomerIOInitializer @Inject constructor(private val dataStore: DataStore
 
                             override fun messageActionTaken(
                                 message: InAppMessage,
-                                action: String,
-                                name: String
+                                actionValue: String,
+                                actionName: String
                             ) {
-                                logger.v("in-app message action taken. action: $action, name: $name, message: $message")
+                                logger.v("in-app message action taken. action: $actionValue, name: $actionName, message: $message")
                                 trackInAppEvent(
                                     eventName = "messageActionTaken",
                                     message = message,
                                     arguments = mapOf(
-                                        "action" to action,
-                                        "name" to name
+                                        "actionValue" to actionValue,
+                                        "actionName" to actionName
                                     )
                                 )
                             }
