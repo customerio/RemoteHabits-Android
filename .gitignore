@@ -5,6 +5,7 @@ firebase_appdistribution_service_account.json
 # created by https://github.com/pink-room/fastlane-plugin-run_tests_firebase_testlab
 instrumentation_output.txt
 keystores/*.keystore
+.DS_Store
 
 # Built application files
 *.apk
