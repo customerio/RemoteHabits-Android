@@ -5,6 +5,7 @@
 source "https://rubygems.org"
 
 gem 'fastlane'
-
-plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
-eval_gemfile(plugins_path) if File.exist?(plugins_path)
+gem 'fastlane-plugin-run_tests_firebase_testlab'
+gem 'fastlane-plugin-firebase_app_distribution'
+gem 'fastlane-plugin-versioning_android'
+gem 'fastlane-plugin-find_firebase_app_id'
