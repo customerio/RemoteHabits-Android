@@ -4,8 +4,6 @@ firebase_testlab_service_account.json
 firebase_appdistribution_service_account.json
 # created by https://github.com/pink-room/fastlane-plugin-run_tests_firebase_testlab
 instrumentation_output.txt
-# file gets created on CI server
-github_context.json
 keystores/*.keystore
 .DS_Store
 
@@ -72,7 +70,7 @@ captures/
 .cxx/
 
 # Google Services (e.g. APIs or Firebase)
-google-services.json
+#google-services.json
 
 # Freeline
 freeline.py
