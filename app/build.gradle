@@ -119,7 +119,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
 
     // Customer.io SDK
-    def cioVersion = "shahroz-fix-gist-user-token-SNAPSHOT"
+    def cioVersion = "3.4.2"
     if (IS_DEVELOPMENT) cioVersion = "local"
     implementation "io.customer.android:tracking:$cioVersion"
     implementation "io.customer.android:messaging-push-fcm:$cioVersion"
