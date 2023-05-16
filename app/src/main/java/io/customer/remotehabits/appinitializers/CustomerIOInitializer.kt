@@ -65,7 +65,7 @@ class CustomerIOInitializer @Inject constructor(
 
                                 // dismiss the message
                                 CustomerIO.instance().inAppMessaging().dismissMessage()
-                                
+
                                 trackInAppEvent(
                                     eventName = "messageActionTaken",
                                     message = message,
