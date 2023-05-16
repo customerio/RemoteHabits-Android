@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import io.customer.messaginginapp.MessagingInAppModuleConfig
 import io.customer.messaginginapp.ModuleMessagingInApp
+import io.customer.messaginginapp.di.inAppMessaging
 import io.customer.messaginginapp.type.InAppEventListener
 import io.customer.messaginginapp.type.InAppMessage
 import io.customer.messagingpush.ModuleMessagingPushFCM
@@ -61,6 +62,10 @@ class CustomerIOInitializer @Inject constructor(
                                 actionName: String
                             ) {
                                 logger.v("in-app message action taken. action: $actionValue, name: $actionName, message: $message")
+
+                                // dismiss the message
+                                CustomerIO.instance().inAppMessaging().dismissMessage()
+                                
                                 trackInAppEvent(
                                     eventName = "messageActionTaken",
                                     message = message,
